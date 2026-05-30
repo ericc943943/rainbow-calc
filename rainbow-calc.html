@@ -81,7 +81,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 </head>
 <body>
 <div class="page">
-  <div class="header"><h1>數字計算</h1></div>
+  <div class="header"><h1>數字計算</h1><div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div></div>
   <div class="input-area">
     <div class="input-note">輸入西元生日（農曆生日會自動轉換）</div>
     <div class="input-row">
@@ -89,12 +89,16 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
         <label>生日</label>
         <input type="text" id="dateInput" placeholder="xxxx/xx/xx" maxlength="10">
       </div>
-      <div class="input-group time">
-        <label>時分（選填）</label>
-        <input type="text" id="timeInput" placeholder="xx:xx" maxlength="5">
+      <div class="input-group" style="flex:1">
+        <label>時（選填）</label>
+        <input type="number" id="hourInput" placeholder="xx" min="0" max="23">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label>分（選填）</label>
+        <input type="number" id="minInput" placeholder="xx" min="0" max="59">
       </div>
     </div>
-    <button class="calc-btn" onclick="calculate()">Calculate</button>
+    <button class="calc-btn" id="calcBtn" onclick="calculate()">Calculate</button>
   </div>
   <div id="errorMsg" class="error hidden"></div>
   <div id="mainResult" class="hidden">
@@ -223,7 +227,7 @@ function makeStage(total){
   return{str,destiny,pathNums};
 }
 function calcStages(y,m,d,h,mn){
-  const yD=digs(y),mD=digs(m),dD=digs(d);
+  const yD=digs(y),mD=p2(m).split('').map(Number),dD=p2(d).split('').map(Number);
   const innate=[...yD,...mD,...dD];
   const stages=[];
   stages.push({name:'老年',...makeStage(sumArr(yD))});
@@ -383,10 +387,10 @@ function calculate(){
   const sy=parseInt(dateParts[0])||0;
   const sm=parseInt(dateParts[1])||0;
   const sd=parseInt(dateParts[2])||0;
-  const timeRaw=document.getElementById('timeInput').value.trim();
-  const timeParts=timeRaw.split(':');
-  const sh=timeRaw&&timeParts[0]!==''?parseInt(timeParts[0]):null;
-  const smn=timeRaw&&timeParts[1]!==''?parseInt(timeParts[1]):null;
+  const shv=document.getElementById('hourInput').value.trim();
+  const smnv=document.getElementById('minInput').value.trim();
+  const sh=shv!==''?parseInt(shv):null;
+  const smn=smnv!==''?parseInt(smnv):null;
   const errEl=document.getElementById('errorMsg');
   const main=document.getElementById('mainResult');
   errEl.classList.add('hidden');
@@ -400,8 +404,8 @@ function calculate(){
     errEl.classList.remove('hidden');main.classList.add('hidden');return;
   }
   const{year:ly,month:lm,day:ld,isLeap}=lunar;
-  const gInnate=[...digs(sy),...digs(sm),...digs(sd)];
-  const lInnate=[...digs(ly),...digs(lm),...digs(ld)];
+  const gInnate=String(sy).split('').concat(p2(sm).split(''),p2(sd).split('')).map(Number);
+  const lInnate=String(ly).split('').concat(p2(lm).split(''),p2(ld).split('')).map(Number);
   renderCalSection(document.getElementById('gregSection'),'國曆 (+)',`${sy}/${p2(sm)}/${p2(sd)}`,sy,sm,sd,sh,smn,gInnate);
   renderCalSection(document.getElementById('lunSection'),'農曆 (-)',`${ly}/${p2(lm)}/${p2(ld)}${isLeap?'(閏)':''}`,ly,lm,ld,sh,smn,lInnate);
   renderInnate(document.getElementById('gregInnate'),gInnate,'國曆',false);
@@ -417,8 +421,23 @@ function switchTab(idx){
   document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
 }
 document.addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
+// Set today's date display
+(function(){
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const d = String(now.getDate()).padStart(2,'0');
+  document.getElementById('todayDisplay').textContent = '今天　' + y + '/' + m + '/' + d;
+})();
+
 document.getElementById('dateInput').addEventListener('input',function(){
-  if(this.value.length===10) document.getElementById('timeInput').focus();
+  if(this.value.length===10) document.getElementById('hourInput').focus();
+});
+document.getElementById('hourInput').addEventListener('input',function(){
+  if(this.value.length===2) document.getElementById('minInput').focus();
+});
+document.getElementById('minInput').addEventListener('input',function(){
+  if(this.value.length===2) document.getElementById('calcBtn').focus();
 });
 </script>
 </body>
