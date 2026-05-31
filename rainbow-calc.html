@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>彩虹數字計算器</title>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500&family=MPLUS+1+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif;min-height:100vh;padding:0 0 60px}
@@ -109,11 +110,19 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     <div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div>
   </div>
   <div class="input-area">
-    <div class="input-note" id="inputNote">輸入西元生日（農曆生日會自動轉換）</div>
+    <div class="input-note" id="inputNote">輸入西元生日</div>
     <div class="input-row">
-      <div class="input-group date">
-        <label id="labelDate">生日</label>
-        <input type="text" id="dateInput" placeholder="xxxx/xx/xx" maxlength="10">
+      <div class="input-group" style="flex:2">
+        <label id="labelYear">年</label>
+        <input type="text" id="yearInput" placeholder="xxxx" maxlength="4" inputmode="numeric">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label id="labelMonth">月</label>
+        <input type="text" id="monthInput" placeholder="xx" maxlength="2" inputmode="numeric">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label id="labelDay">日</label>
+        <input type="text" id="dayInput" placeholder="xx" maxlength="2" inputmode="numeric">
       </div>
       <div class="input-group" style="flex:1">
         <label id="labelHour">時（選填）</label>
@@ -154,7 +163,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
-    © 2026 Eric Cheng / <span id="footerStudio">樹根樹洞</span>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none">@eric.hypnotist</a>
+    © 2026 Eric Cheng / <span id="footerStudio">樹根樹洞</span>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a>
   </div>
 </div>
 <script>
@@ -162,9 +171,9 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 const T={
   zh:{
     titleMain:'彩虹數字', titleSub:'計算器',
-    today:'今天',
+    today:'今天日期',
     inputNote:'輸入西元生日',
-    labelDate:'生日', labelHour:'時（選填）', labelMin:'分（選填）',
+    labelDate:'生日', labelYear:'年', labelMonth:'月', labelDay:'日', labelHour:'時（選填）', labelMin:'分（選填）',
     tab0:'五大階段數', tab1:'國曆流年表', tab2:'農曆流年表',
     innateTitle:'先天數',
     errDate:'請輸入正確的西元生日', errLunar:'農曆換算失敗，請確認年份範圍',
@@ -178,9 +187,9 @@ const T={
   },
   en:{
     titleMain:'Rainbow Numerology', titleSub:'Calculator',
-    today:'Today',
+    today:'Today is',
     inputNote:'Enter your birthday',
-    labelDate:'Birthday', labelHour:'Hour (opt)', labelMin:'Min (opt)',
+    labelDate:'Birthday', labelYear:'Year', labelMonth:'Month', labelDay:'Day', labelHour:'Hour (opt)', labelMin:'Min (opt)',
     tab0:'Life Stages', tab1:'Solar Flow Table', tab2:'Lunar Flow Table',
     innateTitle:'Innate Numbers',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
@@ -200,16 +209,21 @@ function toggleLang(){
   lang=lang==='zh'?'en':'zh';
   applyLang();
   if(document.getElementById('mainResult').classList.contains('hidden')) return;
-  const dateRaw=document.getElementById('dateInput').value.trim();
-  if(dateRaw) calculate();
+  const yearVal=document.getElementById('yearInput').value.trim();
+  if(yearVal) calculate();
 }
 
 function applyLang(){
   const now=new Date();
   const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
-  document.getElementById('todayDisplay').textContent=t('today')+'　'+y+'/'+m+'/'+d;
+  document.getElementById('todayDisplay').textContent=t('today')+' '+y+'/'+m+'/'+d;
   document.getElementById('inputNote').textContent=t('inputNote');
-  document.getElementById('labelDate').textContent=t('labelDate');
+  const labelYear=document.getElementById('labelYear');
+  const labelMonth=document.getElementById('labelMonth');
+  const labelDay=document.getElementById('labelDay');
+  if(labelYear) labelYear.textContent=t('labelYear');
+  if(labelMonth) labelMonth.textContent=t('labelMonth');
+  if(labelDay) labelDay.textContent=t('labelDay');
   document.getElementById('labelHour').textContent=t('labelHour');
   document.getElementById('labelMin').textContent=t('labelMin');
   document.getElementById('tab0').textContent=t('tab0');
@@ -580,11 +594,9 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg){
 // ── Main ──────────────────────────────────────────────────────
 let lastCalc=null;
 function calculate(){
-  const dateRaw=document.getElementById('dateInput').value.trim();
-  const dateParts=dateRaw.split(/[\/\-\.]/);
-  const sy=parseInt(dateParts[0])||0;
-  const sm=parseInt(dateParts[1])||0;
-  const sd=parseInt(dateParts[2])||0;
+  const sy=parseInt(document.getElementById('yearInput').value)||0;
+  const sm=parseInt(document.getElementById('monthInput').value)||0;
+  const sd=parseInt(document.getElementById('dayInput').value)||0;
   const shv=document.getElementById('hourInput').value.trim();
   const smnv=document.getElementById('minInput').value.trim();
   const sh=shv!==''?parseInt(shv):null;
@@ -626,17 +638,39 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
 (function(){
   const now=new Date();
   const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
-  document.getElementById('todayDisplay').textContent='今天　'+y+'/'+m+'/'+d;
+  document.getElementById('todayDisplay').textContent=t('today')+' '+y+'/'+m+'/'+d;
 })();
 
-document.getElementById('dateInput').addEventListener('input',function(){
-  if(this.value.length===10) document.getElementById('hourInput').focus();
+// 年 → 月 → 日 → 時 → 分，自動跳格 + backspace 跳回
+document.getElementById('yearInput').addEventListener('input',function(){
+  this.value=this.value.replace(/[^0-9]/g,'');
+  if(this.value.length===4) document.getElementById('monthInput').focus();
+});
+document.getElementById('monthInput').addEventListener('input',function(){
+  this.value=this.value.replace(/[^0-9]/g,'');
+  if(this.value.length===2) document.getElementById('dayInput').focus();
+});
+document.getElementById('monthInput').addEventListener('keydown',function(e){
+  if(e.key==='Backspace'&&this.value==='') document.getElementById('yearInput').focus();
+});
+document.getElementById('dayInput').addEventListener('input',function(){
+  this.value=this.value.replace(/[^0-9]/g,'');
+  if(this.value.length===2) document.getElementById('hourInput').focus();
+});
+document.getElementById('dayInput').addEventListener('keydown',function(e){
+  if(e.key==='Backspace'&&this.value==='') document.getElementById('monthInput').focus();
 });
 document.getElementById('hourInput').addEventListener('input',function(){
   if(this.value.length===2) document.getElementById('minInput').focus();
 });
+document.getElementById('hourInput').addEventListener('keydown',function(e){
+  if(e.key==='Backspace'&&this.value==='') document.getElementById('dayInput').focus();
+});
 document.getElementById('minInput').addEventListener('input',function(){
   if(this.value.length===2) document.getElementById('calcBtn').focus();
+});
+document.getElementById('minInput').addEventListener('keydown',function(e){
+  if(e.key==='Backspace'&&this.value==='') document.getElementById('hourInput').focus();
 });
 </script>
 </body>
