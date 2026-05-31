@@ -18,7 +18,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .input-row{display:flex;gap:10px;margin-bottom:10px}
 .input-group{display:flex;flex-direction:column;gap:4px}
 .input-group label{font-size:11px;color:#999;letter-spacing:.05em}
-.input-group input{border:1px solid #ddd;border-radius:6px;padding:10px 12px;font-size:16px;font-family:'MPLUS1Code',monospace;color:#1a1a1a;outline:none;background:#fff;width:100%}
+.input-group input{border:1px solid #ddd;border-radius:6px;padding:10px 12px;font-size:15px;font-family:'MPLUS1Code',monospace;color:#1a1a1a;outline:none;background:#fff;width:100%}
 .input-group input:focus{border-color:#666}
 .input-group input.invalid{border-color:#e74c3c;background:#fff5f5}
 .input-group input::placeholder{color:#ccc}
@@ -42,7 +42,9 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .num-cell.label{font-size:15px;font-weight:500;color:#1a1a1a;font-family:'MPLUS1Code',monospace;letter-spacing:0}
 .stage-val{display:flex;align-items:baseline;justify-content:center;gap:2px}
 .stage-num{font-size:14px;color:#1a1a1a;font-family:'MPLUS1Code',monospace;letter-spacing:0}
-.stage-num.destiny{font-size:15px;font-weight:500;font-family:'MPLUS1Code',monospace}
+.stage-num.destiny{font-size:15px;font-weight:700;font-family:'MPLUS1Code',monospace}
+.stage-path{color:#888}
+.stage-dest{color:#1a1a1a}
 .stage-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
 .innate-section{margin-top:24px;border-top:1px solid #e8e8e8;padding-top:16px;text-align:center}
 .innate-title{font-size:13px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin-bottom:12px}
@@ -428,8 +430,10 @@ function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate){
     if(!s) return`<div class="num-cell"></div>`;
     const lv=calcLevel(innate,s.destiny,s.pathNums);
     const isd=name==='青年';
+    const parts=s.str.split('/');
+    const fmt=parts.map((p,i)=>i===parts.length-1?`<span class="stage-dest">${p}</span>`:`<span class="stage-path">${p}/</span>`).join('');
     return`<div class="num-cell"><div class="stage-val">
-      <span class="stage-num${isd?' destiny':''}">${s.str}</span>
+      <span class="stage-num${isd?' destiny':''}">${fmt}</span>
       <span class="stage-lv">${lv.level}</span>
     </div></div>`;
   }).join('');
@@ -589,7 +593,7 @@ function renderPartial(){
     gregSection.innerHTML=`
     <div class="cal-title">${t('greg')}<span class="cal-sign">(+)</span><span>${sy}</span></div>
     <div class="num-header" style="grid-template-columns:1fr;justify-content:center"><div class="num-cell label">${sy}</div></div>
-    <div class="num-row" style="grid-template-columns:1fr;justify-content:center"><div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str}</span><span class="stage-lv">${lv.level}</span></div></div></div>`;
+    <div class="num-row" style="grid-template-columns:1fr;justify-content:center"><div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${lv.level}</span></div></div></div>`;
     lunSection.innerHTML='';
     document.getElementById('innateSection').style.display='none';
     document.getElementById('flowBlock').style.display='none';
@@ -609,8 +613,8 @@ function renderPartial(){
     <div class="cal-title">${t('greg')}<span class="cal-sign">(+)</span><span>${sy}/${p2(sm)}</span></div>
     <div class="num-header" style="grid-template-columns:repeat(2,minmax(60px,120px));justify-content:center"><div class="num-cell label">${sy}</div><div class="num-cell label">${p2(sm)}</div></div>
     <div class="num-row" style="grid-template-columns:repeat(2,minmax(60px,120px));justify-content:center">
-      <div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str}</span><span class="stage-lv">${elvEl.level}</span></div></div>
-      <div class="num-cell"><div class="stage-val"><span class="stage-num">${midStage.str}</span><span class="stage-lv">${mlvEl.level}</span></div></div>
+      <div class="num-cell"><div class="stage-val"><span class="stage-num">${elderStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${elvEl.level}</span></div></div>
+      <div class="num-cell"><div class="stage-val"><span class="stage-num">${midStage.str.split('/').map((p,i,a)=>i===a.length-1?'<span class="stage-dest">'+p+'</span>':'<span class="stage-path">'+p+'/</span>').join('')}</span><span class="stage-lv">${mlvEl.level}</span></div></div>
     </div>`;
     lunSection.innerHTML='';
     document.getElementById('innateSection').style.display='none';
