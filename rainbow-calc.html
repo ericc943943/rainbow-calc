@@ -85,7 +85,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   <div class="header">
     <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
     <h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5">
-      <svg id="titleSvg" width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg><span id="titleMain" class="rainbow-title" style="display:none"></span>
+      <svg id="titleSvg" width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg><svg id="titleSvgEn" width="280" height="32" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="rge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text id="titleMain" x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#rge)">Rainbow Numerology</text></svg>
       <span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a" id="titleSub">計算器</span>
     </h1>
     <div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div>
@@ -136,7 +136,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
-    © 2026 Eric Cheng / 樹根樹洞　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none">@eric.hypnotist</a>
+    © 2026 Eric Cheng / <span id="footerStudio">樹根樹洞</span>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none">@eric.hypnotist</a>
   </div>
 </div>
 <script>
@@ -154,7 +154,7 @@ const T={
     stages:['幼年','少年','青年','中年','老年'],
     flowYear:'流年', flowMonth:'流月', flowDay:'流日',
     flowTableGreg:'國曆 (+) 九年能量波動表', flowTableLun:'農曆 (-) 九年能量波動表',
-    coffee:'☕ 請我喝杯咖啡',
+    coffee:'☕ 請我喝杯咖啡', studio:'樹根樹洞',
     langBtn:'EN'
   },
   en:{
@@ -167,9 +167,9 @@ const T={
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'(Leap)',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
-    flowYear:'Year Flow', flowMonth:'Month Flow', flowDay:'Day Flow',
-    flowTableGreg:'Solar (+) Year Flow Chart', flowTableLun:'Lunar (-) Year Flow Chart',
-    coffee:'☕ Buy Me a Coffee',
+    flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow',
+    flowTableGreg:'Solar (+) Flow Table', flowTableLun:'Lunar (-) Flow Table',
+    coffee:'☕ Buy Me a Coffee', studio:'The Roots Hollow',
     langBtn:'中文'
   }
 };
@@ -197,10 +197,10 @@ function applyLang(){
   document.getElementById('tab1').textContent=t('tab1');
   document.getElementById('tab2').textContent=t('tab2');
   document.getElementById('innateTitle').textContent=t('innateTitle');
-  document.getElementById('coffeeBtn').textContent=t('coffee');
+  document.getElementById('coffeeBtn').textContent=t('coffee');document.getElementById('footerStudio').textContent=t('studio');
   document.getElementById('langBtn').textContent=t('langBtn');
   // SVG title
-  if(lang==='en'){document.getElementById('titleSvg').style.display='none';const el=document.getElementById('titleMain');el.style.display='block';el.textContent=t('titleMain');}else{document.getElementById('titleSvg').style.display='block';document.getElementById('titleMain').style.display='none';}
+  if(lang==='en'){document.getElementById('titleSvg').style.display='none';document.getElementById('titleSvgEn').style.display='block';}else{document.getElementById('titleSvg').style.display='block';document.getElementById('titleSvgEn').style.display='none';}
   document.getElementById('titleSub').textContent=t('titleSub');
 }
 
