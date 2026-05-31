@@ -77,11 +77,12 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .error{padding:20px;color:#c0392b;font-size:13px;text-align:center}
 .hidden{display:none}
 .panel{display:none}.panel.active{display:block}
+.rainbow-title{background:linear-gradient(90deg,#e74c3c,#e67e22,#f1c40f,#2ecc71,#3498db,#9b59b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;letter-spacing:.15em}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="header"><h1>數字計算</h1><div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div></div>
+  <div class="header"><h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5"><span class="rainbow-title">彩虹數字</span><span style="display:block;font-size:19px;font-weight:400;letter-spacing:.2em;color:#1a1a1a">計算器</span></h1><div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div></div>
   <div class="input-area">
     <div class="input-note">輸入西元生日（農曆生日會自動轉換）</div>
     <div class="input-row">
@@ -124,7 +125,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <div class="panel" id="panel2"><div id="lunFlowTable"></div></div>
     </div>
   </div>
-  <div style="text-align:center;padding:32px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
+  <div style="text-align:center;padding:24px 20px 8px;font-family:'M PLUS Rounded 1c',sans-serif">
+    <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
+  </div>
+  <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
     © 2026 Eric Cheng / 樹根樹洞　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none">@eric.hypnotist</a>
   </div>
 </div>
