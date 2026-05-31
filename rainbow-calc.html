@@ -111,7 +111,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     <div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div>
   </div>
   <div class="input-area">
-    <div class="input-note" id="inputNote">輸入陽曆生日</div>
+    <div class="input-note" id="inputNote">輸入西元陽曆生日</div>
     <form autocomplete="off" onsubmit="return false">
     <div class="input-row">
       <div class="input-group date" style="flex:3">
@@ -170,7 +170,7 @@ const T={
   zh:{
     titleMain:'彩虹數字', titleSub:'計算器',
     today:'今天日期',
-    inputNote:'輸入陽曆生日',
+    inputNote:'輸入西元陽曆生日',
     labelDate:'年／月／日', labelTime:'時：分（選填）',
     tab0:'五大階段數', tab1:'陽曆流年表1', tab2:'陰曆流年表1', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表2', tab4:'陰曆流年表2',
     leapDivider:'— 閏月第二組 —',
@@ -735,13 +735,27 @@ function tryAutoCalculate(){
 // 日期欄位，自動加斜線
 const dateEl=document.getElementById('dateInput');
 
+dateEl.addEventListener('keydown',function(e){
+  if(e.key==='Backspace'){
+    const v=this.value;
+    if(v.endsWith('/')) {
+      e.preventDefault();
+      this.value=v.slice(0,-1);
+      tryAutoCalculate();
+    }
+  }
+});
+
+let datePrevLen=0;
 dateEl.addEventListener('input',function(){
   const d=this.value.replace(/[^0-9]/g,'').slice(0,8);
+  const shrinking=d.length<datePrevLen;
+  datePrevLen=d.length;
   let formatted=d;
   if(d.length>6) formatted=d.slice(0,4)+'/'+d.slice(4,6)+'/'+d.slice(6);
-  else if(d.length===6) formatted=d.slice(0,4)+'/'+d.slice(4,6)+'/';
+  else if(d.length===6) formatted=d.slice(0,4)+'/'+d.slice(4,6)+(shrinking?'':'/');
   else if(d.length>4) formatted=d.slice(0,4)+'/'+d.slice(4);
-  else if(d.length===4) formatted=d+'/';
+  else if(d.length===4) formatted=d+(shrinking?'':'/');
   this.value=formatted;
   if(d.length>=8) document.getElementById('timeInput').focus();
   tryAutoCalculate();
@@ -750,17 +764,29 @@ dateEl.addEventListener('input',function(){
 // 時分欄位，自動加冒號
 const timeEl=document.getElementById('timeInput');
 
+let timePrevLen=0;
 timeEl.addEventListener('input',function(){
   const d=this.value.replace(/[^0-9]/g,'').slice(0,4);
+  const shrinking=d.length<timePrevLen;
+  timePrevLen=d.length;
   let formatted=d;
   if(d.length>2) formatted=d.slice(0,2)+':'+d.slice(2);
-  else if(d.length===2) formatted=d+':';
+  else if(d.length===2) formatted=d+(shrinking?'':':');
   this.value=formatted;
   renderPartial();
 });
 
 timeEl.addEventListener('keydown',function(e){
-  if(e.key==='Backspace'&&this.value==='') document.getElementById('dateInput').focus();
+  if(e.key==='Backspace'){
+    const v=this.value;
+    if(v.endsWith(':')) {
+      e.preventDefault();
+      this.value=v.slice(0,-1);
+      renderPartial();
+    } else if(v==='') {
+      document.getElementById('dateInput').focus();
+    }
+  }
 });
 </script>
 </body>
