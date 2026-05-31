@@ -59,11 +59,11 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-pair{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;width:100px}
 .flow-year-table{padding:12px 0 8px}
 .flow-year-title{font-size:12px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin:0 12px 12px;font-family:'M PLUS Rounded 1c',sans-serif}
-.fyt-group{margin-bottom:16px;padding:0 12px;overflow-x:auto}
+.fyt-group{margin-bottom:8px;padding:0 12px;overflow-x:auto}
 .fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%}
-.fyt-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3px 0;border-right:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;overflow:hidden;min-width:0}
+.fyt-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1px 0;border-right:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;overflow:hidden;min-width:0}
 .fyt-cell:nth-child(9n){border-right:none}
-.fyt-cell.age-row{background:#f5f5f5;border-bottom:1px solid #ddd}
+.fyt-cell.age-row{background:#fff;border-bottom:1px solid #ddd}
 .fyt-cell.year-row{border-bottom:1px solid #e0e0e0}
 .fyt-cell.num-row{border-bottom:none}
 .fyt-age{font-size:8px;color:#999;font-family:'MPLUS1Code',monospace;display:block;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -71,15 +71,21 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .fyt-num{font-size:8px;color:#888;font-family:'MPLUS1Code',monospace;display:block;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fyt-num .d{color:#1a1a1a;font-weight:400}
 .fyt-num .lv{font-size:6px;color:#4a90d9;vertical-align:super}
-.fyt-cell.current{background:#fff8ee}
-.fyt-cell.current .fyt-age,.fyt-cell.current .fyt-year{color:#c9a96e}
-.fyt-cell.current .fyt-num .d{color:#c9a96e}
+.fyt-cell.current .fyt-age,.fyt-cell.current .fyt-year{font-weight:700}
+.fyt-cell.current .fyt-num{font-weight:700}
+.fyt-cell.current .fyt-num .d{font-weight:700}
+/* 指導靈底色：歲次=六次元粉藍，西元=五次元粉黃，主秘數=四次元粉紅 */
+.fyt-cell.age-row.g6{background:#d6eaff}
+.fyt-cell.year-row.g5{background:#fff9d6}
+.fyt-cell.num-row.g4{background:#ffd6d6}
 .error{padding:20px;color:#c0392b;font-size:13px;text-align:center}
 .hidden{display:none}
 .panel{display:none}.panel.active{display:block}
-.rainbow-title{background:linear-gradient(90deg,#e74c3c 0%,#e74c3c 5%,#e67e22 22%,#f1c40f 40%,#2ecc71 58%,#3498db 78%,#9b59b6 95%,#9b59b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;letter-spacing:.03em;font-size:22px;font-weight:500}
+/* 圖例 */
+.guardian-legend{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:8px 12px 0;font-size:10px;color:#888;font-family:'M PLUS Rounded 1c',sans-serif}
+.legend-item{display:flex;align-items:center;gap:4px}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 </style>
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHXTPYK44G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -93,7 +99,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   <div class="header">
     <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
     <h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5">
-      <svg id="titleSvg" width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg><svg id="titleSvgEn" width="280" height="32" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="rge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text id="titleMain" x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#rge)">Rainbow Numerology</text></svg>
+      <svg id="titleSvg" width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg>
+      <svg id="titleSvgEn" width="280" height="32" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="rge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text id="titleMain" x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#rge)">Rainbow Numerology</text></svg>
       <span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a" id="titleSub">計算器</span>
     </h1>
     <div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div>
@@ -153,7 +160,7 @@ const T={
   zh:{
     titleMain:'彩虹數字', titleSub:'計算器',
     today:'今天',
-    inputNote:'輸入西元生日（農曆生日會自動轉換）',
+    inputNote:'輸入西元生日',
     labelDate:'生日', labelHour:'時（選填）', labelMin:'分（選填）',
     tab0:'五大階段數', tab1:'國曆流年表', tab2:'農曆流年表',
     innateTitle:'先天數',
@@ -163,7 +170,8 @@ const T={
     flowYear:'流年', flowMonth:'流月', flowDay:'流日',
     flowTableGreg:'國曆 (+) 九年能量波動表', flowTableLun:'農曆 (-) 九年能量波動表',
     coffee:'☕ 請我喝杯咖啡', studio:'樹根樹洞',
-    langBtn:'EN'
+    langBtn:'EN',
+    g4:'四次元', g5:'五次元', g6:'六次元以上'
   },
   en:{
     titleMain:'Rainbow Numerology', titleSub:'Calculator',
@@ -178,7 +186,8 @@ const T={
     flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow',
     flowTableGreg:'Solar (+) Flow Table', flowTableLun:'Lunar (-) Flow Table',
     coffee:'☕ Buy Me a Coffee', studio:'The Roots Hollow',
-    langBtn:'中文'
+    langBtn:'中文',
+    g4:'4D', g5:'5D', g6:'6D+'
   }
 };
 let lang='zh';
@@ -188,7 +197,6 @@ function toggleLang(){
   lang=lang==='zh'?'en':'zh';
   applyLang();
   if(document.getElementById('mainResult').classList.contains('hidden')) return;
-  // re-render if results are shown
   const dateRaw=document.getElementById('dateInput').value.trim();
   if(dateRaw) calculate();
 }
@@ -205,10 +213,11 @@ function applyLang(){
   document.getElementById('tab1').textContent=t('tab1');
   document.getElementById('tab2').textContent=t('tab2');
   document.getElementById('innateTitle').textContent=t('innateTitle');
-  document.getElementById('coffeeBtn').textContent=t('coffee');document.getElementById('footerStudio').textContent=t('studio');
+  document.getElementById('coffeeBtn').textContent=t('coffee');
+  document.getElementById('footerStudio').textContent=t('studio');
   document.getElementById('langBtn').textContent=t('langBtn');
-  // SVG title
-  if(lang==='en'){document.getElementById('titleSvg').style.display='none';document.getElementById('titleSvgEn').style.display='block';}else{document.getElementById('titleSvg').style.display='block';document.getElementById('titleSvgEn').style.display='none';}
+  if(lang==='en'){document.getElementById('titleSvg').style.display='none';document.getElementById('titleSvgEn').style.display='block';}
+  else{document.getElementById('titleSvg').style.display='block';document.getElementById('titleSvgEn').style.display='none';}
   document.getElementById('titleSub').textContent=t('titleSub');
 }
 
@@ -354,6 +363,76 @@ function calcFlow(y,m,d,targetY,targetM,targetD){
   return{fy,fm,fd};
 }
 
+// ── Guardian Logic ────────────────────────────────────────────
+// 判斷一個 stage 是否符合指導靈辨識條件
+function isG4(stage){ // 29/11/2 or 11/2 (尾數2，前一層含11)
+  const s=stage.str;
+  return s==='29/11/2'||s==='11/2';
+}
+function isG5(stage){ // 39/12/3 or 12/3
+  const s=stage.str;
+  return s==='39/12/3'||s==='12/3';
+}
+function isG6(stage){ // 19/10/1 or 10/1
+  const s=stage.str;
+  return s==='19/10/1'||s==='10/1';
+}
+
+// 計算每個指導靈的啟動區間 [{start, end}]
+// start = 第一次出現辨識條件的歲次
+// end = 下一個尾數相同但不符合辨識條件的前一年的歲次，或99
+function calcGuardianRanges(birthY,birthM,birthD){
+  // 建立1-99歲的流年主秘數
+  const rows=[];
+  for(let age=1;age<=99;age++){
+    const year=birthY+age-1;
+    const fyD=digs(year),mD=p2(birthM).split('').map(Number),dD=p2(birthD).split('').map(Number);
+    const stage=makeStage(sumArr([...fyD,...mD,...dD]));
+    rows.push({age,stage});
+  }
+
+  function getRanges(isMatch){
+    const ranges=[];
+    let inRange=false;
+    let startAge=null;
+    const matchDestiny=isMatch===isG4?2:isMatch===isG5?3:1;
+    for(let i=0;i<rows.length;i++){
+      const{age,stage}=rows[i];
+      if(!inRange){
+        if(isMatch(stage)){
+          inRange=true;
+          startAge=age;
+        }
+      } else {
+        // 結束條件：尾數相同但不符合辨識條件
+        if(stage.destiny===matchDestiny&&!isMatch(stage)){
+          ranges.push({start:startAge,end:age-1});
+          // 檢查這個不符合的之後有沒有再次符合
+          inRange=false;
+          startAge=null;
+          // 退回重新檢查這個 age 是否是新的啟動
+          if(isMatch(stage)){
+            inRange=true;
+            startAge=age;
+          }
+        }
+      }
+    }
+    if(inRange) ranges.push({start:startAge,end:99});
+    return ranges;
+  }
+
+  return{
+    g4:getRanges(isG4),
+    g5:getRanges(isG5),
+    g6:getRanges(isG6)
+  };
+}
+
+function inRanges(age,ranges){
+  return ranges.some(r=>age>=r.start&&age<=r.end);
+}
+
 // ── Render ────────────────────────────────────────────────────
 function p2(n){return n<10?'0'+n:String(n);}
 
@@ -441,6 +520,8 @@ function renderFlow(el,gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD){
 function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg){
   const title=isGreg?t('flowTableGreg'):t('flowTableLun');
   const currentYear=new Date().getFullYear();
+  const guardianRanges=calcGuardianRanges(birthY,birthM,birthD);
+
   const rows=[];
   for(let age=1;age<=99;age++){
     const year=birthY+age-1;
@@ -448,24 +529,44 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg){
     const total=sumArr([...fyD,...mD,...dD]);
     const stage=makeStage(total);
     const lv=calcLevel(innate,stage.destiny,stage.pathNums);
-    rows.push({age,year,stage,lv});
+    const g4=inRanges(age,guardianRanges.g4);
+    const g5=inRanges(age,guardianRanges.g5);
+    const g6=inRanges(age,guardianRanges.g6);
+    rows.push({age,year,stage,lv,g4,g5,g6});
   }
+
   const groups=[];
   for(let i=0;i<rows.length;i+=9) groups.push(rows.slice(i,i+9));
-  let html=`<div class="flow-year-table"><div class="flow-year-title">${title}</div>`;
+
+  // 圖例
+  const legend=`<div class="guardian-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#ffd6d6"></div><span>${t('g4')}</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fff9d6"></div><span>${t('g5')}</span></div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d6eaff"></div><span>${t('g6')}</span></div>
+  </div>`;
+
+  let html=`<div class="flow-year-table"><div class="flow-year-title">${title}</div>${legend}`;
   for(const group of groups){
     while(group.length<9) group.push(null);
-    const ageCells=group.map(r=>r
-      ?`<div class="fyt-cell age-row${r.year===currentYear?' current':''}"><div class="fyt-age">${r.age}</div></div>`
-      :'<div class="fyt-cell age-row"></div>').join('');
-    const yearCells=group.map(r=>r
-      ?`<div class="fyt-cell year-row${r.year===currentYear?' current':''}"><div class="fyt-year">${r.year}</div></div>`
-      :'<div class="fyt-cell year-row"></div>').join('');
+    const ageCells=group.map(r=>{
+      if(!r) return'<div class="fyt-cell age-row"></div>';
+      const isCurrent=r.year===currentYear;
+      const g6cls=r.g6?' g6':'';
+      return`<div class="fyt-cell age-row${isCurrent?' current':''}${g6cls}"><div class="fyt-age">${r.age}</div></div>`;
+    }).join('');
+    const yearCells=group.map(r=>{
+      if(!r) return'<div class="fyt-cell year-row"></div>';
+      const isCurrent=r.year===currentYear;
+      const g5cls=r.g5?' g5':'';
+      return`<div class="fyt-cell year-row${isCurrent?' current':''}${g5cls}"><div class="fyt-year">${r.year}</div></div>`;
+    }).join('');
     const numCells=group.map(r=>{
       if(!r) return'<div class="fyt-cell num-row"></div>';
+      const isCurrent=r.year===currentYear;
+      const g4cls=r.g4?' g4':'';
       const parts=r.stage.str.split('/');
       const fmt=parts.map((p,i)=>i===parts.length-1?`<span class="d">${p}</span>`:`${p}/`).join('');
-      return`<div class="fyt-cell num-row${r.year===currentYear?' current':''}"><div class="fyt-num">${fmt}<span class="lv">${r.lv.level}</span></div></div>`;
+      return`<div class="fyt-cell num-row${isCurrent?' current':''}${g4cls}"><div class="fyt-num">${fmt}<span class="lv">${r.lv.level}</span></div></div>`;
     }).join('');
     html+=`<div class="fyt-group"><div class="fyt-grid">${ageCells}${yearCells}${numCells}</div></div>`;
   }
@@ -519,7 +620,6 @@ function switchTab(idx){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
 
-// init
 (function(){
   const now=new Date();
   const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
