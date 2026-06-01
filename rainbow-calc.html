@@ -27,7 +27,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .calc-btn{width:100%;padding:13px;background:#fff;border:1px solid #bbb;border-radius:8px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:15px;color:#555;letter-spacing:.2em;cursor:pointer;margin-top:4px;transition:all .15s}
 .calc-btn:hover{background:#f0f0f0;border-color:#999}
 .tabs{display:flex;border-bottom:1px solid #e8e8e8}
-.tab{flex:1;padding:12px 4px;font-size:13px;letter-spacing:.05em;text-align:center;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab{flex:1;padding:12px 4px;font-size:13px;letter-spacing:.05em;text-align:center;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:pre-line;line-height:1.4}
 .tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:500}
 .results{padding:0 20px}
 .cal-section{margin-top:24px}
@@ -186,7 +186,7 @@ const T={
     today:'今天',
     inputNote:'輸入西元陽曆生日',
     labelDate:'年／月／日', labelTime:'時：分（選填）',
-    tab0:'五大階段數', tab1:'陽曆流年表1', tab2:'陰曆流年表1', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表2', tab4:'陰曆流年表2',
+    tab0:'五大階段數', tab1:'陽曆流年表¹', tab2:'陰曆流年表¹', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表²', tab4:'陰曆流年表²',
     leapDivider:'— 閏月第二組 —',
     innateTitle:'先天數',
     errDate:'請輸入正確的陽曆生日', errLunar:'陰曆換算失敗，請確認年份範圍',
@@ -204,7 +204,7 @@ const T={
     today:'Today',
     inputNote:'Enter your birthday',
     labelDate:'Y／M／D', labelTime:'H：M (opt)',
-    tab0:'Life Stages', tab1:'Solar Flow 1', tab2:'Lunar Flow 1', tab1no:'Solar Flow', tab2no:'Lunar Flow', tab3:'Solar Flow 2', tab4:'Lunar Flow 2',
+    tab0:'Life\nStages', tab1:'Solar¹\nFlow Table', tab2:'Lunar¹\nFlow Table', tab1no:'Solar\nFlow Table', tab2no:'Lunar\nFlow Table', tab3:'Solar²\nFlow Table', tab4:'Lunar²\nFlow Table',
     leapDivider:'— Leap Month Set 2 —',
     innateTitle:'Innate Numbers',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
@@ -435,7 +435,7 @@ function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate){
   const dateParts=[y,m,d];
   if(hasTime) dateParts.push(h);
   if(hasMins) dateParts.push(mn);
-  const colStyle=`grid-template-columns:repeat(${cols},${cols<5?'minmax(60px,120px)':'1fr'});${cols<5?'justify-content:center;':''}`;
+  const colStyle=`grid-template-columns:repeat(${cols},1fr);`;
   let headerCells=dateParts.map((v,i)=>
     `<div class="num-cell label">${i===0?v:p2(v)}</div>`).join('');
   const stageOrder=['老年','中年','青年','少年','幼年'].slice(0,cols);
@@ -451,10 +451,10 @@ function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate){
       <span class="stage-lv">${lv.level}</span>
     </div></div>`;
   }).join('');
-  const btnId='btn-'+( isGreg?'greg':'lun')+'-'+y+m+d;
   const hdId='hd-'+(isGreg?'greg':'lun')+'-'+y+m+d;
+  const btnHtml=isGreg?`<button id="btn-bd-toggle" class="bd-toggle-btn" style="position:absolute;right:0" onclick="toggleAllBdHeaders(this)">${t('hideBd')}</button>`:'';
   el.innerHTML=`
-  <div class="cal-title" style="display:flex;align-items:center;justify-content:center;gap:8px">${title}<button id="${btnId}" class="bd-toggle-btn" onclick="toggleBdHeader('${hdId}','${btnId}')">${t('hideBd')}</button></div>
+  <div class="cal-title" style="display:flex;align-items:center;justify-content:center;position:relative"><span style="flex:1;text-align:center">${title}</span>${btnHtml}</div>
   <div id="${hdId}" class="num-header bd-header" style="${colStyle}">${headerCells}</div>
   <div class="num-row" style="${colStyle}">${stageCells}</div>`;
 }
@@ -859,13 +859,14 @@ timeEl.addEventListener('keydown',function(e){
     }
   }
 });
-function toggleBdHeader(hdId,btnId){
-  const hd=document.getElementById(hdId);
-  const btn=document.getElementById(btnId);
-  if(!hd||!btn) return;
-  const hidden=hd.dataset.hidden==='1';
-  hd.querySelectorAll('.num-cell').forEach(c=>c.style.visibility=hidden?'visible':'hidden');
-  hd.dataset.hidden=hidden?'0':'1';
+function toggleAllBdHeaders(btn){
+  const headers=document.querySelectorAll('.bd-header');
+  if(!headers.length) return;
+  const hidden=headers[0].dataset.hidden==='1';
+  headers.forEach(hd=>{
+    hd.querySelectorAll('.num-cell').forEach(c=>c.style.visibility=hidden?'visible':'hidden');
+    hd.dataset.hidden=hidden?'0':'1';
+  });
   btn.textContent=hidden?t('hideBd'):t('showBd');
 }
 </script>
