@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>彩虹數字計算器</title>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500&family=MPLUS+1+Code:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js"></script>
@@ -15,8 +15,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .lang-btn:hover{color:#555;border-color:#bbb}
 .input-area{padding:0 20px 20px}
 .input-note{font-size:13px;color:#777;margin-bottom:16px;line-height:1.6}
-.input-row{display:flex;gap:10px;margin-bottom:10px}
-.input-group{display:flex;flex-direction:column;gap:4px}
+.input-row{display:flex;gap:10px;margin-bottom:10px;width:100%}
+.input-group{display:flex;flex-direction:column;gap:4px;min-width:0}
 .input-group label{font-size:11px;color:#999;letter-spacing:.05em}
 .input-group input{border:1px solid #ddd;border-radius:6px;padding:10px 12px;font-size:15px;font-family:'MPLUS1Code',monospace;color:#1a1a1a;outline:none;background:#fff;width:100%}
 .input-group input:focus{border-color:#666}
@@ -32,7 +32,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .results{padding:0 20px}
 .cal-section{margin-top:24px}
 .cal-title{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:12px;text-align:center}
-.cal-title span{color:#1a1a1a;font-weight:400;font-size:13px;margin-left:6px}
+.cal-title span{color:#1a1a1a;font-weight:400;font-size:13px}
 .cal-label{font-family:'MPLUS1Code',monospace;font-weight:500;font-size:13px}
 .cal-sign{font-family:'MPLUS1Code',monospace;letter-spacing:0}
 .num-header{display:grid;gap:0;border-bottom:2px solid #1a1a1a;padding-bottom:8px;margin-bottom:10px;justify-items:center}
@@ -83,9 +83,14 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .fyt-cell.current.age-row{border-top:1px solid #b8860b}
 .fyt-cell.current.num-row{border-bottom:1px solid #b8860b}
 .fyt-cell.current .fyt-age,.fyt-cell.current .fyt-year{font-weight:700;color:#b8860b}
-.fyt-cell.current .fyt-age,.fyt-cell.current .fyt-year{font-weight:700}
 .fyt-cell.current .fyt-num{font-weight:700}
 .fyt-cell.current .fyt-num .d{font-weight:700;color:#b8860b}
+.fyt-cell.prev{border-left:1px solid #b8860b;border-right:1px solid #b8860b}
+.fyt-cell.prev.age-row{border-top:1px solid #b8860b}
+.fyt-cell.prev.num-row{border-bottom:1px solid #b8860b}
+.fyt-cell.next{border-left:1px solid #b8860b;border-right:1px solid #b8860b}
+.fyt-cell.next.age-row{border-top:1px solid #b8860b}
+.fyt-cell.next.num-row{border-bottom:1px solid #b8860b}
 /* 指導靈底色：歲次=六次元粉藍，西元=五次元粉黃，主秘數=四次元粉紅 */
 .fyt-cell.age-row.g6{background:#d6eaff}
 .fyt-cell.year-row.g5{background:#fff9d6}
@@ -115,13 +120,13 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <svg id="titleSvgEn" width="280" height="32" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="rge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text id="titleMain" x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#rge)">Rainbow Numerology</text></svg>
       <span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a" id="titleSub">計算器</span>
     </h1>
-    <div id="todayDisplay" style="font-family:'MPLUS1Code',monospace;font-size:12px;color:#555;margin-top:6px;letter-spacing:.05em"></div>
+    <div id="todayDisplay" style="font-size:12px;color:#555;margin-top:6px;text-align:center;line-height:1.8"></div>
   </div>
   <div class="input-area">
     <div class="input-note" id="inputNote">輸入西元陽曆生日</div>
     <form autocomplete="off" onsubmit="return false">
     <div class="input-row">
-      <div class="input-group date" style="flex:3">
+      <div class="input-group date" style="flex:2">
         <label id="labelDate">年／月／日</label>
         <input type="text" id="dateInput" placeholder="YYYY/MM/DD" maxlength="10" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
@@ -176,7 +181,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 const T={
   zh:{
     titleMain:'彩虹數字', titleSub:'計算器',
-    today:'今天日期',
+    today:'今天',
     inputNote:'輸入西元陽曆生日',
     labelDate:'年／月／日', labelTime:'時：分（選填）',
     tab0:'五大階段數', tab1:'陽曆流年表1', tab2:'陰曆流年表1', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表2', tab4:'陰曆流年表2',
@@ -193,7 +198,7 @@ const T={
   },
   en:{
     titleMain:'Rainbow Numerology', titleSub:'Calculator',
-    today:'Today is',
+    today:'Today',
     inputNote:'Enter your birthday',
     labelDate:'Y／M／D', labelTime:'H：M (opt)',
     tab0:'Life Stages', tab1:'Solar Flow 1', tab2:'Lunar Flow 1', tab1no:'Solar Flow', tab2no:'Lunar Flow', tab3:'Solar Flow 2', tab4:'Lunar Flow 2',
@@ -223,7 +228,10 @@ function toggleLang(){
 function applyLang(){
   const now=new Date();
   const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
-  document.getElementById('todayDisplay').textContent=t('today')+' '+y+'/'+m+'/'+d;
+  const lunar=solarToLunar(y,parseInt(m),parseInt(d));
+  const lunarStr=lunar?`${lunar.year}/${p2(lunar.month)}/${p2(lunar.day)}${lunar.isLeap?t('leap'):''}`: '';
+  document.getElementById('todayDisplay').innerHTML=
+    `<span style="font-size:11px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
   document.getElementById('inputNote').textContent=t('inputNote');
   const labelDate=document.getElementById('labelDate');
   if(labelDate) labelDate.textContent=t('labelDate');
@@ -493,7 +501,12 @@ function renderFlow(el,gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD,sho
 
 function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap){
   const title=isGreg?t('flowTableGreg'):t('flowTableLun');
-  const currentYear=new Date().getFullYear();
+  const today=new Date();
+  const todayY=today.getFullYear();
+  const todayM=today.getMonth()+1;
+  const todayD=today.getDate();
+  const birthdayPassed=(todayM>birthM)||(todayM===birthM&&todayD>=birthD);
+  const currentYear=birthdayPassed?todayY:todayY-1;
   const guardianRanges=calcGuardianRanges(birthY,birthM,birthD);
 
   const rows=[];
@@ -529,22 +542,28 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap){
     const ageCells=group.map(r=>{
       if(!r) return'<div class="fyt-cell age-row"></div>';
       const isCurrent=r.year===currentYear;
+      const isPrev=r.year===currentYear-1;
+      const isNext=r.year===currentYear+1;
       const g6cls=r.g6?' g6':'';
-      return`<div class="fyt-cell age-row${isCurrent?' current':''}${g6cls}"><div class="fyt-age">${r.age}</div></div>`;
+      return`<div class="fyt-cell age-row${isCurrent?' current':isPrev?' prev':isNext?' next':''}${g6cls}"><div class="fyt-age">${r.age}</div></div>`;
     }).join('');
     const yearCells=group.map(r=>{
       if(!r) return'<div class="fyt-cell year-row"></div>';
       const isCurrent=r.year===currentYear;
+      const isPrev=r.year===currentYear-1;
+      const isNext=r.year===currentYear+1;
       const g5cls=r.g5?' g5':'';
-      return`<div class="fyt-cell year-row${isCurrent?' current':''}${g5cls}"><div class="fyt-year">${r.year}</div></div>`;
+      return`<div class="fyt-cell year-row${isCurrent?' current':isPrev?' prev':isNext?' next':''}${g5cls}"><div class="fyt-year">${r.year}</div></div>`;
     }).join('');
     const numCells=group.map(r=>{
       if(!r) return'<div class="fyt-cell num-row"></div>';
       const isCurrent=r.year===currentYear;
+      const isPrev=r.year===currentYear-1;
+      const isNext=r.year===currentYear+1;
       const g4cls=r.g4?' g4':'';
       const parts=r.stage.str.split('/');
       const fmt=parts.map((p,i)=>i===parts.length-1?`<span class="d">${p}</span>`:`${p}/`).join('');
-      return`<div class="fyt-cell num-row${isCurrent?' current':''}${g4cls}"><div class="fyt-num">${fmt}<span class="lv">${r.lv.level}</span></div></div>`;
+      return`<div class="fyt-cell num-row${isCurrent?' current':isPrev?' prev':isNext?' next':''}${g4cls}"><div class="fyt-num">${fmt}<span class="lv">${r.lv.level}</span></div></div>`;
     }).join('');
     html+=`<div class="fyt-group"><div class="fyt-grid">${ageCells}${yearCells}${numCells}</div></div>`;
   }
@@ -737,7 +756,10 @@ function switchTab(idx){
 (function(){
   const now=new Date();
   const y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');
-  document.getElementById('todayDisplay').textContent=t('today')+' '+y+'/'+m+'/'+d;
+  const lunar=solarToLunar(y,parseInt(m),parseInt(d));
+  const lunarStr=lunar?`${lunar.year}/${p2(lunar.month)}/${p2(lunar.day)}${lunar.isLeap?t('leap'):''}`: '';
+  document.getElementById('todayDisplay').innerHTML=
+    `<span style="font-size:11px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
 })();
 
 function tryAutoCalculate(){
@@ -780,14 +802,16 @@ const timeEl=document.getElementById('timeInput');
 let timePrevLen=0;
 timeEl.addEventListener('input',function(){
   const d=this.value.replace(/[^0-9]/g,'').slice(0,4);
+  let formatted=d;
   const shrinking=d.length<timePrevLen;
   timePrevLen=d.length;
-  let formatted=d;
   if(d.length>2) formatted=d.slice(0,2)+':'+d.slice(2);
   else if(d.length===2) formatted=d+(shrinking?'':':');
   this.value=formatted;
   renderPartial();
 });
+
+timeEl.addEventListener('focus',function(){});
 
 timeEl.addEventListener('keydown',function(e){
   if(e.key==='Backspace'){
