@@ -65,12 +65,42 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
 .sign{font-size:13px;color:#999;margin-right:1px;font-family:'MPLUS1Code',monospace}
 .flow-pair{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;width:100px}
+/* 新版流年流月流日 */
+.flow-new-section{margin:0 20px 20px}
+.flow-new-title{font-size:12px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin-bottom:8px;text-align:left}
+.flow-new-grid{display:grid;gap:6px}
+.flow-year-grid{grid-template-columns:repeat(3,1fr)}
+.flow-month-grid{grid-template-columns:repeat(4,1fr)}
+.flow-new-cell{border:1px solid #e8e8e8;border-radius:6px;padding:6px 4px;text-align:center}
+.flow-new-cell.flow-current{outline:1.5px solid #b8860b;outline-offset:-1px;border-radius:6px;background:#fffef8;border-color:transparent}
+.flow-new-label{font-size:11px;color:#999;margin-bottom:4px;font-family:'MPLUS1Code',monospace}
+.flow-new-val{display:flex;align-items:baseline;justify-content:center;gap:1px;line-height:1.4}
+.flow-cur-val{outline:1px solid #b8860b;outline-offset:1px;border-radius:3px}
+.flow-cur-val .flow-num{color:#b8860b}
+.flow-cur-val .flow-lv{color:#b8860b}
+/* 流日月曆 */
+.flow-cal-grid{border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;background:#e8e8e8}
+.flow-cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
+.flow-cal-head{font-size:9px;color:#999;text-align:center;padding:3px 0;font-family:'MPLUS1Code',monospace;background:#f8f8f8}
+.flow-cal-body{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
+.flow-cal-cell{padding:4px 0 2px;text-align:center;min-height:40px;background:#fff}
+.flow-cal-cell.flow-cal-empty{background:#fafafa}
+.flow-cal-cell.flow-current{background:#fffef8;outline:1.5px solid #b8860b;outline-offset:-1px;border-radius:3px}
+.flow-cal-day{font-size:8px;color:#999;margin-bottom:3px;font-family:'MPLUS1Code',monospace}
+.flow-cal-today{color:#b8860b;font-weight:700}
+.flow-cal-val{display:flex;align-items:baseline;justify-content:center;gap:0;line-height:1.2}
+.flow-cal-val .flow-num{font-size:8px}
+.flow-cal-val .flow-lv{font-size:6px}
+.flow-cal-sign{font-size:8px;color:#ccc;font-family:'MPLUS1Code',monospace}
 .flow-year-table{padding:24px 0 8px}
 .flow-year-title{font-size:12px;font-weight:500;color:#1a1a1a;margin:0 12px 4px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
 .fyt-group{margin-bottom:8px;padding:0 12px;overflow-x:auto}
 .fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%}
+.fyt-col{display:flex;flex-direction:column;position:relative}
+.fyt-col-current{outline:1px solid #b8860b;outline-offset:-1px;border-radius:3px;z-index:2}
+.fyt-col-adj{outline:1px solid #b8860b;outline-offset:-1px;border-radius:3px;z-index:1}
 .fyt-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1px 0;border-right:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;overflow:hidden;min-width:0}
-.fyt-cell:nth-child(9n){border-right:none}
+.fyt-col:last-child .fyt-cell{border-right:none}
 .fyt-cell.age-row{background:#fff;border-bottom:1px solid #ddd}
 .fyt-cell.year-row{border-bottom:1px solid #e0e0e0}
 .fyt-cell.num-row{border-bottom:none}
@@ -79,18 +109,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .fyt-num{font-size:8px;color:#888;font-family:'MPLUS1Code',monospace;display:block;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .fyt-num .d{color:#1a1a1a;font-weight:400}
 .fyt-num .lv{font-size:6px;color:#4a90d9;vertical-align:super}
-.fyt-cell.current{border-left:1px solid #b8860b;border-right:1px solid #b8860b}
-.fyt-cell.current.age-row{border-top:1px solid #b8860b}
-.fyt-cell.current.num-row{border-bottom:1px solid #b8860b}
-.fyt-cell.current .fyt-age,.fyt-cell.current .fyt-year{font-weight:700;color:#b8860b}
-.fyt-cell.current .fyt-num{font-weight:700}
-.fyt-cell.current .fyt-num .d{font-weight:700;color:#b8860b}
-.fyt-cell.prev{border-left:1px solid #b8860b;border-right:1px solid #b8860b}
-.fyt-cell.prev.age-row{border-top:1px solid #b8860b}
-.fyt-cell.prev.num-row{border-bottom:1px solid #b8860b}
-.fyt-cell.next{border-left:1px solid #b8860b;border-right:1px solid #b8860b}
-.fyt-cell.next.age-row{border-top:1px solid #b8860b}
-.fyt-cell.next.num-row{border-bottom:1px solid #b8860b}
+.fyt-col-current .fyt-year{font-weight:700;color:#b8860b}
+.fyt-col-current .fyt-age{font-weight:700;color:#b8860b}
+.fyt-col-current .fyt-num{font-weight:700}
+.fyt-col-current .fyt-num .d{font-weight:700;color:#b8860b}
 /* 指導靈底色：歲次=六次元粉藍，西元=五次元粉黃，主秘數=四次元粉紅 */
 .fyt-cell.age-row.g6{background:#d6eaff}
 .fyt-cell.year-row.g5{background:#fff9d6}
@@ -157,12 +179,13 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
           <div class="innate-title" id="innateTitle">先天數</div>
           <div class="innate-row" id="gregInnate"></div>
           <div class="innate-row" id="lunInnate" style="margin-top:6px"></div>
-          <div class="innate-row hidden" id="gregInnate2" style="margin-top:16px"></div>
+          <div class="innate-row hidden" id="gregInnate2" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
           <div class="innate-row hidden" id="lunInnate2" style="margin-top:6px"></div>
         </div>
         <div class="flow-block" id="flowBlock">
-          <div class="flow-section" id="flowSection"></div>
-          <div class="flow-section hidden" id="flowSection2" style="margin-top:12px"></div>
+          <div id="flowYearBlock"></div>
+          <div id="flowMonthBlock"></div>
+          <div id="flowDayBlock"></div>
         </div>
       </div>
       <div class="panel" id="panel1"><div id="gregFlowTable"></div></div>
@@ -187,12 +210,12 @@ const T={
     inputNote:'輸入西元陽曆生日',
     labelDate:'年／月／日', labelTime:'時：分（選填）',
     tab0:'五大階段數', tab1:'陽曆流年表¹', tab2:'陰曆流年表¹', tab1no:'陽曆流年表', tab2no:'陰曆流年表', tab3:'陽曆流年表²', tab4:'陰曆流年表²',
-    leapDivider:'— 閏月第二組 —',
+    leapDivider:'— 閏月第二組 —', leapDivider2:'閏月第二組',
     innateTitle:'先天數',
     errDate:'請輸入正確的陽曆生日', errLunar:'陰曆換算失敗，請確認年份範圍',
     greg:'陽曆', lun:'陰曆', leap:'閏',
     stages:['幼年','少年','青年','中年','老年'],
-    flowYear:'流年', flowMonth:'流月', flowDay:'流日',
+    flowYear:'流年', flowMonth:'流月', flowDay:'流日', flowPrev:'前一年', flowCurr:'目前流年', flowNext:'下一年', flowCurrSuffix:'（目前）',
     flowTableGreg:'陽曆 (+) 九年能量波動表', flowTableLun:'陰曆 (-) 九年能量波動表', flowTableSuffix:'九年能量波動表',
     coffee:'☕ 請我喝杯咖啡', studio:'樹根樹洞',
     langBtn:'EN',
@@ -205,12 +228,12 @@ const T={
     inputNote:'Enter your birthday',
     labelDate:'Y／M／D', labelTime:'H：M (opt)',
     tab0:'Life\nStages', tab1:'Solar¹\nFlow Table', tab2:'Lunar¹\nFlow Table', tab1no:'Solar\nFlow Table', tab2no:'Lunar\nFlow Table', tab3:'Solar²\nFlow Table', tab4:'Lunar²\nFlow Table',
-    leapDivider:'— Leap Month Set 2 —',
+    leapDivider:'— Leap Month Set 2 —', leapDivider2:'Leap Month Set 2',
     innateTitle:'Innate Numbers',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
-    flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow',
+    flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow', flowPrev:'Prev Year', flowCurr:'Current Year', flowNext:'Next Year', flowCurrSuffix:' (now)',
     flowTableGreg:'Solar (+) Energy Flow Table', flowTableLun:'Lunar (-) Energy Flow Table', flowTableSuffix:'Energy Flow Table',
     coffee:'☕ Buy Me a Coffee', studio:'The Roots Hollow',
     langBtn:'中文',
@@ -427,7 +450,7 @@ function stageLabel(name){
   return T[lang].stages[idx];
 }
 
-function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate){
+function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate,showBtn=true){
   const title='<span class="cal-label">'+(isGreg?t('greg'):t('lun'))+'</span><span class="cal-sign">'+(isGreg?'(+)':'(-)')+'</span>';
   const{stages}=calcStages(y,m,d,h,mn);
   const hasTime=h!==null,hasMins=mn!==null;
@@ -452,7 +475,7 @@ function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate){
     </div></div>`;
   }).join('');
   const hdId='hd-'+(isGreg?'greg':'lun')+'-'+y+m+d;
-  const btnHtml=isGreg?`<button id="btn-bd-toggle" class="bd-toggle-btn" style="position:absolute;right:0" onclick="toggleAllBdHeaders(this)">${t('hideBd')}</button>`:'';
+  const btnHtml=(isGreg&&showBtn)?`<button id="btn-bd-toggle" class="bd-toggle-btn" style="position:absolute;right:0" onclick="toggleAllBdHeaders(this)">${t('hideBd')}</button>`:''
   el.innerHTML=`
   <div class="cal-title" style="display:flex;align-items:center;justify-content:center;position:relative"><span style="flex:1;text-align:center">${title}</span>${btnHtml}</div>
   <div id="${hdId}" class="num-header bd-header" style="${colStyle}">${headerCells}</div>
@@ -472,65 +495,120 @@ function renderInnate(el,innate,isGreg){
   el.innerHTML=`<span class="innate-label">${label}</span><div class="innate-nums">${nums}</div>`;
 }
 
-function renderFlow(el,gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD,showTitle=true){
-  // 陽曆流年：以生日月日為切換點
+// ── 流年流月流日共用計算 ──
+function calcFlowData(gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD){
   const gBdPassed=(todayM>gregM)||(todayM===gregM&&todayD>=gregD);
   const gFY=gBdPassed?todayY:todayY-1;
-  // 陽曆流月：以生日日為切換點
   const gDayPassed=todayD>=gregD;
-  let gFM=todayM,gFMY=todayY;
-  if(!gDayPassed){gFM=todayM-1;if(gFM<1){gFM=12;gFMY=todayY-1;}}
-  // 陽曆流日：以生日日（數字）為切換點；直接用今天日
-  const gFD=todayD;
-  const gfl={
-    fy:makeStage(sumArr([...digs(gFY),...digs(gregM),...digs(gregD)])),
-    fm:makeStage(sumArr([...digs(gregY),...digs(gFM),...digs(gregD)])),
-    fd:makeStage(sumArr([...digs(gregY),...digs(gregM),...digs(gFD)]))
-  };
-  // 農曆今天
+  let gFM=todayM;
+  if(!gDayPassed){gFM=todayM-1;if(gFM<1)gFM=12;}
   const lunarToday=solarToLunar(todayY,todayM,todayD);
   const lty=lunarToday?lunarToday.year:todayY;
   const ltm=lunarToday?lunarToday.month:todayM;
   const ltd=lunarToday?lunarToday.day:todayD;
-  // 農曆流年：以農曆生日月日為切換點
   const lBdPassed=(ltm>lunM)||(ltm===lunM&&ltd>=lunD);
   const lFY=lBdPassed?lty:lty-1;
-  // 農曆流月：以農曆生日日為切換點
   const lDayPassed=ltd>=lunD;
-  let lFM=ltm,lFMY=lty;
-  if(!lDayPassed){lFM=ltm-1;if(lFM<1){lFM=12;lFMY=lty-1;}}
-  // 農曆流日：直接用今天農曆日
-  const lFD=ltd;
-  const lfl={
-    fy:makeStage(sumArr([...digs(lFY),...digs(lunM),...digs(lunD)])),
-    fm:makeStage(sumArr([...digs(lunY),...digs(lFM),...digs(lunD)])),
-    fd:makeStage(sumArr([...digs(lunY),...digs(lunM),...digs(lFD)]))
-  };
+  let lFM=ltm;
+  if(!lDayPassed){lFM=ltm-1;if(lFM<1)lFM=12;}
   const gInnate=[...digs(gregY),...digs(gregM),...digs(gregD)];
   const lInnate=[...digs(lunY),...digs(lunM),...digs(lunD)];
-  function lvBadge(s,innate){
-    const lv=calcLevel(innate,s.destiny,s.pathNums);
-    return`<span class="flow-num">${s.str}</span><span class="flow-lv">${lv.level}</span>`;
-  }
-  el.innerHTML=`
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;width:100%;padding:0 20px;box-sizing:border-box">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      ${showTitle?`<div class="innate-title" style="margin:0 0 6px">${t('flowYear')}</div>`:''}
-      <div class="flow-item"><span class="sign">+</span>${lvBadge(gfl.fy,gInnate)}</div>
-      <div class="flow-item"><span class="sign">-</span>${lvBadge(lfl.fy,lInnate)}</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      ${showTitle?`<div class="innate-title" style="margin:0 0 6px">${t('flowMonth')}</div>`:''}
-      <div class="flow-item"><span class="sign">+</span>${lvBadge(gfl.fm,gInnate)}</div>
-      <div class="flow-item"><span class="sign">-</span>${lvBadge(lfl.fm,lInnate)}</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      ${showTitle?`<div class="innate-title" style="margin:0 0 6px">${t('flowDay')}</div>`:''}
-      <div class="flow-item"><span class="sign">+</span>${lvBadge(gfl.fd,gInnate)}</div>
-      <div class="flow-item"><span class="sign">-</span>${lvBadge(lfl.fd,lInnate)}</div>
-    </div>
-  </div>`;
+  return{gFY,gFM,lFY,lFM,gInnate,lInnate};
 }
+
+function flowLvBadge(s,innate){
+  const lv=calcLevel(innate,s.destiny,s.pathNums);
+  return`<span class="flow-num">${s.str}</span><span class="flow-lv">${lv.level}</span>`;
+}
+
+// ── 流年 ──
+function renderFlowYear(el,sets,todayY,todayM,todayD){
+  // sets = [{gregY,gregM,gregD,lunY,lunM,lunD,sup}] 1或2組，sup='¹'或'²'
+  const isLeap=sets.length>1;
+  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowYear')+'</div>';
+  for(const s of sets){
+    const{gFY,gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const fyYears=[gFY-1,gFY,gFY+1];
+    const fyLabels=fyYears.map((yr,i)=>i===1?`${yr}${t('flowCurrSuffix')}`:String(yr));
+    const fyCells=fyYears.map((yr,i)=>{
+      const gS=makeStage(sumArr([...digs(yr),...digs(s.gregM),...digs(s.gregD)]));
+      const lS=makeStage(sumArr([...digs(yr),...digs(s.lunM),...digs(s.lunD)]));
+      const isCurr=(i===1);
+      return`<div class="flow-new-cell${isCurr?' flow-current':''}">
+        <div class="flow-new-label">${fyLabels[i]}</div>
+        <div class="flow-new-val"><span class="sign">+</span>${flowLvBadge(gS,gInnate)}</div>
+        <div class="flow-new-val"><span class="sign">-</span>${flowLvBadge(lS,lInnate)}</div>
+      </div>`;
+    }).join('');
+    const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
+    html+=supLabel+`<div class="flow-new-grid flow-year-grid">${fyCells}</div>`;
+  }
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+// ── 流月 ──
+function renderFlowMonth(el,sets,todayY,todayM,todayD){
+  const isLeap=sets.length>1;
+  const fmMonthLabels=lang==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowMonth')+'</div>';
+  for(const s of sets){
+    const{gFM,lFM,gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const fmCells=fmMonthLabels.map((lbl,i)=>{
+      const mo=i+1;
+      const isCurrentG=(mo===gFM);
+      const isCurrentL=(mo===lFM);
+      const isCurrent=(mo===todayM);
+      const gS=makeStage(sumArr([...digs(s.gregY),...digs(mo),...digs(s.gregD)]));
+      const lS=makeStage(sumArr([...digs(s.lunY),...digs(mo),...digs(s.lunD)]));
+      return`<div class="flow-new-cell${isCurrent?' flow-current':''}">
+        <div class="flow-new-label">${lbl}</div>
+        <div class="flow-new-val${isCurrentG?' flow-cur-val':''}"><span class="sign">+</span>${flowLvBadge(gS,gInnate)}</div>
+        <div class="flow-new-val${isCurrentL?' flow-cur-val':''}"><span class="sign">-</span>${flowLvBadge(lS,lInnate)}</div>
+      </div>`;
+    }).join('');
+    const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
+    html+=supLabel+`<div class="flow-new-grid flow-month-grid">${fmCells}</div>`;
+  }
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+// ── 流日 ──
+function renderFlowDay(el,sets,todayY,todayM,todayD){
+  const isLeap=sets.length>1;
+  const weekLabels=lang==='en'?['Mon','Tue','Wed','Thu','Fri','Sat','Sun']:['週一','週二','週三','週四','週五','週六','週日'];
+  const weekHeaders=weekLabels.map(w=>`<div class="flow-cal-head">${w}</div>`).join('');
+  const calYear=todayY,calMonth=todayM;
+  const firstDay=new Date(calYear,calMonth-1,1).getDay();
+  const startOffset=(firstDay+6)%7;
+  const daysInMonth=new Date(calYear,calMonth,0).getDate();
+  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowDay')+'</div>';
+  for(const s of sets){
+    const{gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    function fdStageG(dy){return makeStage(sumArr([...digs(s.gregY),...digs(s.gregM),...digs(dy)]));}
+    function fdStageL(dy){
+      const lunar=solarToLunar(calYear,calMonth,dy);
+      const ld=lunar?lunar.day:dy;
+      return makeStage(sumArr([...digs(s.lunY),...digs(s.lunM),...digs(ld)]));
+    }
+    let calCells='';
+    for(let i=0;i<startOffset;i++) calCells+=`<div class="flow-cal-cell flow-cal-empty"></div>`;
+    for(let dy=1;dy<=daysInMonth;dy++){
+      const isToday=(dy===todayD);
+      calCells+=`<div class="flow-cal-cell${isToday?' flow-current':''}">
+        <div class="flow-cal-day${isToday?' flow-cal-today':''}">${dy}</div>
+        <div class="flow-cal-val"><span class="flow-cal-sign">+</span>${flowLvBadge(fdStageG(dy),gInnate)}</div>
+        <div class="flow-cal-val"><span class="flow-cal-sign">-</span>${flowLvBadge(fdStageL(dy),lInnate)}</div>
+      </div>`;
+    }
+    const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
+    html+=supLabel+`<div class="flow-cal-grid"><div class="flow-cal-week">${weekHeaders}</div><div class="flow-cal-body">${calCells}</div></div>`;
+  }
+  html+='</div>';
+  el.innerHTML=html;
+}
+
 
 function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap){
   const title=isGreg?t('flowTableGreg'):t('flowTableLun');
@@ -538,8 +616,18 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap){
   const todayY=today.getFullYear();
   const todayM=today.getMonth()+1;
   const todayD=today.getDate();
-  const birthdayPassed=(todayM>birthM)||(todayM===birthM&&todayD>=birthD);
-  const currentYear=birthdayPassed?todayY:todayY-1;
+  let currentYear;
+  if(isGreg){
+    const birthdayPassed=(todayM>birthM)||(todayM===birthM&&todayD>=birthD);
+    currentYear=birthdayPassed?todayY:todayY-1;
+  } else {
+    const lunarToday=solarToLunar(todayY,todayM,todayD);
+    const lty=lunarToday?lunarToday.year:todayY;
+    const ltm=lunarToday?lunarToday.month:todayM;
+    const ltd=lunarToday?lunarToday.day:todayD;
+    const birthdayPassed=(ltm>birthM)||(ltm===birthM&&ltd>=birthD);
+    currentYear=birthdayPassed?lty:lty-1;
+  }
   const guardianRanges=calcGuardianRanges(birthY,birthM,birthD);
 
   const rows=[];
@@ -573,33 +661,25 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap){
   let html=`<div class="flow-year-table">${titleWithDate}${bdHeader}<div class="flow-year-title">${t('flowTableSuffix')}</div>${legend}`;
   for(const group of groups){
     while(group.length<9) group.push(null);
-    const ageCells=group.map(r=>{
-      if(!r) return'<div class="fyt-cell age-row"></div>';
+    const colCells=group.map(r=>{
+      if(!r) return`<div class="fyt-col"><div class="fyt-cell age-row"></div><div class="fyt-cell year-row"></div><div class="fyt-cell num-row"></div></div>`;
       const isCurrent=r.year===currentYear;
       const isPrev=r.year===currentYear-1;
       const isNext=r.year===currentYear+1;
+      const stateCls=isCurrent?' current':isPrev?' prev':isNext?' next':'';
       const g6cls=r.g6?' g6':'';
-      return`<div class="fyt-cell age-row${isCurrent?' current':isPrev?' prev':isNext?' next':''}${g6cls}"><div class="fyt-age">${r.age}</div></div>`;
-    }).join('');
-    const yearCells=group.map(r=>{
-      if(!r) return'<div class="fyt-cell year-row"></div>';
-      const isCurrent=r.year===currentYear;
-      const isPrev=r.year===currentYear-1;
-      const isNext=r.year===currentYear+1;
       const g5cls=r.g5?' g5':'';
-      return`<div class="fyt-cell year-row${isCurrent?' current':isPrev?' prev':isNext?' next':''}${g5cls}"><div class="fyt-year">${r.year}</div></div>`;
-    }).join('');
-    const numCells=group.map(r=>{
-      if(!r) return'<div class="fyt-cell num-row"></div>';
-      const isCurrent=r.year===currentYear;
-      const isPrev=r.year===currentYear-1;
-      const isNext=r.year===currentYear+1;
       const g4cls=r.g4?' g4':'';
       const parts=r.stage.str.split('/');
       const fmt=parts.map((p,i)=>i===parts.length-1?`<span class="d">${p}</span>`:`${p}/`).join('');
-      return`<div class="fyt-cell num-row${isCurrent?' current':isPrev?' prev':isNext?' next':''}${g4cls}"><div class="fyt-num">${fmt}<span class="lv">${r.lv.level}</span></div></div>`;
+      const wrapCls=isCurrent?' fyt-col-current':isPrev||isNext?' fyt-col-adj':'';
+      return`<div class="fyt-col${wrapCls}">
+        <div class="fyt-cell age-row${g6cls}"><div class="fyt-age">${r.age}</div></div>
+        <div class="fyt-cell year-row${stateCls}${g5cls}"><div class="fyt-year">${r.year}</div></div>
+        <div class="fyt-cell num-row${stateCls}${g4cls}"><div class="fyt-num">${fmt}<span class="lv">${r.lv.level}</span></div></div>
+      </div>`;
     }).join('');
-    html+=`<div class="fyt-group"><div class="fyt-grid">${ageCells}${yearCells}${numCells}</div></div>`;
+    html+=`<div class="fyt-group"><div class="fyt-grid">${colCells}</div></div>`;
   }
   html+='</div>';
   el.innerHTML=html;
@@ -693,7 +773,9 @@ function renderPartial(){
     renderInnate(document.getElementById('lunInnate'),lInnate,false);
     document.getElementById('innateTitle').textContent=t('innateTitle');
     const now=new Date();
-    renderFlow(document.getElementById('flowSection'),sy,sm,sd,ly,lm,ld,now.getFullYear(),now.getMonth()+1,now.getDate());
+    // 流年流月流日
+    const nowY=now.getFullYear(),nowM=now.getMonth()+1,nowD=now.getDate();
+    const flowSets1=[{gregY:sy,gregM:sm,gregD:sd,lunY:ly,lunM:lm,lunD:ld,sup:'¹'}];
     renderFlowYearTable(document.getElementById('gregFlowTable'),sy,sm,sd,gInnate,true);
     renderFlowYearTable(document.getElementById('lunFlowTable'),ly,lm,ld,lInnate,false,isLeap);
 
@@ -709,19 +791,21 @@ function renderPartial(){
         const ly2=lm===12?ly+1:ly;
         const gInnate2=String(sy2).split('').concat(p2(sm2).split(''),p2(sd2).split('')).map(Number);
         const lInnate2=String(ly2).split('').concat(p2(lm2).split(''),p2(ld).split('')).map(Number);
-        renderCalSection(gregSection2,true,`${sy2}/${p2(sm2)}/${p2(sd2)}`,sy2,sm2,sd2,sh,smn,gInnate2);
+        renderCalSection(gregSection2,true,`${sy2}/${p2(sm2)}/${p2(sd2)}`,sy2,sm2,sd2,sh,smn,gInnate2,false);
         renderCalSection(lunSection2,false,`${ly2}/${p2(lm2)}/${p2(ld)}`,ly2,lm2,ld,sh,smn,lInnate2);
         renderInnate(document.getElementById('gregInnate2'),gInnate2,true);
         renderInnate(document.getElementById('lunInnate2'),lInnate2,false);
-        renderFlow(document.getElementById('flowSection2'),sy2,sm2,sd2,ly2,lm2,ld,now.getFullYear(),now.getMonth()+1,now.getDate(),false);
         renderFlowYearTable(document.getElementById('gregFlowTable2'),sy2,sm2,sd2,gInnate2,true);
         renderFlowYearTable(document.getElementById('lunFlowTable2'),ly2,lm2,ld,lInnate2,false);
+        const flowSets2=[...flowSets1,{gregY:sy2,gregM:sm2,gregD:sd2,lunY:ly2,lunM:lm2,lunD:ld,sup:'²'}];
+        renderFlowYear(document.getElementById('flowYearBlock'),flowSets2,nowY,nowM,nowD);
+        renderFlowMonth(document.getElementById('flowMonthBlock'),flowSets2,nowY,nowM,nowD);
+        renderFlowDay(document.getElementById('flowDayBlock'),flowSets2,nowY,nowM,nowD);
         leapDivider.classList.remove('hidden');
         gregSection2.classList.remove('hidden');
         lunSection2.classList.remove('hidden');
         document.getElementById('gregInnate2').classList.remove('hidden');
         document.getElementById('lunInnate2').classList.remove('hidden');
-        document.getElementById('flowSection2').classList.remove('hidden');
         document.getElementById('panel3').classList.remove('hidden');
         document.getElementById('panel4').classList.remove('hidden');
         // 加 tab3、tab4（避免重複）
@@ -742,12 +826,15 @@ function renderPartial(){
         document.getElementById('tab2').textContent=t('tab2');
       }
     } else {
+      // 非閏月：單組流年流月流日
+      renderFlowYear(document.getElementById('flowYearBlock'),flowSets1,nowY,nowM,nowD);
+      renderFlowMonth(document.getElementById('flowMonthBlock'),flowSets1,nowY,nowM,nowD);
+      renderFlowDay(document.getElementById('flowDayBlock'),flowSets1,nowY,nowM,nowD);
       leapDivider.classList.add('hidden');
       gregSection2.classList.add('hidden');
       lunSection2.classList.add('hidden');
       document.getElementById('gregInnate2').classList.add('hidden');
       document.getElementById('lunInnate2').classList.add('hidden');
-      document.getElementById('flowSection2').classList.add('hidden');
       document.getElementById('panel3').classList.add('hidden');
       document.getElementById('panel4').classList.add('hidden');
       document.getElementById('gregFlowTable2').innerHTML='';
