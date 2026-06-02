@@ -62,8 +62,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-label{color:#999;flex-shrink:0;align-self:center;width:36px;text-align:center}
 .flow-item{display:flex;align-items:baseline;gap:2px;justify-content:center}
 .flow-num{color:#1a1a1a;font-size:13px;font-family:'MPLUS1Code',monospace}
+.flow-path{color:#999;font-size:13px;font-family:'MPLUS1Code',monospace}
+.flow-dest{color:#1a1a1a;font-size:13px;font-family:'MPLUS1Code',monospace}
 .flow-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
-.sign{font-size:13px;color:#999;margin-right:1px;font-family:'MPLUS1Code',monospace}
+.sign{font-size:13px;color:#1a1a1a;margin-right:1px;font-family:'MPLUS1Code',monospace}
 .flow-pair{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;width:100px}
 /* 新版流年流月流日 */
 .flow-new-section{margin:0 20px 20px}
@@ -72,26 +74,33 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-year-grid{grid-template-columns:repeat(3,1fr)}
 .flow-month-grid{grid-template-columns:repeat(4,1fr)}
 .flow-new-cell{border:1px solid #e8e8e8;border-radius:6px;padding:6px 4px;text-align:center}
-.flow-new-cell.flow-current{outline:1.5px solid #b8860b;outline-offset:-1px;border-radius:6px;background:#fffef8;border-color:transparent}
+
 .flow-new-label{font-size:11px;color:#999;margin-bottom:4px;font-family:'MPLUS1Code',monospace}
 .flow-new-val{display:flex;align-items:baseline;justify-content:center;gap:1px;line-height:1.4}
-.flow-cur-val{outline:1px solid #b8860b;outline-offset:1px;border-radius:3px}
-.flow-cur-val .flow-num{color:#b8860b}
-.flow-cur-val .flow-lv{color:#b8860b}
+.flow-hl-label{font-weight:700}
+/* 單獨框（只有一行 active）*/
+.flow-hl-g.flow-hl-active{border:1px solid #b8860b;border-radius:3px;padding:2px 6px;margin:1px 0}
+.flow-hl-l.flow-hl-active{border:1px solid #b8860b;border-radius:3px;padding:2px 6px;margin:1px 0}
+/* 合併框（兩行都 active，JS 控制）*/
+.flow-hl-g.flow-hl-merged{border-bottom:none;border-radius:3px 3px 0 0;margin-bottom:0;padding-bottom:3px}
+.flow-hl-l.flow-hl-merged{border-top:none;border-radius:0 0 3px 3px;margin-top:0;padding-top:3px}
 /* 流日月曆 */
 .flow-cal-grid{border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;background:#e8e8e8}
 .flow-cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
-.flow-cal-head{font-size:9px;color:#999;text-align:center;padding:3px 0;font-family:'MPLUS1Code',monospace;background:#f8f8f8}
+.flow-cal-head{font-size:9px;color:#999;text-align:center;padding:3px 0;font-family:'MPLUS1Code',monospace;background:#fff;border-bottom:1px solid #e8e8e8}
 .flow-cal-body{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
 .flow-cal-cell{padding:4px 0 2px;text-align:center;min-height:40px;background:#fff}
-.flow-cal-cell.flow-cal-empty{background:#fafafa}
-.flow-cal-cell.flow-current{background:#fffef8;outline:1.5px solid #b8860b;outline-offset:-1px;border-radius:3px}
+.flow-cal-cell.flow-cal-empty{background:#f9f9f9}
+.flow-cal-cell.flow-current{background:#fff}
 .flow-cal-day{font-size:8px;color:#999;margin-bottom:3px;font-family:'MPLUS1Code',monospace}
 .flow-cal-today{color:#b8860b;font-weight:700}
 .flow-cal-val{display:flex;align-items:baseline;justify-content:center;gap:0;line-height:1.2}
 .flow-cal-val .flow-num{font-size:8px}
 .flow-cal-val .flow-lv{font-size:6px}
-.flow-cal-sign{font-size:8px;color:#ccc;font-family:'MPLUS1Code',monospace}
+.flow-cal-val .flow-path{font-size:8px}
+.flow-cal-val .flow-dest{font-size:8px}
+.flow-cal-val.flow-hl-active{padding:1px 2px;margin:0}
+.flow-cal-sign{font-size:8px;color:#1a1a1a;font-family:'MPLUS1Code',monospace}
 .flow-year-table{padding:24px 0 8px}
 .flow-year-title{font-size:12px;font-weight:500;color:#1a1a1a;margin:0 12px 4px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
 .fyt-group{margin-bottom:8px;padding:0 12px;overflow-x:auto}
@@ -215,7 +224,7 @@ const T={
     errDate:'請輸入正確的陽曆生日', errLunar:'陰曆換算失敗，請確認年份範圍',
     greg:'陽曆', lun:'陰曆', leap:'閏',
     stages:['幼年','少年','青年','中年','老年'],
-    flowYear:'流年', flowMonth:'流月', flowDay:'流日', flowPrev:'前一年', flowCurr:'目前流年', flowNext:'下一年', flowCurrSuffix:'（目前）',
+    flowYear:'流年', flowMonth:'流月', flowDay:'流日', flowPrev:'前一年', flowCurr:'目前流年', flowNext:'下一年', flowCurrSuffix:'',
     flowTableGreg:'陽曆 (+) 九年能量波動表', flowTableLun:'陰曆 (-) 九年能量波動表', flowTableSuffix:'九年能量波動表',
     coffee:'☕ 請我喝杯咖啡', studio:'樹根樹洞',
     langBtn:'EN',
@@ -233,7 +242,7 @@ const T={
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
-    flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow', flowPrev:'Prev Year', flowCurr:'Current Year', flowNext:'Next Year', flowCurrSuffix:' (now)',
+    flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow', flowPrev:'Prev Year', flowCurr:'Current Year', flowNext:'Next Year', flowCurrSuffix:'',
     flowTableGreg:'Solar (+) Energy Flow Table', flowTableLun:'Lunar (-) Energy Flow Table', flowTableSuffix:'Energy Flow Table',
     coffee:'☕ Buy Me a Coffee', studio:'The Roots Hollow',
     langBtn:'中文',
@@ -516,9 +525,13 @@ function calcFlowData(gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD){
   return{gFY,gFM,lFY,lFM,gInnate,lInnate};
 }
 
-function flowLvBadge(s,innate){
+function flowLvBadge(s,innate,bold=false){
   const lv=calcLevel(innate,s.destiny,s.pathNums);
-  return`<span class="flow-num">${s.str}</span><span class="flow-lv">${lv.level}</span>`;
+  const parts=s.str.split('/');
+  const fw=bold?'font-weight:700;':'';
+  const pathHtml=parts.slice(0,-1).map(p=>`<span class="flow-path" style="${fw}">${p}/</span>`).join('');
+  const destHtml=`<span class="flow-dest" style="${fw}">${parts[parts.length-1]}</span>`;
+  return pathHtml+destHtml+`<span class="flow-lv" style="${fw}">${lv.level}</span>`;
 }
 
 // ── 流年 ──
@@ -534,10 +547,13 @@ function renderFlowYear(el,sets,todayY,todayM,todayD){
       const gS=makeStage(sumArr([...digs(yr),...digs(s.gregM),...digs(s.gregD)]));
       const lS=makeStage(sumArr([...digs(yr),...digs(s.lunM),...digs(s.lunD)]));
       const isCurr=(i===1);
-      return`<div class="flow-new-cell${isCurr?' flow-current':''}">
-        <div class="flow-new-label">${fyLabels[i]}</div>
-        <div class="flow-new-val"><span class="sign">+</span>${flowLvBadge(gS,gInnate)}</div>
-        <div class="flow-new-val"><span class="sign">-</span>${flowLvBadge(lS,lInnate)}</div>
+      const gCls=isCurr?' flow-hl-active flow-hl-merged':'';
+      const lCls=isCurr?' flow-hl-active flow-hl-merged':'';
+      const gVal=`<div class="flow-new-val flow-hl-g${gCls}"><span class="sign">+</span>${flowLvBadge(gS,gInnate,isCurr)}</div>`;
+      const lVal=`<div class="flow-new-val flow-hl-l${lCls}"><span class="sign">-</span>${flowLvBadge(lS,lInnate,isCurr)}</div>`;
+      return`<div class="flow-new-cell">
+        <div class="flow-new-label${isCurr?' flow-hl-label':''}">${fyLabels[i]}</div>
+        ${gVal}${lVal}
       </div>`;
     }).join('');
     const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
@@ -558,13 +574,17 @@ function renderFlowMonth(el,sets,todayY,todayM,todayD){
       const mo=i+1;
       const isCurrentG=(mo===gFM);
       const isCurrentL=(mo===lFM);
-      const isCurrent=(mo===todayM);
+      const isCurrent=isCurrentG||isCurrentL;
       const gS=makeStage(sumArr([...digs(s.gregY),...digs(mo),...digs(s.gregD)]));
       const lS=makeStage(sumArr([...digs(s.lunY),...digs(mo),...digs(s.lunD)]));
-      return`<div class="flow-new-cell${isCurrent?' flow-current':''}">
-        <div class="flow-new-label">${lbl}</div>
-        <div class="flow-new-val${isCurrentG?' flow-cur-val':''}"><span class="sign">+</span>${flowLvBadge(gS,gInnate)}</div>
-        <div class="flow-new-val${isCurrentL?' flow-cur-val':''}"><span class="sign">-</span>${flowLvBadge(lS,lInnate)}</div>
+      const bothActive=isCurrentG&&isCurrentL;
+      const gCls=isCurrentG?(bothActive?' flow-hl-active flow-hl-merged':' flow-hl-active'):'';
+      const lCls=isCurrentL?(bothActive?' flow-hl-active flow-hl-merged':' flow-hl-active'):'';
+      const gVal=`<div class="flow-new-val flow-hl-g${gCls}"><span class="sign">+</span>${flowLvBadge(gS,gInnate,isCurrentG)}</div>`;
+      const lVal=`<div class="flow-new-val flow-hl-l${lCls}"><span class="sign">-</span>${flowLvBadge(lS,lInnate,isCurrentL)}</div>`;
+      return`<div class="flow-new-cell">
+        <div class="flow-new-label${isCurrent?' flow-hl-label':''}">${lbl}</div>
+        ${gVal}${lVal}
       </div>`;
     }).join('');
     const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
@@ -598,8 +618,8 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
       const isToday=(dy===todayD);
       calCells+=`<div class="flow-cal-cell${isToday?' flow-current':''}">
         <div class="flow-cal-day${isToday?' flow-cal-today':''}">${dy}</div>
-        <div class="flow-cal-val"><span class="flow-cal-sign">+</span>${flowLvBadge(fdStageG(dy),gInnate)}</div>
-        <div class="flow-cal-val"><span class="flow-cal-sign">-</span>${flowLvBadge(fdStageL(dy),lInnate)}</div>
+        <div class="flow-cal-val flow-hl-g${isToday?' flow-hl-active flow-hl-merged':''}"><span class="flow-cal-sign">+</span>${flowLvBadge(fdStageG(dy),gInnate,isToday)}</div>
+        <div class="flow-cal-val flow-hl-l${isToday?' flow-hl-active flow-hl-merged':''}"><span class="flow-cal-sign">-</span>${flowLvBadge(fdStageL(dy),lInnate,isToday)}</div>
       </div>`;
     }
     const supLabel=isLeap&&s.sup==='²'?`<div style="border-top:1px dashed #ddd;margin:8px 0 6px"></div>`:'';
