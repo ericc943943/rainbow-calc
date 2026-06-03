@@ -132,6 +132,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 /* 隱藏生日按鈕 */
 .bd-toggle-btn{padding:2px 10px;border-radius:12px;border:1px solid #bbb;background:#fff;font-size:11px;color:#888;cursor:pointer;font-family:'M PLUS Rounded 1c',sans-serif;line-height:1.6}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHXTPYK44G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -201,6 +202,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   </div>
   <div style="text-align:center;padding:24px 20px 8px;font-family:'M PLUS Rounded 1c',sans-serif">
     <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
+    <button id="screenshotBtn" onclick="takeScreenshot()" style="display:none;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
     © 2026 Eric CH / <span id="footerStudio">樹根樹洞</span>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a>
@@ -974,6 +976,37 @@ function toggleAllBdHeaders(btn){
     hd.dataset.hidden=hidden?'0':'1';
   });
   btn.textContent=hidden?t('hideBd'):t('showBd');
+}
+
+// 截圖（桌面版才顯示按鈕）
+function initScreenshotBtn(){
+  const btn=document.getElementById('screenshotBtn');
+  if(!btn) return;
+  if(window.innerWidth>=768) btn.style.display='inline-block';
+}
+window.addEventListener('resize',initScreenshotBtn);
+initScreenshotBtn();
+
+function takeScreenshot(){
+  const btn=document.getElementById('screenshotBtn');
+  const el=document.getElementById('mainResult');
+  if(!el||!btn) return;
+  const origText=document.getElementById('screenshotText').textContent;
+  document.getElementById('screenshotText').textContent='截圖中...';
+  btn.disabled=true;
+  html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#fff'}).then(canvas=>{
+    const link=document.createElement('a');
+    const dateInput=document.getElementById('dateInput');
+    const name=dateInput?dateInput.value.replace(/\//g,'-'):'rainbow';
+    link.download=`彩虹數字_${name}.png`;
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+    document.getElementById('screenshotText').textContent=origText;
+    btn.disabled=false;
+  }).catch(()=>{
+    document.getElementById('screenshotText').textContent=origText;
+    btn.disabled=false;
+  });
 }
 </script>
 </body>
