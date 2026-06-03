@@ -77,6 +77,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 
 .flow-new-label{font-size:11px;color:#999;margin-bottom:4px;font-family:'MPLUS1Code',monospace}
 .flow-new-val{display:flex;align-items:baseline;justify-content:center;gap:1px;line-height:1.4}
+.screenshot-btn{display:none}
+@media(min-width:1024px){.screenshot-btn{display:inline-block}}
 .flow-hl-label{font-weight:700;color:#b8860b}
 .flow-hl-box{box-shadow:0 0 0 1px #b8860b;border-radius:4px}
 .flow-hl-box-sm{}
@@ -181,8 +183,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
         <div class="cal-section hidden" id="leapDivider" style="border-top:1px dashed #ddd;margin-top:16px;padding-top:8px"><div id="leapDividerText" style="text-align:center;font-size:11px;color:#bbb;letter-spacing:.1em;padding:0 0 8px">— 閏月第二組 —</div></div>
         <div class="cal-section hidden" id="gregSection2" style="margin-top:0"></div>
         <div class="cal-section hidden" id="lunSection2"></div>
+        <div style="text-align:center;padding:8px 0 4px"><button id="screenshotBtn" onclick="takeScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
         <div class="innate-section" id="innateSection">
-          <div style="text-align:center;padding:8px 0 4px"><button id="screenshotBtn" onclick="takeScreenshot()" style="display:none;padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
           <div class="innate-title" id="innateTitle">先天數</div>
           <div class="innate-row" id="gregInnate"></div>
           <div class="innate-row" id="lunInnate" style="margin-top:6px"></div>
@@ -982,13 +984,7 @@ function toggleAllBdHeaders(btn){
 }
 
 // 截圖（桌面版才顯示按鈕）
-function initScreenshotBtn(){
-  const btn=document.getElementById('screenshotBtn');
-  if(!btn) return;
-  if(window.innerWidth>=768) btn.style.display='inline-block';
-}
-window.addEventListener('resize',initScreenshotBtn);
-initScreenshotBtn();
+function initScreenshotBtn(){}
 
 function takeScreenshot(){
   const btn=document.getElementById('screenshotBtn');
