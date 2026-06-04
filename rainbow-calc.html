@@ -68,7 +68,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .sign{font-size:13px;color:#1a1a1a;margin-right:1px;font-family:'MPLUS1Code',monospace}
 .flow-pair{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;width:100px}
 /* 新版流年流月流日 */
-.flow-new-section{margin:0 20px 20px}
+.flow-new-section{margin:0 0 20px}
 .flow-new-title{font-size:12px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin-bottom:8px;text-align:left}
 .flow-new-grid{display:grid;gap:6px}
 .flow-year-grid{grid-template-columns:repeat(3,1fr)}
@@ -80,32 +80,32 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .screenshot-btn{display:none}
 @media(min-width:768px){.screenshot-btn{display:inline-block}}
 .flow-hl-label{font-weight:700;color:#b8860b}
-.flow-hl-box{box-shadow:0 0 0 1px #b8860b;border-radius:4px}
+.flow-hl-box{box-shadow:0 0 0 2px #e6c96a;border-radius:4px}
 .flow-hl-box-sm{}
-.flow-hl-single{box-shadow:0 0 0 1px #b8860b;border-radius:4px}
+.flow-hl-single{box-shadow:0 0 0 2px #e6c96a;border-radius:4px}
 /* 流日月曆 */
 .flow-cal-grid{border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;background:#e8e8e8}
 .flow-cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
-.flow-cal-head{font-size:9px;color:#999;text-align:center;padding:3px 0;font-family:'MPLUS1Code',monospace;background:#fff;border-bottom:1px solid #e8e8e8}
+.flow-cal-head{font-size:10px;color:#999;text-align:center;padding:3px 0;font-family:'MPLUS1Code',monospace;background:#fff;border-bottom:1px solid #e8e8e8}
 .flow-cal-body{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
-.flow-cal-cell{padding:4px 2px;text-align:center;min-height:44px;background:#fff}
+.flow-cal-cell{padding:4px 2px;text-align:center;min-height:48px;background:#fff}
 .flow-cal-cell.flow-cal-empty{background:#f9f9f9}
 .flow-cal-cell.flow-current{background:#fff}
-.flow-cal-day{font-size:8px;color:#999;margin-bottom:3px;font-family:'MPLUS1Code',monospace}
+.flow-cal-day{font-size:9px;color:#999;margin-bottom:3px;font-family:'MPLUS1Code',monospace}
 .flow-cal-today{color:#b8860b;font-weight:700}
-.flow-cal-body .flow-new-val{font-size:8px;line-height:1.2}
-.flow-cal-body .flow-path{font-size:8px}
-.flow-cal-body .flow-dest{font-size:8px}
-.flow-cal-body .flow-lv{font-size:6px}
-.flow-cal-body .sign{font-size:8px}
+.flow-cal-body .flow-new-val{font-size:9px;line-height:1.2}
+.flow-cal-body .flow-path{font-size:9px}
+.flow-cal-body .flow-dest{font-size:9px}
+.flow-cal-body .flow-lv{font-size:7px}
+.flow-cal-body .sign{font-size:9px}
 .flow-cal-body .flow-hl-box{border-radius:3px}
-.flow-year-table{padding:24px 0 8px}
+.flow-year-table{padding:40px 0 8px}
 .flow-year-title{font-size:12px;font-weight:500;color:#1a1a1a;margin:0 12px 4px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
-.fyt-group{margin-bottom:8px;padding:0 12px;overflow-x:auto}
+.fyt-group{margin-bottom:8px;padding:0;overflow-x:auto}
 .fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%}
 .fyt-col{display:flex;flex-direction:column;position:relative}
-.fyt-col-current{outline:1px solid #b8860b;outline-offset:-1px;border-radius:3px;z-index:2}
-.fyt-col-adj{outline:1px solid #b8860b;outline-offset:-1px;border-radius:3px;z-index:1}
+.fyt-col-current{outline:2px solid #e6c96a;outline-offset:-1px;border-radius:3px;z-index:2}
+.fyt-col-adj{outline:2px solid #e6c96a;outline-offset:-1px;border-radius:3px;z-index:1}
 .fyt-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1px 0;border-right:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;overflow:hidden;min-width:0}
 .fyt-col:last-child .fyt-cell{border-right:none}
 .fyt-cell.age-row{background:#fff;border-bottom:1px solid #ddd}
@@ -635,8 +635,7 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
 }
 
 
-function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap){
-  const title=isGreg?t('flowTableGreg'):t('flowTableLun');
+function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null,mn=null){
   const today=new Date();
   const todayY=today.getFullYear();
   const todayM=today.getMonth()+1;
@@ -678,20 +677,58 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap){
     <div class="legend-item"><div class="legend-dot" style="background:#d6eaff"></div><span>${t('g6')}</span></div>
   </div>`;
 
-  const dateStr=`${birthY}/${isLeap?t('leap'):''}${p2(birthM)}/${p2(birthD)}`;
   const sign=isGreg?'<span class="cal-sign">(+)</span>':'<span class="cal-sign">(-)</span>';
   const calTitle=`<span class="cal-label">${isGreg?t('greg'):t('lun')}</span>${sign}`;
   const titleWithDate=`<div class="cal-title">${calTitle}</div>`;
-  const bdHeader=`<div class="num-header" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px"><div class="num-cell label">${birthY}</div><div class="num-cell label">${p2(birthM)}</div><div class="num-cell label">${isLeap?t('leap'):''}${p2(birthD)}</div></div>`;
-  let html=`<div class="flow-year-table">${titleWithDate}${bdHeader}<div class="flow-year-title">${t('flowTableSuffix')}</div>${legend}`;
+  const hasTime=h!==null,hasMins=mn!==null;
+  const ftCols=hasTime?(hasMins?5:4):3;
+  const bdParts=[birthY,p2(birthM),(isLeap?t('leap'):'')+p2(birthD)];
+  if(h!==null) bdParts.push(p2(h));
+  if(mn!==null) bdParts.push(p2(mn));
+  const bdCells=bdParts.map(v=>`<div class="num-cell label">${v}</div>`).join('');
+  const bdHeader=`<div class="num-header" style="grid-template-columns:repeat(${ftCols},1fr)">${bdCells}</div>`;
+  // 五大階段數
+  const{stages:ftStages}=calcStages(birthY,birthM,birthD,h,mn);
+  const ftStageOrder=['老年','中年','青年','少年','幼年'].slice(0,ftCols);
+  const ftStageCells=ftStageOrder.map(name=>{
+    const s=ftStages.find(x=>x.name===name);
+    if(!s) return`<div class="num-cell"></div>`;
+    const lv=calcLevel(innate,s.destiny,s.pathNums);
+    const isd=name==='青年';
+    const parts=s.str.split('/');
+    const fmt=parts.map((p,i)=>i===parts.length-1?`<span class="stage-dest">${p}</span>`:`<span class="stage-path">${p}/</span>`).join('');
+    return`<div class="num-cell"><div class="stage-val">
+      <span class="stage-num${isd?' destiny':''}">${fmt}</span>
+      <span class="stage-lv">${lv.level}</span>
+    </div></div>`;
+  }).join('');
+  const stagesRow=`<div class="num-row" style="grid-template-columns:repeat(${ftCols},1fr);margin-bottom:16px">${ftStageCells}</div>`;
+  const birthdayPassedForWege=isGreg
+    ?(todayM>birthM)||(todayM===birthM&&todayD>=birthD)
+    :(()=>{const lt=solarToLunar(todayY,todayM,todayD);const ltm=lt?lt.month:todayM;const ltd=lt?lt.day:todayD;return(ltm>birthM)||(ltm===birthM&&ltd>=birthD);})();
+  const wegeYear=birthdayPassedForWege?todayY:todayY-1;
+  const currentWege=((wegeYear-birthY+1)%9+9)%9||9;
+  const wegeNames=lang==='en'
+    ?['Set Goals','Explore Layout','Clear Old Habits','Pivotal Choice','Seek & Hold','Heal & Reconcile','Karmic Review','Reflect & Reset','Rest & Settle']
+    :['立定目標','佈局試探','清理舊習','格局抉擇','尋適守成','和解療癒','因果驗收','結算檢討','休息沈澱'];
+  const wegeCells=Array.from({length:9},(_,i)=>{
+    const isActive=(i+1)===currentWege;
+    const bg=isActive?'background:#fdf0c8;':'background:#fff;';
+    const color=isActive?'color:#b8860b;font-weight:600;':'color:#bbb;';
+    const nameColor=isActive?'color:#b8860b;font-weight:500;':'color:#ccc;';
+    return`<div class="fyt-col">
+      <div class="fyt-cell age-row" style="${bg}"><div class="fyt-age" style="${color}">位格${i+1}</div></div>
+      <div class="fyt-cell num-row" style="border-bottom:none;${bg}"><div class="fyt-age" style="${nameColor}white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${wegeNames[i]}</div></div>
+    </div>`;
+  }).join('');
+  const wegeHeader=`<div class="fyt-group"><div class="fyt-grid">${wegeCells}</div></div>`;
+  let html=`<div class="flow-year-table">${titleWithDate}${bdHeader}${stagesRow}<div class="flow-year-title">${t('flowTableSuffix')}</div>${legend}${wegeHeader}`;
   for(const group of groups){
     while(group.length<9) group.push(null);
     const colCells=group.map(r=>{
       if(!r) return`<div class="fyt-col"><div class="fyt-cell age-row"></div><div class="fyt-cell year-row"></div><div class="fyt-cell num-row"></div></div>`;
       const isCurrent=r.year===currentYear;
-      const isPrev=r.year===currentYear-1;
-      const isNext=r.year===currentYear+1;
-      const stateCls=isCurrent?' current':isPrev?' prev':isNext?' next':'';
+      const stateCls=isCurrent?' current':'';
       const g6cls=r.g6?' g6':'';
       const g5cls=r.g5?' g5':'';
       const g4cls=r.g4?' g4':'';
@@ -803,8 +840,8 @@ function renderPartial(){
     // 流年流月流日
     const nowY=now.getFullYear(),nowM=now.getMonth()+1,nowD=now.getDate();
     const flowSets1=[{gregY:sy,gregM:sm,gregD:sd,lunY:ly,lunM:lm,lunD:ld,sup:'¹'}];
-    renderFlowYearTable(document.getElementById('gregFlowTable'),sy,sm,sd,gInnate,true);
-    renderFlowYearTable(document.getElementById('lunFlowTable'),ly,lm,ld,lInnate,false,isLeap);
+    renderFlowYearTable(document.getElementById('gregFlowTable'),sy,sm,sd,gInnate,true,false,sh,smn);
+    renderFlowYearTable(document.getElementById('lunFlowTable'),ly,lm,ld,lInnate,false,isLeap,sh,smn);
 
     // 閏月第二組
     const leapDivider=document.getElementById('leapDivider');
@@ -822,8 +859,8 @@ function renderPartial(){
         renderCalSection(lunSection2,false,`${ly2}/${p2(lm2)}/${p2(ld)}`,ly2,lm2,ld,sh,smn,lInnate2);
         renderInnate(document.getElementById('gregInnate2'),gInnate2,true);
         renderInnate(document.getElementById('lunInnate2'),lInnate2,false);
-        renderFlowYearTable(document.getElementById('gregFlowTable2'),sy2,sm2,sd2,gInnate2,true);
-        renderFlowYearTable(document.getElementById('lunFlowTable2'),ly2,lm2,ld,lInnate2,false);
+        renderFlowYearTable(document.getElementById('gregFlowTable2'),sy2,sm2,sd2,gInnate2,true,false,sh,smn);
+        renderFlowYearTable(document.getElementById('lunFlowTable2'),ly2,lm2,ld,lInnate2,false,false,sh,smn);
         const flowSets2=[...flowSets1,{gregY:sy2,gregM:sm2,gregD:sd2,lunY:ly2,lunM:lm2,lunD:ld,sup:'²'}];
         renderFlowYear(document.getElementById('flowYearBlock'),flowSets2,nowY,nowM,nowD);
         renderFlowMonth(document.getElementById('flowMonthBlock'),flowSets2,nowY,nowM,nowD);
