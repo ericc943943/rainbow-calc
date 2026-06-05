@@ -22,8 +22,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .input-group input:focus{border-color:#666}
 .input-group input.invalid{border-color:#e74c3c;background:#fff5f5}
 .input-group input::placeholder{color:#ccc}
-.input-group.date{flex:1}
-.input-group.time{flex:1}
+.input-group.date,.input-group.time{flex:1}
 .calc-btn{width:100%;padding:13px;background:#fff;border:1px solid #bbb;border-radius:8px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:15px;color:#555;letter-spacing:.2em;cursor:pointer;margin-top:4px;transition:all .15s}
 .calc-btn:hover{background:#f0f0f0;border-color:#999}
 .tabs{display:flex;border-bottom:1px solid #e8e8e8}
@@ -60,9 +59,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-row{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:0;font-size:13px;width:100%}
 .flow-label{color:#999;flex-shrink:0;align-self:center;width:36px;text-align:center}
 .flow-item{display:flex;align-items:baseline;gap:2px;justify-content:center}
-.flow-num{color:#1a1a1a;font-size:13px;font-family:'MPLUS1Code',monospace}
-.flow-path{color:#999;font-size:13px;font-family:'MPLUS1Code',monospace}
-.flow-dest{color:#1a1a1a;font-size:13px;font-family:'MPLUS1Code',monospace}
+.flow-num,.flow-path,.flow-dest{font-size:13px;font-family:'MPLUS1Code',monospace}
+.flow-num{color:#1a1a1a}
+.flow-path{color:#999}
+.flow-dest{color:#1a1a1a}
 .flow-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
 .sign{font-size:13px;color:#1a1a1a;margin-right:1px;font-family:'MPLUS1Code',monospace}
 .flow-pair{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;width:100px}
@@ -73,15 +73,13 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-year-grid{grid-template-columns:repeat(3,1fr)}
 .flow-month-grid{grid-template-columns:repeat(4,1fr)}
 .flow-new-cell{border:1px solid #e8e8e8;border-radius:6px;padding:6px 4px;text-align:center}
-
 .flow-new-label{font-size:11px;color:#999;margin-bottom:4px;font-family:'MPLUS1Code',monospace}
 .flow-new-val{display:flex;align-items:baseline;justify-content:center;gap:1px;line-height:1.4}
 .screenshot-btn{display:none}
 .screenshot-btn-wrap{display:none}
 @media(min-width:768px){.screenshot-btn{display:inline-block}.screenshot-btn-wrap{display:block}}
 .flow-hl-label{font-weight:700;color:#b8860b}
-.flow-hl-box{box-shadow:0 0 0 2px #e6c96a;border-radius:4px}
-.flow-hl-single{box-shadow:0 0 0 2px #e6c96a;border-radius:4px}
+.flow-hl-box,.flow-hl-single{box-shadow:0 0 0 2px #e6c96a;border-radius:4px}
 /* 流日月曆 */
 .flow-cal-grid{border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;background:#e8e8e8}
 .flow-cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
@@ -242,7 +240,7 @@ const T={
     greg:'Solar', lun:'Lunar', leap:'Leap',
     stages:['Childhood','Adolescence','Youth','Midlife','Elder'],
     flowYear:'Yearly Flow', flowMonth:'Monthly Flow', flowDay:'Daily Flow', flowPrev:'Prev Year', flowCurr:'Current Year', flowNext:'Next Year', flowCurrSuffix:'',
-    flowTableGreg:'Solar (+) Energy Flow Table', flowTableLun:'Lunar (-) Energy Flow Table', flowTableSuffix:'Energy Flow Table',
+    flowTableGreg:'Solar (+) 9-Year Energy Rhythm', flowTableLun:'Lunar (-) 9-Year Energy Rhythm', flowTableSuffix:'9-Year Energy Rhythm',
     coffee:'☕ Buy Me a Coffee', studio:'The Roots Hollow',
     langBtn:'中文',
     g4:'4D', g5:'5D', g6:'6D+',
@@ -706,7 +704,7 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
   const wegeYear=birthdayPassedForWege?todayY:todayY-1;
   const currentWege=((wegeYear-birthY+1)%9+9)%9||9;
   const wegeNames=lang==='en'
-    ?['Set Goals','Explore Layout','Clear Old Habits','Pivotal Choice','Seek & Hold','Heal & Reconcile','Karmic Review','Reflect & Reset','Rest & Settle']
+    ?['Find Your<br>Goal','Plan<br>and Try','Clear<br>the Old','Confirm<br>Value','Stay<br>or Pivot','Reconcile<br>and Heal','Karma<br>Reveals','Perf.<br>Review','Rest<br>and Still']
     :['立定目標','佈局試探','清理舊習','格局抉擇','尋適守成','和解療癒','因果驗收','結算檢討','休息沈澱'];
   const wegeCells=Array.from({length:9},(_,i)=>{
     const isActive=(i+1)===currentWege;
@@ -714,8 +712,8 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
     const color=isActive?'color:#b8860b;font-weight:600;':'color:#bbb;';
     const nameColor=isActive?'color:#b8860b;font-weight:500;':'color:#ccc;';
     return`<div class="fyt-col">
-      <div class="fyt-cell age-row" style="${bg}"><div class="fyt-age" style="${color}">位格${i+1}</div></div>
-      <div class="fyt-cell num-row" style="border-bottom:none;${bg}"><div class="fyt-age" style="${nameColor}white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${wegeNames[i]}</div></div>
+      <div class="fyt-cell age-row" style="${bg}"><div class="fyt-age" style="${color}">${lang==='en'?`Phase ${i+1}`:`位格${i+1}`}</div></div>
+      <div class="fyt-cell num-row" style="border-bottom:none;${bg}"><div class="fyt-age" style="${nameColor}white-space:normal;word-break:break-word;line-height:1.3;text-align:center;padding:2px 1px">${wegeNames[i]}</div></div>
     </div>`;
   }).join('');
   const wegeHeader=`<div class="fyt-group"><div class="fyt-grid">${wegeCells}</div></div>`;
