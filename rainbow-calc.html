@@ -331,6 +331,7 @@ function makeStage(total){
   const str=parts.length===1?`0${parts[0]}/${parts[0]}`:parts.join('/');
   const destiny=parts[parts.length-1];
   const pathNums=[];
+  if(parts.length===1){pathNums.push(0);pathNums.push(parts[0]);}
   for(let i=0;i<parts.length-1;i++){
     const p=parts[i];
     if(p>=10) digs(p).forEach(d=>{if(!pathNums.includes(d))pathNums.push(d);});
