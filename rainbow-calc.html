@@ -95,10 +95,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-cal-cell.flow-cal-empty{background:#f9f9f9}
 .flow-cal-day{font-size:9px;color:#999;margin-bottom:3px;font-family:'MPLUS1Code',monospace}
 .flow-cal-today{color:#b8860b;font-weight:700}
-.flow-cal-body .flow-new-val{font-size:9px;line-height:1.2}
-.flow-cal-body .flow-path{font-size:9px}
+.flow-cal-body .flow-new-val{font-size:8px;line-height:1.2}
+.flow-cal-body .flow-path{font-size:8px}
 .flow-cal-body .flow-dest{font-size:9px}
-.flow-cal-body .flow-lv{font-size:7px}
+.flow-cal-body .flow-lv{font-size:7px;vertical-align:sub}
 .flow-cal-body .sign{font-size:9px}
 .flow-cal-body .flow-hl-box{border-radius:3px}
 .flow-year-table{padding:32px 0 8px}
@@ -585,6 +585,19 @@ function renderFlowYear(el,sets,todayY,todayM,todayD){
   el.innerHTML=html;
 }
 
+// ── 流月流日導航狀態 ──
+let _flowDayNavYear=null,_flowDayNavMonth=null,_flowSetsCache=null;
+function _resetFlowNav(){_flowDayNavYear=null;_flowDayNavMonth=null;}
+function _initFlowNav(sets,nowY,nowM){
+  if(_flowDayNavYear===null){_flowDayNavYear=nowY;_flowDayNavMonth=nowM;}
+  _flowSetsCache=sets;
+}
+function _reRenderFlowDay(){
+  const sets=_flowSetsCache;
+  const nowD=new Date().getDate();
+  renderFlowDay(document.getElementById('flowDayBlock'),sets,_flowDayNavYear,_flowDayNavMonth,nowD);
+}
+
 // ── 流月 ──
 function renderFlowMonth(el,sets,todayY,todayM,todayD){
   const isLeap=sets.length>1;
@@ -626,7 +639,15 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
   const firstDay=new Date(calYear,calMonth-1,1).getDay();
   const startOffset=(firstDay+6)%7;
   const daysInMonth=new Date(calYear,calMonth,0).getDate();
-  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowDay')+'</div>';
+  const monthNames=lang==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  const prevMonthLabel=lang==='en'?'← Prev':'← 上月';
+  const nextMonthLabel=lang==='en'?'Next →':'下月 →';
+  const monthNavHtml=`<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px">
+    <button onclick="if(_flowDayNavMonth===1){_flowDayNavMonth=12;_flowDayNavYear--;}else{_flowDayNavMonth--;}_reRenderFlowDay()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 10px;font-size:11px;color:#666;cursor:pointer">${prevMonthLabel}</button>
+    <span style="font-size:13px;font-weight:600">${calYear}/${String(calMonth).padStart(2,'0')}</span>
+    <button onclick="if(_flowDayNavMonth===12){_flowDayNavMonth=1;_flowDayNavYear++;}else{_flowDayNavMonth++;}_reRenderFlowDay()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 10px;font-size:11px;color:#666;cursor:pointer">${nextMonthLabel}</button>
+  </div>`;
+  let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowDay')+'</div>'+monthNavHtml;
   for(const s of sets){
     const{gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
     function fdStageG(dy){return makeStage(sumArr([...digs(s.gregY),...digs(s.gregM),...digs(dy)]));}
@@ -637,8 +658,10 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
     }
     let calCells='';
     for(let i=0;i<startOffset;i++) calCells+=`<div class="flow-cal-cell flow-cal-empty"></div>`;
+    const realToday=new Date();
+    const realTodayY=realToday.getFullYear(),realTodayM=realToday.getMonth()+1,realTodayD=realToday.getDate();
     for(let dy=1;dy<=daysInMonth;dy++){
-      const isToday=(dy===todayD);
+      const isToday=(dy===realTodayD&&calMonth===realTodayM&&calYear===realTodayY);
       calCells+=`<div class="flow-cal-cell${isToday?' flow-current':''}">
         <div class="flow-cal-day${isToday?' flow-cal-today':''}">${dy}</div>
         ${isToday?`<div class="flow-hl-box">`:''}
@@ -768,7 +791,7 @@ function renderFlowYearTable(el,birthY,birthM,birthD,innate,isGreg,isLeap,h=null
 }
 
 // ── Main ──────────────────────────────────────────────────────
-function renderPartial(){
+function renderPartial(){_resetFlowNav();
   const syRaw=document.getElementById('inputYear').value.trim();
   const smRaw=document.getElementById('inputMonth').value.trim();
   const sdRaw=document.getElementById('inputDay').value.trim();
@@ -885,6 +908,7 @@ function renderPartial(){
         renderFlowYearTable(document.getElementById('lunFlowTable2'),ly2,lm2,ld,lInnate2,false,false,sh,smn);
         const flowSets2=[...flowSets1,{gregY:sy2,gregM:sm2,gregD:sd2,lunY:ly2,lunM:lm2,lunD:ld,sup:'²'}];
         renderFlowYear(document.getElementById('flowYearBlock'),flowSets2,nowY,nowM,nowD);
+        _initFlowNav(flowSets2,nowY,nowM);
         renderFlowMonth(document.getElementById('flowMonthBlock'),flowSets2,nowY,nowM,nowD);
         renderFlowDay(document.getElementById('flowDayBlock'),flowSets2,nowY,nowM,nowD);
         leapDivider.classList.remove('hidden');
@@ -914,6 +938,7 @@ function renderPartial(){
     } else {
       // 非閏月：單組流年流月流日
       renderFlowYear(document.getElementById('flowYearBlock'),flowSets1,nowY,nowM,nowD);
+      _initFlowNav(flowSets1,nowY,nowM);
       renderFlowMonth(document.getElementById('flowMonthBlock'),flowSets1,nowY,nowM,nowD);
       renderFlowDay(document.getElementById('flowDayBlock'),flowSets1,nowY,nowM,nowD);
       leapDivider.classList.add('hidden');
