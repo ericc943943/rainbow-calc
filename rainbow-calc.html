@@ -37,7 +37,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .results{padding:0 20px}
 .cal-section{margin-top:24px;padding-top:8px}
 .cal-section+.cal-section{margin-top:16px}
-.cal-title{font-size:13px;font-weight:500;color:#1a1a1a;margin-bottom:12px;text-align:center}
+.cal-title{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:12px;text-align:center}
 .cal-label{font-family:'MPLUS1Code',monospace;font-weight:500;font-size:13px}
 .cal-sign{font-family:'MPLUS1Code',monospace;letter-spacing:0}
 .num-header{display:grid;gap:0;border-bottom:2px solid #1a1a1a;padding-bottom:8px;margin-bottom:10px;justify-items:center}
@@ -53,10 +53,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .stage-dest{color:#1a1a1a}
 .stage-lv{font-size:11px;color:#4a90d9;font-family:'MPLUS1Code',monospace}
 .innate-section{margin-top:32px;border-top:1px solid #e8e8e8;padding-top:32px;text-align:center}
-.innate-title{font-size:13px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin-bottom:12px}
-.innate-row{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
-.innate-label{font-size:10px;color:#999;width:32px;flex-shrink:0;font-family:'MPLUS1Code',monospace}
-.innate-nums{display:flex;gap:4px}
+.innate-title{font-size:14px;font-weight:500;letter-spacing:.1em;color:#1a1a1a;margin-bottom:12px}
+.innate-row{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}
+.innate-label{font-size:13px;color:#999;flex-shrink:0;font-family:'MPLUS1Code',monospace}
+.innate-nums{display:flex;gap:0px}
 .inn{font-size:14px;color:#bbb;width:18px;text-align:center;font-family:'MPLUS1Code',monospace}
 .inn.has{color:#555}
 .inn.obs{color:#c0392b;font-weight:500}
@@ -85,7 +85,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .screenshot-btn-wrap{display:none}
 @media(min-width:768px){.screenshot-btn{display:inline-block}.screenshot-btn-wrap{display:block}}
 .flow-hl-label{font-weight:700;color:#b8860b}
-.flow-hl-box,.flow-hl-single{box-shadow:0 0 0 2px #e6c96a;border-radius:4px}
+.flow-hl-box,.flow-hl-single{background:#FFFDF5;box-shadow:0 0 0 2px #F0D080;border-radius:4px}
 /* 流日月曆 */
 .flow-cal-grid{border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;background:#e8e8e8}
 .flow-cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
@@ -102,11 +102,11 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-cal-body .sign{font-size:9px}
 .flow-cal-body .flow-hl-box{border-radius:3px}
 .flow-year-table{padding:32px 0 8px}
-.flow-year-title{font-size:13px;font-weight:500;color:#1a1a1a;margin:0 12px 12px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
+.flow-year-title{font-size:14px;font-weight:500;color:#1a1a1a;margin:0 12px 12px;font-family:'M PLUS Rounded 1c',sans-serif;text-align:center}
 .fyt-group{margin-bottom:8px;padding:0;overflow-x:auto}
 .fyt-grid{display:grid;grid-template-columns:repeat(9,1fr);border:1px solid #e0e0e0;border-radius:4px;overflow:hidden;width:100%}
 .fyt-col{display:flex;flex-direction:column;position:relative}
-.fyt-col-current{outline:2px solid #e6c96a;outline-offset:-1px;border-radius:3px;z-index:2}
+.fyt-col-current{outline:2px solid #F0D080;outline-offset:-1px;border-radius:3px;z-index:2;background:#FFFDF5}
 .fyt-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1px 0;border-right:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;overflow:hidden;min-width:0}
 .fyt-col:last-child .fyt-cell{border-right:none}
 .fyt-cell.age-row{background:#fff;border-bottom:1px solid #ddd}
@@ -164,7 +164,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <svg id="titleSvgEn" width="280" height="32" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="rge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text id="titleMain" x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#rge)">Rainbow Numerology</text></svg>
       <span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a" id="titleSub">計算器</span>
     </h1>
-    <div id="todayDisplay" style="font-size:12px;color:#555;margin-top:6px;text-align:center;line-height:1.8"></div>
+    <div id="todayDisplay" style="font-size:13px;color:#555;margin-top:6px;text-align:center;line-height:1.8"></div>
   </div>
   <div class="input-area">
     <div class="input-note" id="inputNote">請輸入西元陽曆生日</div>
@@ -212,11 +212,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
         <div class="screenshot-btn-wrap" style="text-align:center;padding:16px 0 12px"><button id="screenshotBtn" onclick="takeScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="screenshotText">儲存截圖</span></button></div>
         <div class="innate-section" id="innateSection">
           <div class="innate-title" id="innateTitle">先天數</div>
-          <div class="innate-row" id="gregInnate"></div>
-          <div class="innate-row" id="lunInnate" style="margin-top:6px"></div>
-          <div class="innate-row hidden" id="gregInnate2" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
-          <div class="innate-row hidden" id="lunInnate2" style="margin-top:6px"></div>
           <div id="nineGridSection"></div>
+          <div id="nineGridSection2" class="hidden" style="margin-top:12px;padding-top:12px;border-top:1px dashed #ddd"></div>
         </div>
         <div class="flow-block" id="flowBlock">
           <div id="flowYearBlock"></div>
@@ -294,7 +291,7 @@ function applyLang(){
   const lunar=solarToLunar(y,parseInt(m),parseInt(d));
   const lunarStr=lunar?`${lunar.year}/${p2(lunar.month)}/${p2(lunar.day)}${lunar.isLeap?t('leap'):''}`: '';
   document.getElementById('todayDisplay').innerHTML=
-    `<span style="font-size:11px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
+    `<span style="font-size:13px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
   document.getElementById('inputNote').textContent=t('inputNote');
   const labelDate=document.getElementById('labelDate');
   if(labelDate) labelDate.textContent=t('labelDate');
@@ -527,7 +524,7 @@ function renderCalSection(el,isGreg,dateStr,y,m,d,h,mn,innate,showBtn=true,isLea
 }
 
 function renderInnate(el,innate,isGreg){
-  const label=isGreg?t('greg'):t('lun');
+  const label=isGreg?`${t('greg')}(+)`:`${t('lun')}(-)`;
   const counts={};
   for(const n of innate){if(n>0)counts[n]=(counts[n]||0)+1;}
   const sorted=[...innate].sort((a,b)=>a-b);
@@ -539,41 +536,86 @@ function renderInnate(el,innate,isGreg){
   el.innerHTML=`<span class="innate-label">${label}</span><div class="innate-nums">${nums}</div>`;
 }
 
-function renderNineGrids(gInnate,lInnate,gDestinyNums,lDestinyNums){
-  gDestinyNums=gDestinyNums||[];
-  lDestinyNums=lDestinyNums||[];
+function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums,gDestinyStr,lDestinyStr,elId){
+  elId=elId||'nineGridSection';
+  gPathNums=gPathNums||[];lPathNums=lPathNums||[];
+  gDestNums=gDestNums||[];lDestNums=lDestNums||[];
   function countNums(innate,destinyNums){
     const c={};
     for(const n of innate) c[n]=(c[n]||0)+1;
     for(const n of destinyNums) c[n]=(c[n]||0)+1;
     return c;
   }
-  function makeCell(num,counts){
-    const cnt=counts[num]||0;
-    const countHtml=cnt>0?`<span class="nine-cell-count">×${cnt}</span>`:`<span class="nine-cell-count" style="visibility:hidden">×1</span>`;
-    return`<div class="nine-cell"><div class="nine-cell-spacer"></div><span class="nine-cell-num">${num}</span>${countHtml}</div>`;
+  function makeCell(num,innate,pathNums,destNums){
+    const iCnt=innate.filter(n=>n===num).length;
+    const pCnt=pathNums.filter(n=>n===num).length;
+    const dCnt=destNums.filter(n=>n===num).length;
+    const parts=[];
+    let first=true;
+    if(iCnt>0){parts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:400">×${iCnt}</span>`);first=false;}
+    if(pCnt>0){const sym=first?'×':'+';parts.push(`<span style="color:#888;font-size:9px;font-weight:700">${sym}${pCnt}</span>`);first=false;}
+    if(dCnt>0){const sym=first?'×':'+';parts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:700">${sym}${dCnt}</span>`);}
+    const countHtml=parts.length>0
+      ?`<span style="display:flex;gap:1px;align-items:center">${parts.join('')}</span>`
+      :`<span style="visibility:hidden;font-size:9px">×1</span>`;
+    let cellStyle='';
+    if(dCnt>0) cellStyle='background:#FFF8E1;outline:2px solid #F0D080;outline-offset:-1px';
+    else if(pCnt>0) cellStyle='background:#FFFDF5';
+    return`<div class="nine-cell" style="${cellStyle}"><div class="nine-cell-spacer"></div><span class="nine-cell-num">${num}</span>${countHtml}</div>`;
   }
-  function makeGrid(innate,destinyNums){
-    const c=countNums(innate,destinyNums);
+  function makeGrid(innate,pathNums,destNums){
     const rows=[[1,4,7],[2,5,8],[3,6,9]];
-    const gridHtml=rows.map(row=>`<div style="display:contents">${row.map(n=>makeCell(n,c)).join('')}</div>`).join('');
-    const zeroCnt=c[0]||0;
-    const zeroHtml=zeroCnt>0?`<span class="nine-cell-count">×${zeroCnt}</span>`:`<span class="nine-cell-count" style="visibility:hidden">×1</span>`;
-    return`<div class="nine-grid">${gridHtml}</div><div class="nine-grid-row3"><div class="nine-cell-empty"></div><div class="nine-cell"><div class="nine-cell-spacer"></div><span class="nine-cell-num">0</span>${zeroHtml}</div><div class="nine-cell-empty"></div></div>`;
+    const gridHtml=rows.map(row=>`<div style="display:contents">${row.map(n=>makeCell(n,innate,pathNums,destNums)).join('')}</div>`).join('');
+    const ziCnt=innate.filter(n=>n===0).length;
+    const zpCnt=pathNums.filter(n=>n===0).length;
+    const zdCnt=destNums.filter(n=>n===0).length;
+    const zeroParts=[];let zFirst=true;
+    if(ziCnt>0){zeroParts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:400">×${ziCnt}</span>`);zFirst=false;}
+    if(zpCnt>0){const sym=zFirst?'×':'+';zeroParts.push(`<span style="color:#888;font-size:9px;font-weight:700">${sym}${zpCnt}</span>`);zFirst=false;}
+    if(zdCnt>0){const sym=zFirst?'×':'+';zeroParts.push(`<span style="color:#1a1a1a;font-size:9px;font-weight:700">${sym}${zdCnt}</span>`);}    const zeroHtml=zeroParts.length>0
+      ?`<span style="display:flex;gap:1px;align-items:center">${zeroParts.join('')}</span>`
+      :`<span style="visibility:hidden;font-size:9px">×1</span>`;
+    let zCellStyle='';
+    if(zdCnt>0) zCellStyle='background:#FFF8E1;outline:2px solid #F0D080;outline-offset:-1px';
+    else if(zpCnt>0) zCellStyle='background:#FFFDF5';
+    return`<div class="nine-grid">${gridHtml}</div><div class="nine-grid-row3"><div class="nine-cell-empty"></div><div class="nine-cell" style="${zCellStyle}"><div class="nine-cell-spacer"></div><span class="nine-cell-num">0</span>${zeroHtml}</div><div class="nine-cell-empty"></div></div>`;
   }
-  const el=document.getElementById('nineGridSection');
+  function makeInnateNums(innate){
+    const counts={};
+    for(const n of innate){if(n>0)counts[n]=(counts[n]||0)+1;}
+    const sorted=[...innate].sort((a,b)=>a-b);
+    return sorted.map(n=>{
+      const c=counts[n]||0;
+      const cls=n===0?'inn':(c>=3?'inn obs':(c>=1?'inn has':'inn'));
+      return`<span class="${cls}">${n}</span>`;
+    }).join('');
+  }
+  function makeDestinyHtml(str){
+    const parts=str.split('/');
+    return parts.map((p,i)=>i===parts.length-1
+      ?`<span class="stage-dest">${p}</span>`
+      :`<span class="stage-path">${p}/</span>`
+    ).join('');
+  }
+  const el=document.getElementById(elId);
   if(!el) return;
-  el.innerHTML=`
+  const gridHtmlStr=`
     <div class="nine-grid-wrap">
       <div class="nine-grid-side">
-        <div class="nine-grid-label">${t('greg')}(+)</div>
-        ${makeGrid(gInnate,gDestinyNums)}
+        <div class="nine-grid-label" style="font-size:13px;color:#999;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('greg')}(+)</div>
+        <div class="innate-nums" style="justify-content:center;margin-bottom:12px">${makeInnateNums(gInnate)}</div>
+        ${makeGrid(gInnate,gPathNums,gDestNums)}
       </div>
       <div class="nine-grid-side">
-        <div class="nine-grid-label">${t('lun')}(-)</div>
-        ${makeGrid(lInnate,lDestinyNums)}
+        <div class="nine-grid-label" style="font-size:13px;color:#999;text-align:center;margin-bottom:4px;font-family:'MPLUS1Code',monospace">${t('lun')}(-)</div>
+        <div class="innate-nums" style="justify-content:center;margin-bottom:12px">${makeInnateNums(lInnate)}</div>
+        ${makeGrid(lInnate,lPathNums,lDestNums)}
       </div>
     </div>`;
+  // 保留已有內容（如標題），只移除舊的 nine-grid-wrap
+  const existing=el.querySelector('.nine-grid-wrap');
+  if(existing) existing.remove();
+  el.insertAdjacentHTML('beforeend',gridHtmlStr);
 }
 
 // ── 流年流月流日共用計算 ──
@@ -927,28 +969,28 @@ function renderPartial(){_resetFlowNav();
     const lInnate=String(ly).split('').concat(p2(lm).split(''),p2(ld).split('')).map(Number);
     renderCalSection(gregSection,true,`${sy}/${p2(sm)}/${p2(sd)}`,sy,sm,sd,sh,smn,gInnate);
     renderCalSection(lunSection,false,`${ly}/${isLeap?t('leap'):''}${p2(lm)}/${p2(ld)}`,ly,lm,ld,sh,smn,lInnate,true,isLeap);
-    renderInnate(document.getElementById('gregInnate'),gInnate,true);
-    renderInnate(document.getElementById('lunInnate'),lInnate,false);
     // 青年數（主命數）的所有數字，保留重複
     const gDestinyTotal=sumArr([...String(sy).split('').map(Number),...p2(sm).split('').map(Number),...p2(sd).split('').map(Number)]);
     const lDestinyTotal=sumArr([...String(ly).split('').map(Number),...p2(lm).split('').map(Number),...p2(ld).split('').map(Number)]);
-    function destinyAllDigs(total){
-      if(total===0) return[0];
+    function destinyBreakdown(total){
+      // 回傳 {pathNums: [...], destinyNums: [...]} 保留重複，分開後天數和主命數
+      if(total===0) return{pathNums:[0],destinyNums:[0]};
       const parts=[];let n=total;
       while(n>=10){parts.push(n);n=digs(n).reduce((a,b)=>a+b,0);}
       parts.push(n);
-      const all=[];
-      for(const p of parts){
-        if(p>=10) digs(p).forEach(d=>all.push(d));
-        else all.push(p);
+      const destiny=parts[parts.length-1];
+      const pathAll=[];
+      for(const p of parts.slice(0,-1)){
+        if(p>=10) digs(p).forEach(d=>pathAll.push(d));
+        else pathAll.push(p);
       }
-      return all;
+      return{pathNums:pathAll,destinyNums:[destiny]};
     }
-    const gDestinyNums=destinyAllDigs(gDestinyTotal);
-    const lDestinyNums=destinyAllDigs(lDestinyTotal);
-    renderNineGrids(gInnate,lInnate,gDestinyNums,lDestinyNums);
-    renderInnate(document.getElementById('gregInnate'),gInnate,true);
-    renderInnate(document.getElementById('lunInnate'),lInnate,false);
+    const gBreak=destinyBreakdown(gDestinyTotal);
+    const lBreak=destinyBreakdown(lDestinyTotal);
+    const gDestinyStr=makeStage(gDestinyTotal).str;
+    const lDestinyStr=makeStage(lDestinyTotal).str;
+    renderNineGrids(gInnate,lInnate,gBreak.pathNums,lBreak.pathNums,gBreak.destinyNums,lBreak.destinyNums,gDestinyStr,lDestinyStr);
     document.getElementById('innateTitle').textContent=t('innateTitle');
     const now=new Date();
     // 流年流月流日
@@ -971,8 +1013,10 @@ function renderPartial(){_resetFlowNav();
         const lInnate2=String(ly2).split('').concat(p2(lm2).split(''),p2(ld).split('')).map(Number);
         renderCalSection(gregSection2,true,`${sy2}/${p2(sm2)}/${p2(sd2)}`,sy2,sm2,sd2,sh,smn,gInnate2,false);
         renderCalSection(lunSection2,false,`${ly2}/${p2(lm2)}/${p2(ld)}`,ly2,lm2,ld,sh,smn,lInnate2);
-        renderInnate(document.getElementById('gregInnate2'),gInnate2,true);
-        renderInnate(document.getElementById('lunInnate2'),lInnate2,false);
+        const gBreak2=destinyBreakdown(sumArr([...String(sy2).split('').map(Number),...p2(sm2).split('').map(Number),...p2(sd2).split('').map(Number)]));
+        const lBreak2=destinyBreakdown(sumArr([...String(ly2).split('').map(Number),...p2(lm2).split('').map(Number),...p2(ld).split('').map(Number)]));
+        renderNineGrids(gInnate2,lInnate2,gBreak2.pathNums,lBreak2.pathNums,gBreak2.destinyNums,lBreak2.destinyNums,'','','nineGridSection2');
+        document.getElementById('nineGridSection2').classList.remove('hidden');
         renderFlowYearTable(document.getElementById('gregFlowTable2'),sy2,sm2,sd2,gInnate2,true,false,sh,smn);
         renderFlowYearTable(document.getElementById('lunFlowTable2'),ly2,lm2,ld,lInnate2,false,false,sh,smn);
         const flowSets2=[...flowSets1,{gregY:sy2,gregM:sm2,gregD:sd2,lunY:ly2,lunM:lm2,lunD:ld,sup:'²'}];
@@ -983,8 +1027,6 @@ function renderPartial(){_resetFlowNav();
         leapDivider.classList.remove('hidden');
         gregSection2.classList.remove('hidden');
         lunSection2.classList.remove('hidden');
-        document.getElementById('gregInnate2').classList.remove('hidden');
-        document.getElementById('lunInnate2').classList.remove('hidden');
         document.getElementById('panel3').classList.remove('hidden');
         document.getElementById('panel4').classList.remove('hidden');
         // 加 tab3、tab4（避免重複）
@@ -1013,8 +1055,7 @@ function renderPartial(){_resetFlowNav();
       leapDivider.classList.add('hidden');
       gregSection2.classList.add('hidden');
       lunSection2.classList.add('hidden');
-      document.getElementById('gregInnate2').classList.add('hidden');
-      document.getElementById('lunInnate2').classList.add('hidden');
+      document.getElementById('nineGridSection2').classList.add('hidden');
       document.getElementById('panel3').classList.add('hidden');
       document.getElementById('panel4').classList.add('hidden');
       document.getElementById('gregFlowTable2').innerHTML='';
@@ -1060,7 +1101,7 @@ function switchTab(idx){
   const lunar=solarToLunar(y,parseInt(m),parseInt(d));
   const lunarStr=lunar?`${lunar.year}/${p2(lunar.month)}/${p2(lunar.day)}${lunar.isLeap?t('leap'):''}`: '';
   document.getElementById('todayDisplay').innerHTML=
-    `<span style="font-size:11px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
+    `<span style="font-size:13px;letter-spacing:.1em">${t('today')}</span><br><span style="font-family:'MPLUS1Code',monospace">${t('greg')}<span class="cal-sign">(+)</span>${y}/${m}/${d}　｜　${t('lun')}<span class="cal-sign">(-)</span>${lunarStr}</span>`;
 })();
 
 function tryAutoCalculate(){
