@@ -79,7 +79,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .screenshot-btn-wrap{display:none}
 @media(min-width:768px){.screenshot-btn{display:inline-block}.screenshot-btn-wrap{display:block}}
 .flow-hl-label{font-weight:700;color:#b8860b}
-.flow-hl-box,.flow-hl-single{background:#FFFDF5;box-shadow:0 0 0 2px #F0D080;border-radius:4px}
+.flow-hl-box,.flow-hl-single{background:#FFFDF5;box-shadow:0 0 0 2px #F0D080;border-radius:4px}.flow-hl-box .flow-hl-single{box-shadow:none;border-radius:0;background:transparent}
 /* 流日月曆 */
 .flow-cal-grid{border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;background:#e8e8e8}
 .flow-cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e8e8e8}
@@ -132,12 +132,12 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .nine-grid-wrap{display:flex;gap:12px;justify-content:center;margin-top:16px}
 .nine-grid-side{flex:1;min-width:0}
 .nine-grid-label{font-size:11px;color:#999;text-align:center;margin-bottom:6px;font-family:'MPLUS1Code',monospace;letter-spacing:.05em}
-.nine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
-.nine-grid-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:5px}
-.nine-cell{border:1px solid #ccc;border-radius:4px;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;min-height:48px;background:#fff}
-.nine-cell-spacer{height:12px;flex-shrink:0}
-.nine-cell-num{font-size:14px;font-family:'MPLUS1Code',monospace;color:#1a1a1a;font-weight:500;line-height:1;text-align:center}
-.nine-cell-empty{min-height:36px}
+.nine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.nine-grid-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px}
+.nine-cell{border:1px solid #ccc;border-radius:3px;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;min-height:32px;background:#fff}
+.nine-cell-spacer{height:8px;flex-shrink:0}
+.nine-cell-num{font-size:12px;font-family:'MPLUS1Code',monospace;color:#1a1a1a;font-weight:500;line-height:1;text-align:center}
+.nine-cell-empty{min-height:24px}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHXTPYK44G"></script>
@@ -545,7 +545,7 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
     const pCnt=pathNums.filter(n=>n===num).length;
     const suffix=dCnt>0?'"':pCnt>0?"'":'';
     const countHtml=total>0
-      ?`<span style="position:absolute;bottom:3px;right:4px;color:#888;font-size:10px;font-weight:700;line-height:1">×${total}${suffix}</span>`
+      ?`<span style="position:absolute;bottom:3px;right:4px;color:#888;font-size:10px;font-weight:700;line-height:1">×${total}</span>${suffix?`<span style="position:absolute;bottom:8px;right:3px;color:#888;font-size:7px;font-weight:700;line-height:1">${suffix}</span>`:""}`
       :'';
     let cellStyle='position:relative;';
     if(dCnt>0) cellStyle+='background:#FFF8E1;outline:2px solid #F0D080;outline-offset:-1px';
@@ -561,7 +561,7 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
     const zTotal=ziCnt+zpCnt+zdCnt;
     const zSuffix=zdCnt>0?'"':zpCnt>0?"'":'';
     const zeroHtml=zTotal>0
-      ?`<span style="position:absolute;bottom:3px;right:4px;color:#888;font-size:10px;font-weight:700;line-height:1">×${zTotal}${zSuffix}</span>`
+      ?`<span style="position:absolute;bottom:3px;right:4px;color:#888;font-size:10px;font-weight:700;line-height:1">×${zTotal}</span>${zSuffix?`<span style="position:absolute;bottom:8px;right:3px;color:#888;font-size:7px;font-weight:700;line-height:1">${zSuffix}</span>`:""}`
       :'';
     let zCellStyle='position:relative;';
     if(zdCnt>0) zCellStyle+='background:#FFF8E1;outline:2px solid #F0D080;outline-offset:-1px';
@@ -642,18 +642,24 @@ function renderFlowYear(el,sets,todayY,todayM,todayD){
   const isLeap=sets.length>1;
   let html='<div class="flow-new-section"><div class="flow-new-title" style="text-align:center">'+t('flowYear')+'</div>';
   for(const s of sets){
-    const{gFY,gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
-    const fyYears=[gFY-1,gFY,gFY+1];
-    const fyLabels=fyYears.map((yr,i)=>i===1?`${yr}${t('flowCurrSuffix')}`:String(yr));
-    const fyCells=fyYears.map((yr,i)=>{
+    const{gFY,lFY,gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const centerY=Math.max(gFY,lFY);
+    const fyYears=[centerY-1,centerY,centerY+1];
+    const fyLabels=fyYears.map(yr=>String(yr));
+    const fyCells=fyYears.map(yr=>{
       const gS=makeStage(sumArr([...digs(yr),...digs(s.gregM),...digs(s.gregD)]));
       const lS=makeStage(sumArr([...digs(yr),...digs(s.lunM),...digs(s.lunD)]));
-      const isCurr=(i===1);
-      const gVal=`<div class="flow-new-val"><span class="sign">+</span>${flowLvBadge(gS,gInnate,isCurr)}</div>`;
-      const lVal=`<div class="flow-new-val"><span class="sign">-</span>${flowLvBadge(lS,lInnate,isCurr)}</div>`;
-      const inner=isCurr?`<div class="flow-hl-box">${gVal}${lVal}</div>`:`${gVal}${lVal}`;
+      const isGCurr=(yr===gFY);
+      const isLCurr=(yr===lFY);
+      const isCurr=isGCurr||isLCurr;
+      const bothActive=isGCurr&&isLCurr;
+      const gVal=`<div class="flow-new-val${isGCurr?' flow-hl-single':''}"><span class="sign">+</span>${flowLvBadge(gS,gInnate,isGCurr)}</div>`;
+      const lVal=`<div class="flow-new-val${isLCurr?' flow-hl-single':''}"><span class="sign">-</span>${flowLvBadge(lS,lInnate,isLCurr)}</div>`;
+      let inner;
+      if(bothActive) inner=`<div class="flow-hl-box">${gVal}${lVal}</div>`;
+      else inner=`${gVal}${lVal}`;
       return`<div class="flow-new-cell">
-        <div class="flow-new-label${isCurr?' flow-hl-label':''}">${fyLabels[i]}</div>
+        <div class="flow-new-label${isCurr?' flow-hl-label':''}">${fyLabels[fyYears.indexOf(yr)]}</div>
         ${inner}
       </div>`;
     }).join('');
