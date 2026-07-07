@@ -159,7 +159,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .rec-msg.ok{color:#2e9e5b}
 .rec-msg.err{color:#c0392b}
 .rec-item{border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px}
-.rec-item-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center}
+.rec-item-head{display:grid;grid-template-columns:auto auto 1fr auto auto;align-items:center}
 .rec-item-name{font-size:14px;color:#1a1a1a;font-weight:500;text-align:center}
 .rec-toggle-btn{-webkit-appearance:none;appearance:none;background:none;border:none;font-family:inherit;font-size:11px;line-height:inherit;margin:0;padding:0 4px;white-space:nowrap}
 .rec-detail-toggle{color:#aaa;cursor:pointer}
@@ -178,6 +178,57 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .rec-item-actions .rec-del{color:#c0392b;border-color:#f0d5d0}
 .rec-item-confirm{margin-top:6px;text-align:center;font-size:12px}
 .rec-empty{color:#bbb;font-size:13px;text-align:center;padding:16px 0}
+/* 合盤 */
+.rec-check{width:16px;height:16px;accent-color:#b8860b;cursor:pointer;margin:0;display:block}
+.rec-check-wrap{width:24px;display:flex;align-items:center;justify-content:flex-start}
+.rec-pair-footer{border-top:1px solid #eee;padding:10px 16px;background:#fff;display:none}
+.rec-pair-footer.show{display:block}
+.rec-pair-names{font-size:12px;color:#888;text-align:center;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rec-pair-btn{width:100%;padding:9px;border:1px solid #d8c48a;border-radius:20px;background:#fffdf5;color:#8a6d1a;font-size:13px;font-family:inherit;letter-spacing:.15em;cursor:pointer;transition:all .15s}
+.rec-pair-btn:disabled{border-color:#e5e5e5;background:#fafafa;color:#bbb;cursor:default}
+.pair-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:110}
+.pair-overlay.open{display:block}
+.pair-panel{position:absolute;inset:0;margin:0 auto;width:100%;max-width:560px;height:100%;background:#fff;box-shadow:0 0 12px rgba(0,0,0,.15);display:flex;flex-direction:column;font-family:'M PLUS Rounded 1c',sans-serif}
+.pair-panel-body{flex:1;overflow-y:auto;padding:8px 12px 32px}
+.pair-persons{display:flex;flex-wrap:nowrap;justify-content:center;align-items:flex-start;gap:14px;padding:10px 0 4px}
+.pp-col{flex:1 1 0;min-width:0}
+.pp-col .pp-name{font-family:'M PLUS Rounded 1c',sans-serif;font-weight:600;font-size:13px;color:#1a1a1a;text-align:center;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pp-block+.pp-block{margin-top:16px;padding-top:14px;border-top:1px dashed #ddd}
+.pair-persons .num-header{padding-bottom:5px;margin-bottom:6px}
+.pair-persons .num-cell{padding:2px 1px}
+.pair-persons .num-cell.label{font-size:10px}
+.pair-persons .cal-sign{font-size:8px}
+.pair-persons .stage-val{gap:1px}
+.pair-persons .stage-num{font-size:9px}
+.pair-persons .stage-num.destiny{font-size:10px}
+.pair-persons .stage-lv{font-size:7px}
+.pair-sec-title{font-size:13px;color:#1a1a1a;letter-spacing:.2em;text-align:center;margin:22px 0 4px;font-weight:500}
+.pair-sec-sub{font-size:10px;color:#bbb;letter-spacing:.1em;text-align:center;margin-bottom:10px}
+.pair-set-label{font-size:11px;color:#b8860b;text-align:center;letter-spacing:.1em;margin:14px 0 2px;font-family:'MPLUS1Code',monospace}
+/* 矩陣（緣／份共用） */
+.yb-mat{display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:74px}
+.yb-rel{font-size:15px;font-weight:500;color:#1a1a1a;font-family:'MPLUS1Code',monospace;line-height:1.4;text-align:center}
+.yb-mid{display:flex;align-items:center;gap:5px}
+.yb-mid .yb-rel{min-width:20px;display:inline-block}
+.yb-bracket{position:relative;padding:3px 7px}
+.yb-bracket::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border:1.5px solid #b5b5b5;border-right:none;border-radius:1px}
+.yb-bracket::after{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;border:1.5px solid #b5b5b5;border-left:none;border-radius:1px}
+.yb-inner{display:grid;grid-template-columns:repeat(2,14px);gap:1px 6px;font-size:12px;color:#555;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.3}
+.yb-label{font-size:10px;color:#999;margin-top:5px;letter-spacing:.05em;text-align:center}
+.yb-sub{font-size:10px;color:#ccc;font-family:'MPLUS1Code',monospace;text-align:center;line-height:1.4}
+.yb-blank{visibility:hidden}
+.yuan-row{display:flex;justify-content:flex-start;gap:6px;overflow-x:auto;padding:8px 2px;-webkit-overflow-scrolling:touch}
+.yuan-row::after,.yuan-row::before{content:'';margin:auto}
+/* 份：橫向時間軸 */
+.fen-strip{display:flex;overflow-x:auto;padding:8px 2px 12px;-webkit-overflow-scrolling:touch}
+.fen-seg{flex-shrink:0;border-left:1px solid #e0e0e0;padding:0 8px;display:flex;flex-direction:column;align-items:center;min-width:92px}
+.fen-seg:last-child{border-right:1px solid #e0e0e0}
+.fen-slot{min-height:44px;display:flex;flex-direction:column;align-items:flex-start;align-self:flex-start;width:100%}
+.fen-slot-top{justify-content:flex-end;margin-bottom:6px}
+.fen-slot-bottom{justify-content:flex-start;margin-top:6px}
+.fen-date{font-size:10px;color:#333;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3}
+.fen-name{font-size:9px;color:#999;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3}
+.fen-flow{font-size:9px;color:#bbb;font-family:'MPLUS1Code',monospace;text-align:left;line-height:1.3}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHXTPYK44G"></script>
@@ -282,6 +333,19 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <div class="rec-section-title" id="recListTitle">已存紀錄</div>
       <div id="recList"></div>
     </div>
+    <div class="rec-pair-footer" id="recPairFooter">
+      <div class="rec-pair-names" id="recPairNames"></div>
+      <button class="rec-pair-btn" id="recPairBtn" onclick="openPairPanel()" disabled>合盤</button>
+    </div>
+  </div>
+</div>
+<div class="pair-overlay" id="pairOverlay" onclick="if(event.target===this)closePairPanel()">
+  <div class="pair-panel">
+    <div class="records-panel-head"><span id="pairPanelTitle">感情合盤</span><button class="records-panel-close" onclick="closePairPanel()">×</button></div>
+    <div class="pair-panel-body">
+      <div id="pairCapture"></div>
+      <div class="screenshot-btn-wrap" style="text-align:center;padding:16px 0 4px"><button id="pairShotBtn" onclick="takePairScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="pairShotText">儲存截圖</span></button></div>
+    </div>
   </div>
 </div>
 <script>
@@ -312,7 +376,11 @@ const T={
     recListTitle:'已存紀錄', recEmpty:'尚無紀錄',
     recLoadBtn:'載入', recDeleteBtn:'刪除',
     recDeleteConfirm:'確定刪除？', recDeleteYes:'刪除', recDeleteNo:'取消',
-    recExpand:'▼', recCollapse:'▲'
+    recExpand:'▼', recCollapse:'▲',
+    pairBtn:'合盤', pairSelHint:'勾選兩筆紀錄進行合盤', pairMax:'最多勾選兩位',
+    pairPanelTitle:'感情合盤', pairYuanTitle:'緣', pairYuanSub:'五大階段感情數矩陣',
+    pairFenTitle:'份', pairFenSub:'流年感情數',
+    pairShot:'合盤'
   },
   en:{
     titleMain:'Rainbow Numerology', titleSub:'Calculator',
@@ -339,7 +407,11 @@ const T={
     recListTitle:'Saved Records', recEmpty:'No records yet',
     recLoadBtn:'Load', recDeleteBtn:'Delete',
     recDeleteConfirm:'Delete this record?', recDeleteYes:'Delete', recDeleteNo:'Cancel',
-    recExpand:'▼', recCollapse:'▲'
+    recExpand:'▼', recCollapse:'▲',
+    pairBtn:'Synastry', pairSelHint:'Check two records to compare', pairMax:'Select at most two',
+    pairPanelTitle:'Relationship Synastry', pairYuanTitle:'Yuán · Bond', pairYuanSub:'Five-Stage Relationship Matrix',
+    pairFenTitle:'Fèn · Flow', pairFenSub:'Annual Transit Relationship Numbers',
+    pairShot:'Synastry'
   }
 };
 let lang='zh';
@@ -1343,7 +1415,7 @@ function renderRecCurrentDate(){
   const el=document.getElementById('recCurrentDate');
   const p=currentBirthdayParams();
   if(!p){el.textContent=t('recNoDate');return;}
-  const timeStr=(p.hour!==null)?` ${p2(p.hour)}:${p.minute!==null?p2(p.minute):'00'}`:'';
+  const timeStr=(p.hour!==null)?` ${p2(p.hour)}:${p.minute!==null?p2(p.minute):'--'}`:'';
   el.textContent=`${p.year}/${p2(p.month)}/${p2(p.day)}${timeStr}`;
 }
 
@@ -1391,7 +1463,7 @@ function buildMiniStageRow(y,m,d,h,mn){
   }).join('');
 }
 function buildCalBlock(sign,y,m,d,h,mn,isLeapMonth){
-  const timeStr=(h!==null)?` ${p2(h)}:${mn!==null?p2(mn):'00'}`:'';
+  const timeStr=(h!==null)?` ${p2(h)}:${mn!==null?p2(mn):'--'}`:'';
   const dateLine=`${sign}${y}/${p2(m)}/${p2(d)}${isLeapMonth?t('leap'):''}${timeStr}`;
   const stageLine=buildMiniStageRow(y,m,d,h,mn);
   return`<div class="rec-cal-block"><div class="rec-item-date">${dateLine}</div><div class="rec-stage-row">${stageLine}</div></div>`;
@@ -1441,16 +1513,20 @@ function toggleRecordDetail(id){
 function renderRecordList(){
   const list=getRecords();
   const wrap=document.getElementById('recList');
+  _pairSel=_pairSel.filter(id=>list.some(r=>r.id===id));
   if(!list.length){
     wrap.innerHTML=`<div class="rec-empty">${t('recEmpty')}</div>`;
+    renderPairFooter();
     return;
   }
   wrap.innerHTML=list.map(r=>{
     return `<div class="rec-item" id="rec-item-${r.id}">
       <div class="rec-item-head">
+        <div class="rec-check-wrap"><input type="checkbox" class="rec-check" id="rec-check-${r.id}" onchange="togglePairSel(${r.id},this)"></div>
         <button class="rec-toggle-btn rec-detail-toggle-dummy" id="rec-detail-dummy-${r.id}" disabled>${t('recExpand')}</button>
         <div class="rec-item-name">${escapeHtmlRec(r.name)}</div>
         <button class="rec-toggle-btn rec-detail-toggle" id="rec-detail-btn-${r.id}" onclick="toggleRecordDetail(${r.id})">${t('recExpand')}</button>
+        <div class="rec-check-wrap" style="visibility:hidden"><input type="checkbox" class="rec-check" tabindex="-1"></div>
       </div>
       <div class="rec-detail-wrap collapsed" id="rec-detail-${r.id}">${recordCard(r)}</div>
       <div class="rec-item-actions">
@@ -1460,9 +1536,258 @@ function renderRecordList(){
       <div class="rec-item-confirm" id="rec-confirm-${r.id}"></div>
     </div>`;
   }).join('');
+  _pairSel.forEach(id=>{
+    const cb=document.getElementById('rec-check-'+id);
+    if(cb) cb.checked=true;
+  });
+  renderPairFooter();
 }
 function escapeHtmlRec(s){
   return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ── 合盤（緣・份） ─────────────────────────────────────────────
+let _pairSel=[];
+let _pairLastIds=null;
+
+function togglePairSel(id,cb){
+  if(cb.checked){
+    if(_pairSel.length>=2){cb.checked=false;setRecMsg(t('pairMax'),'err');return;}
+    if(!_pairSel.includes(id)) _pairSel.push(id);
+  }else{
+    _pairSel=_pairSel.filter(x=>x!==id);
+  }
+  setRecMsg('','');
+  renderPairFooter();
+}
+
+function renderPairFooter(){
+  const foot=document.getElementById('recPairFooter');
+  const btn=document.getElementById('recPairBtn');
+  const names=document.getElementById('recPairNames');
+  if(!foot||!btn||!names) return;
+  btn.textContent=t('pairBtn');
+  if(_pairSel.length===0){foot.classList.remove('show');btn.disabled=true;return;}
+  foot.classList.add('show');
+  const list=getRecords();
+  const sel=_pairSel.map(id=>list.find(r=>r.id===id)).filter(Boolean);
+  if(sel.length===2){
+    names.textContent=`${sel[0].name} × ${sel[1].name}`;
+    btn.disabled=false;
+  }else{
+    names.textContent=sel.length===1?`${sel[0].name} × ？`:t('pairSelHint');
+    btn.disabled=true;
+  }
+}
+
+// 一筆紀錄展開成 1 或 2 組藍圖（閏月＝兩組）
+function pairBlueprints(r){
+  const lunar=solarToLunar(r.year,r.month,r.day);
+  if(!lunar) return [];
+  const bps=[{gy:r.year,gm:r.month,gd:r.day,ly:lunar.year,lm:lunar.month,ld:lunar.day,isLeap:lunar.isLeap,sup:''}];
+  if(lunar.isLeap){
+    bps[0].sup='¹';
+    const s2=lunarToSolar(lunar.year,lunar.month,lunar.day);
+    if(s2){
+      const lm2=lunar.month===12?1:lunar.month+1;
+      const ly2=lunar.month===12?lunar.year+1:lunar.year;
+      bps.push({gy:s2.year,gm:s2.month,gd:s2.day,ly:ly2,lm:lm2,ld:lunar.day,isLeap:false,sup:'²'});
+    }
+  }
+  return bps;
+}
+
+// 藍圖 → 各階段國曆／農曆主命數
+function pairStageMap(bp,h,mn){
+  const hh=(h===undefined)?null:h, mm=(mn===undefined)?null:mn;
+  const g=calcStages(bp.gy,bp.gm,bp.gd,hh,mm).stages;
+  const l=calcStages(bp.ly,bp.lm,bp.ld,hh,mm).stages;
+  const map={};
+  ['幼年','少年','青年','中年','老年'].forEach(n=>{
+    const gs=g.find(x=>x.name===n),ls=l.find(x=>x.name===n);
+    if(gs&&ls) map[n]={g:gs.destiny,l:ls.destiny};
+  });
+  return map;
+}
+
+// 關係數收斂：≤12 直接顯示，>12 收斂一次到個位數
+function ybCol(v){return v>12?sumArr(digs(v)):v;}
+
+// 方括號矩陣：a=左+ b=右+ c=左− d=右−
+function ybMatrix(a,b,c,d,label,sub){
+  const meta=(label?`<div class="yb-label">${label}</div>`:'')+(sub?`<div class="yb-sub">${sub}</div>`:'');
+  return `<div class="yb-mat"><div class="yb-rel">${ybCol(a+b)}</div>`+
+  `<div class="yb-mid"><span class="yb-rel">${ybCol(a+d)}</span><span class="yb-bracket"><span class="yb-inner"><span>${a}</span><span>${b}</span><span>${c}</span><span>${d}</span></span></span><span class="yb-rel">${ybCol(c+b)}</span></div>`+
+  `<div class="yb-rel">${ybCol(c+d)}</div>`+meta+`</div>`;
+}
+function ybBlank(){
+  return `<div class="yb-mat yb-blank"><div class="yb-rel">0</div><div class="yb-mid"><span class="yb-rel">0</span><span class="yb-bracket"><span class="yb-inner"><span>0</span><span>0</span><span>0</span><span>0</span></span></span><span class="yb-rel">0</span></div><div class="yb-rel">0</div></div>`;
+}
+
+// 緣：九組矩陣（上五下四，編號＝解讀順位 97135／8624）
+const YUAN_ROW1=[['老年','老年',9],['中年','中年',7],['青年','青年',1],['少年','少年',3],['幼年','幼年',5]];
+const YUAN_ROW2=[['老年','中年',8],['中年','青年',6],['青年','少年',2],['少年','幼年',4]];
+function renderYuanSet(mapL,mapR){
+  const mk=pairs=>'<div class="yuan-row">'+pairs.map(([a,b,ord])=>{
+    const L=mapL[a],R=mapR[b];
+    if(!L||!R) return ybBlank();
+    return ybMatrix(L.g,R.g,L.l,R.l,'',ord);
+  }).join('')+'</div>';
+  return mk(YUAN_ROW1)+mk(YUAN_ROW2);
+}
+
+// 份：以兩人國曆生日為節點，去年較早生日起錨，往後八段
+function fenSegments(bpL,bpR){
+  const nowY=new Date().getFullYear();
+  const nodes=[];
+  for(let y=nowY-1;y<=nowY+3;y++){
+    nodes.push({y,m:bpL.gm,d:bpL.gd,who:'L'});
+    nodes.push({y,m:bpR.gm,d:bpR.gd,who:'R'});
+  }
+  nodes.sort((a,b)=>(a.y-b.y)||(a.m-b.m)||(a.d-b.d));
+  const merged=[];
+  nodes.forEach(n=>{
+    const last=merged[merged.length-1];
+    if(last&&last.y===n.y&&last.m===n.m&&last.d===n.d) last.who='LR';
+    else merged.push({y:n.y,m:n.m,d:n.d,who:n.who});
+  });
+  const segs=[];
+  for(let i=0;i<merged.length-1&&segs.length<8;i++) segs.push({start:merged[i],end:merged[i+1]});
+  return segs;
+}
+// 節點當下的國曆／農曆流年：切換點統一以國曆生日為準，
+// 國曆農曆共用同一個年份數字 FY，不再借用 calcFlowData 的農曆真實換算邏輯
+function fenFlowAt(bp,y,m,d){
+  const gBdPassed=(m>bp.gm)||(m===bp.gm&&d>=bp.gd);
+  const FY=gBdPassed?y:y-1;
+  const gF=makeStage(sumArr([...digs(FY),...digs(bp.gm),...digs(bp.gd)]));
+  const lF=makeStage(sumArr([...digs(FY),...digs(bp.lm),...digs(bp.ld)]));
+  return{gF,lF};
+}
+function renderFenSet(bpL,bpR,nameL,nameR){
+  const segs=fenSegments(bpL,bpR);
+  if(!segs.length) return '';
+  // 起點（去年較早生日者）固定在上，另一人固定在下；若首節點恰好同日，預設左側（年長者）在上
+  const topWho=segs[0].start.who==='R'?'R':'L';
+  // position: 'top'＝日期在外、流年貼近矩陣；'bottom'＝流年貼近矩陣、日期在外（上下鏡射）
+  function fenLabel(dateStr,name,gStr,lStr,position){
+    const dateDiv=`<div class="fen-date">${dateStr}</div>`;
+    const nameDiv=`<div class="fen-name">${escapeHtmlRec(name)}</div>`;
+    const flowDiv=`<div class="fen-flow">+${gStr} −${lStr}</div>`;
+    return position==='top'?(dateDiv+nameDiv+flowDiv):(flowDiv+nameDiv+dateDiv);
+  }
+  return '<div class="fen-strip">'+segs.map(s=>{
+    const fL=fenFlowAt(bpL,s.start.y,s.start.m,s.start.d);
+    const fR=fenFlowAt(bpR,s.start.y,s.start.m,s.start.d);
+    const dateStr=`${s.start.y}/${p2(s.start.m)}/${p2(s.start.d)}`;
+    const who=s.start.who;
+    const showL=(who==='L'||who==='LR'), showR=(who==='R'||who==='LR');
+    const lLabel=pos=>fenLabel(dateStr,nameL,fL.gF.str,fL.lF.str,pos);
+    const rLabel=pos=>fenLabel(dateStr,nameR,fR.gF.str,fR.lF.str,pos);
+    const topLabel=topWho==='L'?(showL?lLabel('top'):''):(showR?rLabel('top'):'');
+    const bottomLabel=topWho==='L'?(showR?rLabel('bottom'):''):(showL?lLabel('bottom'):'');
+    return `<div class="fen-seg">
+      <div class="fen-slot fen-slot-top">${topLabel}</div>
+      ${ybMatrix(fL.gF.destiny,fR.gF.destiny,fL.lF.destiny,fR.lF.destiny,'','')}
+      <div class="fen-slot fen-slot-bottom">${bottomLabel}</div>
+    </div>`;
+  }).join('')+'</div>';
+}
+
+// 合盤面板用：單一日期的「五大階段數」精簡區塊（生日 header ＋ 階段數 row）
+// 重用「五大階段數」分頁最上面那段的呈現方式（同一套 cal-title/num-header/num-row/num-cell/stage-val class），
+// 但不含波動表與 99 歲流年表——那些跟合盤資訊無關，只會讓面板過長。renderFlowYearTable() 本身不受影響。
+function buildPairStageBlock(y,m,d,h,mn,isGreg,isLeap){
+  const{innate,stages}=calcStages(y,m,d,h,mn);
+  const signSpan=`<span class="cal-sign">${isGreg?'(+)':'(-)'}</span>`;
+  const ftCols=(h!==null)?(mn!==null?5:4):3;
+  const bdParts=[signSpan+y,(isLeap?`<span style="font-size:11px;color:#e06c75;margin-right:1px;vertical-align:middle">${t('leap')}</span>`:'')+p2(m),p2(d)];
+  if(h!==null) bdParts.push(p2(h));
+  if(mn!==null) bdParts.push(p2(mn));
+  const bdCells=bdParts.map(v=>`<div class="num-cell label">${v}</div>`).join('');
+  const bdHeader=`<div class="num-header" style="grid-template-columns:repeat(${ftCols},1fr)">${bdCells}</div>`;
+  const stageOrder=['老年','中年','青年','少年','幼年'].slice(0,ftCols);
+  const stageCells=stageOrder.map(name=>{
+    const s=stages.find(x=>x.name===name);
+    if(!s) return`<div class="num-cell"></div>`;
+    const lv=calcLevel(innate,s.destiny,s.pathNums);
+    const isd=name==='青年';
+    const parts=s.str.split('/');
+    const fmt=parts.map((pt,i)=>i===parts.length-1?`<span class="stage-dest">${pt}</span>`:`<span class="stage-path">${pt}/</span>`).join('');
+    return`<div class="num-cell"><div class="stage-val">
+      <span class="stage-num${isd?' destiny':''}">${fmt}</span>
+      <span class="stage-lv">${lv.level}</span>
+    </div></div>`;
+  }).join('');
+  const stagesRow=`<div class="num-row" style="grid-template-columns:repeat(${ftCols},1fr)">${stageCells}</div>`;
+  return bdHeader+stagesRow;
+}
+
+function pairPersonLine(r,bps){
+  const h=(r.hour!==null&&r.hour!==undefined)?r.hour:null;
+  const mn=(r.minute!==null&&r.minute!==undefined)?r.minute:null;
+  return bps.map(bp=>{
+    const nameDiv=`<div class="pp-name">${escapeHtmlRec(r.name)}${bp.sup}</div>`;
+    const gregBlock=buildPairStageBlock(bp.gy,bp.gm,bp.gd,h,mn,true,false);
+    const lunBlock=buildPairStageBlock(bp.ly,bp.lm,bp.ld,h,mn,false,bp.isLeap);
+    return `<div class="pp-block">${nameDiv}${gregBlock}${lunBlock}</div>`;
+  }).join('');
+}
+
+function openPairPanel(){
+  const list=getRecords();
+  const sel=_pairSel.map(id=>list.find(r=>r.id===id)).filter(Boolean);
+  if(sel.length!==2) return;
+  sel.sort((a,b)=>(a.year-b.year)||(a.month-b.month)||(a.day-b.day)); // 年長者在左
+  _pairLastIds=[sel[0].id,sel[1].id];
+  renderPairPanel(sel[0],sel[1]);
+  document.getElementById('pairOverlay').classList.add('open');
+}
+function closePairPanel(){
+  document.getElementById('pairOverlay').classList.remove('open');
+}
+function renderPairPanel(L,R){
+  document.getElementById('pairPanelTitle').textContent=t('pairPanelTitle');
+  const bpsL=pairBlueprints(L),bpsR=pairBlueprints(R);
+  if(!bpsL.length||!bpsR.length){
+    document.getElementById('pairCapture').innerHTML=`<div class="error">${t('errLunar')}</div>`;
+    return;
+  }
+  const head=`<div class="pair-persons"><div class="pp-col">${pairPersonLine(L,bpsL)}</div><div class="pp-col">${pairPersonLine(R,bpsR)}</div></div>`;
+  const multi=(bpsL.length*bpsR.length)>1;
+  let yuanHtml='',fenHtml='';
+  bpsL.forEach(bl=>{bpsR.forEach(br=>{
+    const label=multi?`<div class="pair-set-label">${escapeHtmlRec(L.name)}${bl.sup} × ${escapeHtmlRec(R.name)}${br.sup}</div>`:'';
+    yuanHtml+=label+renderYuanSet(pairStageMap(bl,L.hour,L.minute),pairStageMap(br,R.hour,R.minute));
+    fenHtml+=label+renderFenSet(bl,br,L.name,R.name);
+  });});
+  document.getElementById('pairCapture').innerHTML=head
+    +`<div class="pair-sec-title">${t('pairYuanTitle')}</div><div class="pair-sec-sub">${t('pairYuanSub')}</div>`+yuanHtml
+    +`<div class="pair-sec-title">${t('pairFenTitle')}</div><div class="pair-sec-sub">${t('pairFenSub')}</div>`+fenHtml;
+}
+
+function takePairScreenshot(){
+  const btn=document.getElementById('pairShotBtn');
+  const el=document.getElementById('pairCapture');
+  if(!el||!btn) return;
+  const txt=document.getElementById('pairShotText');
+  const origText=txt.textContent;
+  txt.textContent='截圖中...';
+  btn.disabled=true;
+  html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#fff',windowWidth:el.scrollWidth}).then(canvas=>{
+    const link=document.createElement('a');
+    const list=getRecords();
+    const sel=(_pairLastIds||[]).map(id=>list.find(r=>r.id===id)).filter(Boolean);
+    const nm=sel.length===2?`${sel[0].name}x${sel[1].name}`:t('pairShot');
+    link.download=`彩虹數字_${t('pairShot')}_${nm}.png`;
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+    txt.textContent=origText;
+    btn.disabled=false;
+  }).catch(()=>{
+    txt.textContent=origText;
+    btn.disabled=false;
+  });
 }
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
