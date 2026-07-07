@@ -287,13 +287,22 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   .yb-label,.yb-sub{font-size:11px}
   .yuan-row{gap:10px}
   .fen-strip{padding:10px 4px 14px}
-  .fen-seg{padding:0 8px}
+  .fen-seg{padding:0 4px}
   .fen-slot{min-height:42px}
   .fen-date{font-size:11px}
   .fen-name{font-size:10px}
   .fen-flow{font-size:10px}
   .fen-nav-btn{font-size:12px;padding:5px 12px}
   .fen-nav-range{font-size:12px}
+  /* 份是固定六欄 grid，不能像緣那樣橫向捲動；矩陣不能跟著緣一起放大到頂，
+     否則六欄裝不下會擠壓重疊，所以在此單獨縮小，只作用在 .fen-seg 內 */
+  .fen-seg .yb-mat{min-width:0}
+  .fen-seg .yb-rel{font-size:13px}
+  .fen-seg .yb-mid{gap:4px}
+  .fen-seg .yb-mid .yb-rel{min-width:14px}
+  .fen-seg .yb-bkt{font-size:16px}
+  .fen-seg .yb-inner{grid-template-columns:repeat(2,10px);gap:1px 4px;font-size:10px;padding:2px 4px}
+  .fen-seg .yb-label,.fen-seg .yb-sub{font-size:9px}
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
