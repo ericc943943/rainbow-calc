@@ -1867,7 +1867,7 @@ function takePairScreenshot(){
   const origText=txt.textContent;
   txt.textContent='截圖中...';
   btn.disabled=true;
-  html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#fff',windowWidth:el.scrollWidth}).then(canvas=>{
+  html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#fff',windowWidth:window.innerWidth}).then(canvas=>{
     const link=document.createElement('a');
     const list=getRecords();
     const sel=(_pairLastIds||[]).map(id=>list.find(r=>r.id===id)).filter(Boolean);
