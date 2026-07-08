@@ -146,8 +146,13 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .records-overlay.open{display:block}
 .records-panel{position:absolute;top:0;right:0;width:min(300px,85vw);height:100%;background:#fff;box-shadow:-2px 0 10px rgba(0,0,0,.15);display:flex;flex-direction:column;font-family:'M PLUS Rounded 1c',sans-serif}
 .records-panel-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px 16px 12px;border-bottom:1px solid #eee}
+#pairOverlay .records-panel-head{border-bottom:none}
 .records-panel-head span{grid-column:2;text-align:center;font-size:15px;letter-spacing:.1em;color:#1a1a1a}
+.pair-panel-titleblock{grid-column:2;display:flex;flex-direction:column;align-items:center}
+.pair-panel-titleblock #pairPanelTitle{font-size:11px;font-weight:400;letter-spacing:.1em;color:#1a1a1a;margin-top:3px}
 .records-panel-close{grid-column:3;justify-self:end;border:none;background:none;font-size:20px;color:#999;cursor:pointer;padding:0 4px}
+.records-panel-lang{grid-column:1;justify-self:start;font-size:11px;color:#999;border:1px solid #ddd;border-radius:12px;padding:4px 10px;text-align:center;cursor:pointer;background:#fff;font-family:'M PLUS Rounded 1c',sans-serif;letter-spacing:.05em;transition:all .15s}
+.records-panel-lang:hover{color:#555;border-color:#bbb}
 .records-panel-body{flex:1;overflow-y:auto;padding:14px 16px 24px}
 .rec-section-title{font-size:11px;color:#999;letter-spacing:.1em;margin:14px 0 6px;text-align:center}
 .rec-current-date{font-size:13px;color:#555;text-align:center;font-family:'MPLUS1Code',monospace;padding:6px 0}
@@ -181,7 +186,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 /* 合盤 */
 .rec-check{width:16px;height:16px;accent-color:#b8860b;cursor:pointer;margin:0;display:block}
 .rec-check-wrap{width:24px;display:flex;align-items:center;justify-content:flex-start}
-.rec-pair-footer{border-top:1px solid #eee;padding:10px 16px;background:#fff;display:none}
+.rec-pair-footer{border-bottom:1px solid #eee;padding:0 0 14px;margin-top:-2px;margin-bottom:4px;background:#fff;display:none}
 .rec-pair-footer.show{display:block}
 .rec-pair-names{font-size:12px;color:#888;text-align:center;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rec-pair-btn{width:100%;padding:9px;border:1px solid #d8c48a;border-radius:20px;background:#fffdf5;color:#8a6d1a;font-size:13px;font-family:inherit;letter-spacing:.15em;cursor:pointer;transition:all .15s}
@@ -195,6 +200,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .pp-col .pp-name{font-family:'M PLUS Rounded 1c',sans-serif;font-weight:600;font-size:12px;color:#1a1a1a;text-align:center;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pp-block+.pp-block{margin-top:16px;padding-top:14px;border-top:1px dashed #ddd}
 .pair-persons .num-header{padding-bottom:5px;margin-bottom:6px}
+.pair-persons .cal-title{font-size:8px;margin:6px 0 2px;font-weight:500}
 .pair-persons .num-cell{padding:2px 0}
 .pair-persons .num-cell.label{font-size:9px;white-space:nowrap;overflow:hidden}
 .pair-persons .stage-val{gap:1px}
@@ -206,7 +212,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
    間隔量跟 num-header 本身 margin-bottom（粗格線後的留白）一致 */
 .pp-block .num-row+.num-header{margin-top:8px}
 .pair-sec-title{font-size:14px;color:#1a1a1a;letter-spacing:.2em;text-align:center;margin:22px 0 4px;font-weight:500}
-.pair-sec-sub{font-size:10px;color:#bbb;letter-spacing:.1em;text-align:center;margin-bottom:10px}
+.pair-sec-sub{font-size:10px;color:#555;letter-spacing:.1em;text-align:center;margin-bottom:10px}
 .pair-set-label{font-size:11px;color:#b8860b;text-align:center;letter-spacing:.1em;margin:14px 0 2px;font-family:'MPLUS1Code',monospace}
 /* 矩陣（緣／份共用） */
 .yb-mat{display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:74px}
@@ -271,6 +277,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   .pair-panel{max-width:700px}
   .pp-col .pp-name{font-size:14px}
   .pair-persons .num-cell.label{font-size:13px}
+  .pair-persons .cal-title{font-size:10px;margin:8px 0 4px}
   .pair-persons .stage-val{gap:3px}
   .pair-persons .stage-num{font-size:12px}
   .pair-persons .stage-num.destiny{font-size:13px}
@@ -388,7 +395,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     </div>
   </div>
   <div style="text-align:center;padding:16px 20px 16px;font-family:'M PLUS Rounded 1c',sans-serif">
-    <a href="https://buy.stripe.com/5kQ8wQe1NcdT9cN4Sq8Vi00" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
+    <a href="https://paypal.me/eric12356/10USD" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
     <span style="display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0">© 2026 Eric CH / <a id="footerStudio" href="https://www.therootshollow.com" target="_blank" style="color:inherit;text-decoration:none;">樹根樹洞</a>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a></span>
@@ -408,15 +415,11 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <div class="rec-section-title" id="recListTitle">已存紀錄</div>
       <div id="recList"></div>
     </div>
-    <div class="rec-pair-footer" id="recPairFooter">
-      <div class="rec-pair-names" id="recPairNames"></div>
-      <button class="rec-pair-btn" id="recPairBtn" onclick="openPairPanel()" disabled>合盤</button>
-    </div>
   </div>
 </div>
 <div class="pair-overlay" id="pairOverlay" onclick="if(event.target===this)closePairPanel()">
   <div class="pair-panel">
-    <div class="records-panel-head"><span id="pairPanelTitle">感情合盤</span><button class="records-panel-close" onclick="closePairPanel()">×</button></div>
+    <div class="records-panel-head"><button class="records-panel-lang" id="pairLangBtn" type="button" onclick="toggleLang()" autocorrect="off" autocapitalize="off" spellcheck="false">EN</button><div class="pair-panel-titleblock"><svg id="pairTitleSvg" width="90" height="22" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="prg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#prg)">彩虹數字</text></svg><svg id="pairTitleSvgEn" width="150" height="22" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="prge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#prge)">Rainbow Numerology</text></svg><span id="pairPanelTitle">關係的緣與份</span></div><button class="records-panel-close" onclick="closePairPanel()">×</button></div>
     <div class="pair-panel-body">
       <div id="pairCapture"></div>
       <div class="screenshot-btn-wrap" style="text-align:center;padding:16px 0 4px"><button id="pairShotBtn" onclick="takePairScreenshot()" class="screenshot-btn" style="padding:7px 18px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;letter-spacing:.08em;background:#fff;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">📷 <span id="pairShotText">儲存截圖</span></button></div>
@@ -453,8 +456,8 @@ const T={
     recDeleteConfirm:'確定刪除？', recDeleteYes:'刪除', recDeleteNo:'取消',
     recExpand:'▼', recCollapse:'▲',
     pairBtn:'合盤', pairSelHint:'勾選兩筆紀錄進行合盤', pairMax:'最多勾選兩位',
-    pairPanelTitle:'感情合盤', pairYuanTitle:'緣', pairYuanSub:'五大階段感情數矩陣',
-    pairFenTitle:'份', pairFenSub:'流年感情數',
+    pairPanelTitle:'關係的緣與份', pairYuanTitle:'緣', pairYuanSub:'九階段關係矩陣',
+    pairFenTitle:'份', pairFenSub:'關係流年表',
     fenPrev:'‹ 前3年', fenNext:'後3年 ›',
     pairShot:'合盤'
   },
@@ -485,8 +488,8 @@ const T={
     recDeleteConfirm:'Delete this record?', recDeleteYes:'Delete', recDeleteNo:'Cancel',
     recExpand:'▼', recCollapse:'▲',
     pairBtn:'Synastry', pairSelHint:'Check two records to compare', pairMax:'Select at most two',
-    pairPanelTitle:'Relationship Synastry', pairYuanTitle:'Yuán · Bond', pairYuanSub:'Five-Stage Relationship Matrix',
-    pairFenTitle:'Fèn · Flow', pairFenSub:'Annual Transit Relationship Numbers',
+    pairPanelTitle:'Bond & Rhythm', pairYuanTitle:'Bond', pairYuanSub:'Nine-Stage Relationship Matrix',
+    pairFenTitle:'Rhythm', pairFenSub:'Relationship Timeline',
     fenPrev:'‹ 3 Yrs Back', fenNext:'3 Yrs Fwd ›',
     pairShot:'Synastry'
   }
@@ -497,6 +500,11 @@ function t(key){return T[lang][key];}
 function toggleLang(){
   lang=lang==='zh'?'en':'zh';
   applyLang();
+  if(document.getElementById('pairOverlay').classList.contains('open')&&_pairLastIds){
+    const list=getRecords();
+    const sel=_pairLastIds.map(id=>list.find(r=>r.id===id)).filter(Boolean);
+    if(sel.length===2) renderPairPanel(sel[0],sel[1]);
+  }
   if(document.getElementById('mainResult').classList.contains('hidden')) return;
   const dateVal=document.getElementById('inputYear').value.trim();
   if(dateVal) calculate();
@@ -532,8 +540,15 @@ function applyLang(){
   document.getElementById('coffeeBtn').textContent=t('coffee');
   document.getElementById('footerStudio').textContent=t('studio');
   document.getElementById('langBtn').textContent=t('langBtn');
+  const pairLangBtn=document.getElementById('pairLangBtn');
+  if(pairLangBtn) pairLangBtn.textContent=t('langBtn');
   if(lang==='en'){document.getElementById('titleSvg').style.display='none';document.getElementById('titleSvgEn').style.display='block';}
   else{document.getElementById('titleSvg').style.display='block';document.getElementById('titleSvgEn').style.display='none';}
+  const pairTitleSvg=document.getElementById('pairTitleSvg'),pairTitleSvgEn=document.getElementById('pairTitleSvgEn');
+  if(pairTitleSvg&&pairTitleSvgEn){
+    if(lang==='en'){pairTitleSvg.style.display='none';pairTitleSvgEn.style.display='block';}
+    else{pairTitleSvg.style.display='block';pairTitleSvgEn.style.display='none';}
+  }
   document.getElementById('titleSub').textContent=t('titleSub');
   const t3=document.getElementById('tab3');
   const t4=document.getElementById('tab4');
@@ -1391,6 +1406,7 @@ _inputIds.forEach(function(id){
       const next=_inputIds[_inputIds.indexOf(id)+1];
       if(next) document.getElementById(next).focus();
     }
+    if(_pairSel.length){_pairSel=[];renderRecordList();} // 輸入新生日時清空合盤勾選
     renderPartial();
   });
   el.addEventListener('keydown',function(e){
@@ -1561,6 +1577,7 @@ function loadRecord(id){
   document.getElementById('inputDay').value=p2(r.day);
   document.getElementById('inputHour').value=r.hour!==null?p2(r.hour):'';
   document.getElementById('inputMin').value=r.minute!==null?p2(r.minute):'';
+  _pairSel=[]; // 載入紀錄等於切換到新生日，清空合盤勾選
   closeRecordsPanel();
   calculate();
 }
@@ -1593,11 +1610,15 @@ function renderRecordList(){
   _pairSel=_pairSel.filter(id=>list.some(r=>r.id===id));
   if(!list.length){
     wrap.innerHTML=`<div class="rec-empty">${t('recEmpty')}</div>`;
-    renderPairFooter();
     return;
   }
-  wrap.innerHTML=list.map(r=>{
-    return `<div class="rec-item" id="rec-item-${r.id}">
+  // 勾選的紀錄依勾選順序移到最前面，其餘維持原順序
+  const selItems=_pairSel.map(id=>list.find(r=>r.id===id)).filter(Boolean);
+  const restItems=list.filter(r=>!_pairSel.includes(r.id));
+  const ordered=[...selItems,...restItems];
+  let html='';
+  ordered.forEach((r,i)=>{
+    html+=`<div class="rec-item" id="rec-item-${r.id}">
       <div class="rec-item-head">
         <div class="rec-check-wrap"><input type="checkbox" class="rec-check" id="rec-check-${r.id}" onchange="togglePairSel(${r.id},this)"></div>
         <button class="rec-toggle-btn rec-detail-toggle-dummy" id="rec-detail-dummy-${r.id}" disabled>${t('recExpand')}</button>
@@ -1612,12 +1633,28 @@ function renderRecordList(){
       </div>
       <div class="rec-item-confirm" id="rec-confirm-${r.id}"></div>
     </div>`;
-  }).join('');
+    // 合盤卡片緊接在最後一筆已勾選的紀錄下方（勾1筆時在第1筆下方，勾2筆時在第2筆下方）
+    if(selItems.length>0&&i===selItems.length-1) html+=pairFooterHtml(selItems);
+  });
+  wrap.innerHTML=html;
   _pairSel.forEach(id=>{
     const cb=document.getElementById('rec-check-'+id);
     if(cb) cb.checked=true;
   });
-  renderPairFooter();
+}
+function pairFooterHtml(selItems){
+  let names,disabledAttr;
+  if(selItems.length===2){
+    names=`${escapeHtmlRec(selItems[0].name)} × ${escapeHtmlRec(selItems[1].name)}`;
+    disabledAttr='';
+  }else{
+    names=`${escapeHtmlRec(selItems[0].name)} × ？`;
+    disabledAttr='disabled';
+  }
+  return `<div class="rec-pair-footer show">
+    <div class="rec-pair-names">${names}</div>
+    <button class="rec-pair-btn" id="recPairBtn" onclick="openPairPanel()" ${disabledAttr}>${t('pairBtn')}</button>
+  </div>`;
 }
 function escapeHtmlRec(s){
   return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1636,27 +1673,9 @@ function togglePairSel(id,cb){
     _pairSel=_pairSel.filter(x=>x!==id);
   }
   setRecMsg('','');
-  renderPairFooter();
+  renderRecordList();
 }
 
-function renderPairFooter(){
-  const foot=document.getElementById('recPairFooter');
-  const btn=document.getElementById('recPairBtn');
-  const names=document.getElementById('recPairNames');
-  if(!foot||!btn||!names) return;
-  btn.textContent=t('pairBtn');
-  if(_pairSel.length===0){foot.classList.remove('show');btn.disabled=true;return;}
-  foot.classList.add('show');
-  const list=getRecords();
-  const sel=_pairSel.map(id=>list.find(r=>r.id===id)).filter(Boolean);
-  if(sel.length===2){
-    names.textContent=`${sel[0].name} × ${sel[1].name}`;
-    btn.disabled=false;
-  }else{
-    names.textContent=sel.length===1?`${sel[0].name} × ？`:t('pairSelHint');
-    btn.disabled=true;
-  }
-}
 
 // 一筆紀錄展開成 1 或 2 組藍圖（閏月＝兩組）
 function pairBlueprints(r){
@@ -1777,9 +1796,9 @@ function renderFenSet(bpL,bpR,nameL,nameR,startYear){
 // 但不含波動表與 99 歲流年表——那些跟合盤資訊無關，只會讓面板過長。renderFlowYearTable() 本身不受影響。
 function buildPairStageBlock(y,m,d,h,mn,isGreg,isLeap){
   const{innate,stages}=calcStages(y,m,d,h,mn);
-  const signSpan=`<span class="cal-sign">${isGreg?'(+)':'(-)'}</span>`;
+  const calTitle=`<div class="cal-title">${isGreg?t('greg'):t('lun')}<span class="cal-sign">${isGreg?'(+)':'(-)'}</span></div>`;
   const ftCols=(h!==null)?(mn!==null?5:4):3;
-  const bdParts=[signSpan+y,(isLeap?`<span style="font-size:11px;color:#e06c75;margin-right:1px;vertical-align:middle">${t('leap')}</span>`:'')+p2(m),p2(d)];
+  const bdParts=[y,(isLeap?`<span style="font-size:11px;color:#e06c75;margin-right:1px;vertical-align:middle">${t('leap')}</span>`:'')+p2(m),p2(d)];
   if(h!==null) bdParts.push(p2(h));
   if(mn!==null) bdParts.push(p2(mn));
   const bdCells=bdParts.map(v=>`<div class="num-cell label">${v}</div>`).join('');
@@ -1798,7 +1817,7 @@ function buildPairStageBlock(y,m,d,h,mn,isGreg,isLeap){
     </div></div>`;
   }).join('');
   const stagesRow=`<div class="num-row" style="grid-template-columns:repeat(${ftCols},minmax(0,1fr))">${stageCells}</div>`;
-  return bdHeader+stagesRow;
+  return calTitle+bdHeader+stagesRow;
 }
 
 function pairPersonLine(r,bps){
@@ -1821,6 +1840,8 @@ function openPairPanel(){
   _fenStartYear=null; // 每次重新開啟合盤面板，份的年份區間重置回今年
   renderPairPanel(sel[0],sel[1]);
   document.getElementById('pairOverlay').classList.add('open');
+  _pairSel=[]; // 成功開出合盤後清空勾選，避免下次打開紀錄面板時舊選項還留著
+  renderRecordList();
 }
 function closePairPanel(){
   document.getElementById('pairOverlay').classList.remove('open');
@@ -1844,7 +1865,7 @@ function renderPairPanel(L,R){
   });});
   const fenNav=`<div class="fen-nav">
     <button type="button" class="fen-nav-btn" onclick="changeFenPage(-1)">${t('fenPrev')}</button>
-    <div class="fen-nav-range">${startYear}–${startYear+2}</div>
+    <div class="fen-nav-range">${startYear} – ${startYear+2}</div>
     <button type="button" class="fen-nav-btn" onclick="changeFenPage(1)">${t('fenNext')}</button>
   </div>`;
   document.getElementById('pairCapture').innerHTML=head
