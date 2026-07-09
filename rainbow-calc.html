@@ -166,7 +166,12 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .rec-msg{font-size:12px;margin-top:6px;min-height:16px;text-align:center}
 .rec-msg.ok{color:#2e9e5b}
 .rec-msg.err{color:#c0392b}
-.rec-item{border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.rec-item{border:1px solid #eee;border-radius:8px;padding:10px 12px;margin-bottom:8px;position:relative}
+.rec-item.rec-pinned{border-color:#e8c97a;background:#fffdf6}
+.rec-pin-badge{position:absolute;top:-7px;left:-7px;width:20px;height:20px;border-radius:50%;background:#e8e8e8;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.15);z-index:1;cursor:pointer;transition:background .15s,border-color .15s}
+.rec-pin-badge svg{width:10px;height:10px;fill:#aaa;transition:fill .15s}
+.rec-pin-badge.active{background:#d4a017;border-color:#d4a017;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.rec-pin-badge.active svg{fill:#fff}
 .rec-item-head{display:grid;grid-template-columns:auto auto 1fr auto auto;align-items:center}
 .rec-item-name{font-size:14px;color:#1a1a1a;font-weight:500;text-align:center}
 .rec-toggle-btn{-webkit-appearance:none;appearance:none;background:none;border:none;font-family:inherit;font-size:11px;line-height:inherit;margin:0;padding:0 4px;white-space:nowrap}
@@ -1742,6 +1747,14 @@ function deleteRecord(id){
   saveRecordsList(list);
   renderRecordList();
 }
+function toggleRecordPin(id){
+  const list=getRecords();
+  const r=list.find(x=>x.id===id);
+  if(!r) return;
+  r.pinned=!r.pinned;
+  saveRecordsList(list);
+  renderRecordList();
+}
 
 function toggleRecordDetail(id){
   const wrap=document.getElementById('rec-detail-'+id);
@@ -1762,16 +1775,19 @@ function renderRecordList(){
     wrap.innerHTML=`<div class="rec-empty">${t('recEmpty')}</div>`;
     return;
   }
-  // 勾選的紀錄依勾選順序移到最前面，其餘維持原順序
+  // 排序優先順序：勾選中的合盤紀錄（依勾選順序）> 釘選的紀錄 > 其餘紀錄（維持原順序）
   const selItems=_pairSel.map(id=>list.find(r=>r.id===id)).filter(Boolean);
-  const restItems=list.filter(r=>!_pairSel.includes(r.id));
-  const ordered=[...selItems,...restItems];
+  const nonSelItems=list.filter(r=>!_pairSel.includes(r.id));
+  const pinnedItems=nonSelItems.filter(r=>r.pinned);
+  const otherItems=nonSelItems.filter(r=>!r.pinned);
+  const ordered=[...selItems,...pinnedItems,...otherItems];
   let html='';
   ordered.forEach((r,i)=>{
-    html+=`<div class="rec-item" id="rec-item-${r.id}">
+    html+=`<div class="rec-item${r.pinned?' rec-pinned':''}" id="rec-item-${r.id}">
+      <div class="rec-pin-badge${r.pinned?' active':''}" onclick="toggleRecordPin(${r.id})"><svg viewBox="0 0 384 512"><path d="M32 32C32 14.3 46.3 0 64 0H320c17.7 0 32 14.3 32 32s-14.3 32-32 32h-3.6l12.2 122.2c48.5 21.4 84.1 66.7 90.8 121.1l.5 4.3c.6 4.6-.9 9.3-4 12.8s-7.6 5.5-12.3 5.5H32c-4.7 0-9.1-2-12.3-5.5s-4.6-8.2-4-12.8l.5-4.3c6.7-54.4 42.3-99.7 90.8-121.1L119.6 64H116c-17.7 0-32-14.3-32-32zM160 464V336h64V464c0 26.5-14.3 48-32 48s-32-21.5-32-48z"/></svg></div>
       <div class="rec-item-head">
-        <div class="rec-check-wrap"><input type="checkbox" class="rec-check" id="rec-check-${r.id}" onchange="togglePairSel(${r.id},this)"></div>
         <button class="rec-toggle-btn rec-detail-toggle-dummy" id="rec-detail-dummy-${r.id}" disabled>${t('recExpand')}</button>
+        <div class="rec-check-wrap"><input type="checkbox" class="rec-check" id="rec-check-${r.id}" onchange="togglePairSel(${r.id},this)"></div>
         <div class="rec-item-name">${escapeHtmlRec(r.name)}</div>
         <button class="rec-toggle-btn rec-detail-toggle" id="rec-detail-btn-${r.id}" onclick="toggleRecordDetail(${r.id})">${t('recExpand')}</button>
         <div class="rec-check-wrap" style="visibility:hidden"><input type="checkbox" class="rec-check" tabindex="-1"></div>
