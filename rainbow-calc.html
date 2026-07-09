@@ -130,7 +130,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .bd-toggle-btn{padding:2px 10px;border-radius:12px;border:1px solid #bbb;background:#fff;font-size:11px;color:#888;cursor:pointer;font-family:'M PLUS Rounded 1c',sans-serif;line-height:1.6}
 .bd2-hint-row{text-align:right;margin:-2px 0 12px;padding:0 2px}
 .bd2-hint-btn{border:none;background:none;color:#bbb;font-size:11px;letter-spacing:.02em;cursor:pointer;padding:2px;font-family:'M PLUS Rounded 1c',sans-serif}
-.bd2-row{margin-bottom:10px}
+.bd2-row{margin-bottom:0}
 /* 九宮格 */
 .nine-grid-wrap{display:flex;gap:12px;justify-content:center;margin-top:16px}
 .nine-grid-collapsible{overflow:hidden;transition:max-height 0.3s ease;max-height:300px}
@@ -335,11 +335,9 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
   <div class="header">
     <button class="lang-btn" id="langBtn" type="button" onclick="toggleLang()" autocorrect="off" autocapitalize="off" spellcheck="false">EN</button>
     <button class="lang-btn" id="recordsBtn" type="button" onclick="openRecordsPanel()" autocorrect="off" autocapitalize="off" spellcheck="false"><span id="recordsBtnText">紀錄</span></button>
-    <h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5;-webkit-user-select:none;user-select:none">
-      <a href="https://calc.therootshollow.com" style="display:block;width:fit-content;margin:0 auto;text-decoration:none;-webkit-tap-highlight-color:transparent" onclick="if(typeof gtag==='function') gtag('event','logo_link_click');location.reload();return false;">
+    <h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5">
       <svg id="titleSvg" width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg>
       <svg id="titleSvgEn" width="280" height="32" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="rge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text id="titleMain" x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#rge)">Rainbow Numerology</text></svg>
-      </a>
       <span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a" id="titleSub">計算器</span>
     </h1>
     <div id="todayDisplay" style="font-size:13px;color:#555;margin-top:6px;text-align:center;line-height:1.8"></div>
@@ -431,7 +429,7 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
       <div class="panel hidden" id="panel6"><div id="lunFlowTable3"></div></div>
     </div>
   </div>
-  <div style="text-align:center;padding:16px 20px 16px;font-family:'M PLUS Rounded 1c',sans-serif">
+  <div style="text-align:center;padding:12px 20px 16px;font-family:'M PLUS Rounded 1c',sans-serif">
     <a href="https://paypal.me/eric12356/10USD" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
