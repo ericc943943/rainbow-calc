@@ -336,8 +336,10 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     <button class="lang-btn" id="langBtn" type="button" onclick="toggleLang()" autocorrect="off" autocapitalize="off" spellcheck="false">EN</button>
     <button class="lang-btn" id="recordsBtn" type="button" onclick="openRecordsPanel()" autocorrect="off" autocapitalize="off" spellcheck="false"><span id="recordsBtnText">紀錄</span></button>
     <h1 style="font-size:22px;font-weight:500;letter-spacing:.15em;line-height:1.5">
+      <a href="https://calc.therootshollow.com" style="text-decoration:none" onclick="if(typeof gtag==='function') gtag('event','logo_link_click')">
       <svg id="titleSvg" width="130" height="32" viewBox="0 0 130 32" style="display:block;margin:0 auto"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="2" fill="url(#rg)">彩虹數字</text></svg>
       <svg id="titleSvgEn" width="280" height="32" viewBox="0 0 280 32" style="display:none;margin:0 auto"><defs><linearGradient id="rge" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="20%" stop-color="#e67e22"/><stop offset="40%" stop-color="#f1c40f"/><stop offset="60%" stop-color="#2ecc71"/><stop offset="80%" stop-color="#3498db"/><stop offset="100%" stop-color="#9b59b6"/></linearGradient></defs><text id="titleMain" x="50%" y="24" text-anchor="middle" font-family="M PLUS Rounded 1c,sans-serif" font-size="22" font-weight="500" letter-spacing="1" fill="url(#rge)">Rainbow Numerology</text></svg>
+      </a>
       <span style="display:block;font-size:19px;font-weight:400;letter-spacing:.1em;color:#1a1a1a" id="titleSub">計算器</span>
     </h1>
     <div id="todayDisplay" style="font-size:13px;color:#555;margin-top:6px;text-align:center;line-height:1.8"></div>
@@ -433,7 +435,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
     <a href="https://paypal.me/eric12356/10USD" target="_blank" id="coffeeBtn" style="display:inline-block;padding:9px 22px;border:1px solid #ddd;border-radius:20px;font-size:12px;color:#888;text-decoration:none;letter-spacing:.08em;transition:all .15s" onmouseover="this.style.borderColor='#bbb';this.style.color='#555'" onmouseout="this.style.borderColor='#ddd';this.style.color='#888'">☕ 請我喝杯咖啡</a>
   </div>
   <div style="text-align:center;padding:16px 20px 24px;font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;color:#bbb;letter-spacing:.05em">
-    <span style="display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0">© 2026 Eric CH / <a id="footerStudio" href="https://www.therootshollow.com" target="_blank" style="color:inherit;text-decoration:none;">樹根樹洞</a>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a></span>
+    <span style="display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0">© 2026 Eric CH / <a id="footerStudio" href="https://www.therootshollow.com" target="_blank" style="color:inherit;text-decoration:none;">樹根樹洞</a>　·　<a href="https://instagram.com/eric.hypnotist" target="_blank" style="color:#bbb;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @eric.hypnotist</a></span><br>
+    <a href="https://www.therootshollow.com" target="_blank" style="color:#bbb;text-decoration:none">www.therootshollow.com</a>
   </div>
 </div>
 <div class="records-overlay" id="recordsOverlay" onclick="if(event.target===this)closeRecordsPanel()">
@@ -533,6 +536,7 @@ const T={
 };
 let lang='zh';
 let _bd2Open=false;
+let _bd2FullTracked=false; // 第二組生日是否已完整並觸發過 GA4 事件（邊緣觸發，避免重複計數）
 let _secondSetReason=null; // 'leap' | 'bd2' | null，記錄目前第二組畫面是被閏月自動觸發還是手動第二生日觸發
 function toggleBd2(){
   _bd2Open=!_bd2Open;
@@ -548,6 +552,7 @@ function t(key){return T[lang][key];}
 
 function toggleLang(){
   lang=lang==='zh'?'en':'zh';
+  if(typeof gtag==='function') gtag('event','lang_switch',{lang:lang});
   applyLang();
   if(document.getElementById('pairOverlay').classList.contains('open')&&_pairLastIds){
     const list=getRecords();
@@ -1264,6 +1269,10 @@ function renderExtraSlotPartial(targets,sy,sm,hasMonthFlag,dividerTextKey){
 function renderExtraSlotFull(targets,sy,sm,sd,ly,lm,ld,sh,smn,sup,dividerTextKey,isLeapMonth=false){
   document.getElementById(targets.dividerId).classList.remove('hidden');
   const dt=document.getElementById(targets.dividerTextId); if(dt) dt.textContent=t(dividerTextKey);
+  if(dividerTextKey==='bd2Divider'){
+    if(!_bd2FullTracked&&typeof gtag==='function') gtag('event','bd2_stages_shown');
+    _bd2FullTracked=true;
+  }
   const gregEl=document.getElementById(targets.gregSectionId);
   const lunEl=document.getElementById(targets.lunSectionId);
   const gInnate=String(sy).split('').concat(p2(sm).split(''),p2(sd).split('')).map(Number);
@@ -1343,6 +1352,7 @@ function renderPartial(){_resetFlowNav();
   const hasBd2Month=m2Raw.length>0&&sm2raw>=1&&sm2raw<=12;
   const hasBd2Day=d2Raw.length>0&&sd2raw>=1&&sd2raw<=31;
   const hasBd2Full=hasBd2Year&&hasBd2Month&&hasBd2Day;
+  if(!hasBd2Full) _bd2FullTracked=false;
   const sh2=h2Raw.length>0&&parseInt(h2Raw)>=0&&parseInt(h2Raw)<=23?parseInt(h2Raw):null;
   const smn2=mn2Raw.length>0&&parseInt(mn2Raw)>=0&&parseInt(mn2Raw)<=59?parseInt(mn2Raw):null;
 
@@ -1553,6 +1563,7 @@ function takeScreenshot(){
   const btn=document.getElementById('screenshotBtn');
   const el=document.getElementById('stagesCapture');
   if(!el||!btn) return;
+  if(typeof gtag==='function') gtag('event','screenshot_taken');
   const origText=document.getElementById('screenshotText').textContent;
   document.getElementById('screenshotText').textContent='截圖中...';
   btn.disabled=true;
@@ -1752,6 +1763,7 @@ function toggleRecordPin(id){
   const r=list.find(x=>x.id===id);
   if(!r) return;
   r.pinned=!r.pinned;
+  if(r.pinned&&typeof gtag==='function') gtag('event','record_pinned');
   saveRecordsList(list);
   renderRecordList();
 }
@@ -2011,6 +2023,7 @@ function openPairPanel(){
   const list=getRecords();
   const sel=_pairSel.map(id=>list.find(r=>r.id===id)).filter(Boolean);
   if(sel.length!==2) return;
+  if(typeof gtag==='function') gtag('event','pair_panel_open');
   sel.sort((a,b)=>(a.year-b.year)||(a.month-b.month)||(a.day-b.day)); // 年長者在左
   _pairLastIds=[sel[0].id,sel[1].id];
   _rhythmStartYear=null; // 每次重新開啟合盤面板，份的年份區間重置回今年
