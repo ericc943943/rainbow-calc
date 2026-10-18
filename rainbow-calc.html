@@ -124,10 +124,14 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
    兩側用跟刻度格同寬的 1fr，超出的那格才會跟一般格一樣寬、箭頭從刻度線開始 */
 .soul-tl-grid{display:grid;grid-template-columns:repeat(36,1fr);font-family:"SF Mono",Menlo,Consolas,monospace}
 .soul-tl-grid>div{text-align:center;overflow:hidden;white-space:nowrap;font-size:9px;line-height:1.6;letter-spacing:-.5px}
-.soul-tl-yangcell{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;border-left:1px dashed #ddd;min-height:34px;padding:3px 0 1px;width:100%;box-sizing:border-box}
+.soul-tl-yangcell{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-height:34px;padding:3px 0 1px;width:100%;box-sizing:border-box}
 .soul-tl-yangcell>div{line-height:1.2}
-.soul-tl-cell.soul-tl-yang,.soul-tl-cell.soul-tl-fu,.soul-tl-cell.soul-tl-body{line-height:.8;border-left:1px dashed #ddd}
-.soul-tl-nowdivider{border-left:1px solid #1a1a1a!important}
+.soul-tl-cell.soul-tl-yang,.soul-tl-cell.soul-tl-fu,.soul-tl-cell.soul-tl-body{line-height:.8}
+/* 刻度虛線：整片用一張 SVG 畫（從揚升計畫列貫穿到主體列）。不用 CSS dashed 邊框——
+   iOS Safari 在欄寬是小數像素時，1px dashed 邊框會斷成點點或整條消失；SVG 的 stroke-dasharray 不受影響 */
+.soul-tl-ticks{position:relative;overflow:visible!important}
+.soul-tl-ticks svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.soul-tl-nowline{border-left:1px solid #1a1a1a;position:relative;z-index:3}
 .soul-tl-nowcell{color:#1a1a1a}
 .soul-tl-rowlabel{font-family:inherit;font-size:11px;font-weight:600;color:#888;text-align:center;display:flex;align-items:center;justify-content:center}
 .soul-tl-yang{color:#488850}
@@ -135,9 +139,6 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .soul-tl-body{color:#1a1a1a}
 .soul-tl-stagelabel{color:#488850;font-weight:600;font-size:10px}
 .soul-tl-axis{color:#999;font-size:9px;display:flex;align-items:center;justify-content:center}
-.soul-tl-yangcell.soul-tl-overflow{border-left:none}
-/* 0x8 刻度線：最右一格補右邊框（其他刻度線都是各格的左邊框，0x8 右側沒有下一格） */
-.soul-tl-lastcol{border-right:1px dashed #ddd}
 .soul-tl-yangcell.soul-tl-stage-current{border:none;box-shadow:inset 0 0 0 2px #F0D080;border-radius:3px;background:#FFFDF5;position:relative;z-index:2}
 .soul-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:200}
 .soul-modal-card{background:#fff;border-radius:12px;padding:20px;width:260px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
@@ -2871,15 +2872,25 @@ function renderSoulChart(bodyInfo,fuInfo,stages,currentStageName){
   items+=`<div class="soul-tl-rowlabel soul-tl-body" style="grid-column:1/3;grid-row:5/span 2"></div>`;
   items+=`<div class="soul-tl-rowlabel" style="grid-column:1/2;grid-row:7"></div>`;
 
+  // 刻度線：9x8～0x8 共17條（含 NOW），落在 grid 第 3、5、…、35 條欄線上，貫穿第1～6列；先畫，格子內容疊在上面
+  // 虛線用 SVG（x 用百分比：第 3+2j 條欄線 = 36 等寬欄中的 (2+2j)/36）；NOW 實線另用一個 div，z-index 疊在目前階段框之上
+  let tickLines='';
+  for(let j=0;j<SOUL_TOTAL_LEN;j++){
+    if(j===SOUL_NOW_IDX) continue;
+    const x=((2+2*j)/36*100).toFixed(4)+'%';
+    tickLines+=`<line x1="${x}" x2="${x}" y1="0" y2="100%" stroke="#ddd" stroke-width="1" stroke-dasharray="3 3"/>`;
+  }
+  items+=`<div class="soul-tl-ticks" style="grid-column:1/-1;grid-row:1/7"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${tickLines}</svg></div>`;
+  items+=`<div class="soul-tl-nowline" style="grid-column:${3+SOUL_NOW_IDX*2}/span 1;grid-row:1/7"></div>`;
+
   // 揚升計畫：標籤＋箭頭合併成同一個 wrapper div（跟 .fyt-col 同一種做法），
   // 目前所在階段直接對這一個 div 套框，不需要再拼接兩個格子。
   for(let k=0;k<SOUL_TOTAL_LEN;k++){
     if(k===SOUL_NOW_IDX) continue;
     const i=visIndex(k);
-    const isNowEdge=(i===8);
     const isCurr=yangCurr[k];
     const lab=yangL[k]||'&nbsp;',arr=yangC[k]||'&nbsp;';
-    items+=`<div class="soul-tl-yangcell${isCurr?' soul-tl-stage-current':''}${isNowEdge?' soul-tl-nowdivider':''}${k===SOUL_TOTAL_LEN-1?' soul-tl-lastcol':''}" style="grid-column:${tickCol(i)}/span 2;grid-row:1/span 2">
+    items+=`<div class="soul-tl-yangcell${isCurr?' soul-tl-stage-current':''}" style="grid-column:${tickCol(i)}/span 2;grid-row:1/span 2">
       <div class="soul-tl-stagelabel">${lab}</div>
       <div class="soul-tl-yang">${arr}</div>
     </div>`;
@@ -2902,8 +2913,7 @@ function renderSoulChart(bodyInfo,fuInfo,stages,currentStageName){
     for(let k=0;k<SOUL_TOTAL_LEN;k++){
       if(k===SOUL_NOW_IDX) continue;
       const i=visIndex(k);
-      const isNowEdge=(i===8);
-      h+=`<div class="soul-tl-cell ${colorClass}${isNowEdge?' soul-tl-nowdivider':''}${k===SOUL_TOTAL_LEN-1?' soul-tl-lastcol':''}" style="grid-column:${tickCol(i)}/span 2;grid-row:${rowLine}">${arr[k]||'&nbsp;'}</div>`;
+        h+=`<div class="soul-tl-cell ${colorClass}" style="grid-column:${tickCol(i)}/span 2;grid-row:${rowLine}">${arr[k]||'&nbsp;'}</div>`;
     }
     return h;
   }
