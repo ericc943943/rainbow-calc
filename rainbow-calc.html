@@ -77,6 +77,12 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .flow-range-row{margin-top:-20px;height:20px;align-items:center;padding-top:0;margin-bottom:6px;pointer-events:none}
 .flow-range-row .flow-range-side{line-height:20px}
 .flow-range-row .flow-range-side{font-size:min(10px,calc(((100vw - 40px) / 4 - 17px) / 7.2))}
+/* 英文版：標題（Yearly／Monthly／Daily）比中文兩個字寬，標題縮小、拿掉字距，區間字體公式扣掉較寬的標題半寬 */
+.flow-title-top.flow-en .flow-title-mid{font-size:12px;letter-spacing:0;display:inline-block;line-height:13px;vertical-align:middle}
+.flow-title-top.flow-en{height:28px;line-height:28px}
+.flow-range-row.flow-en{margin-top:-28px;height:28px}
+.flow-range-row.flow-en .flow-range-side{line-height:28px}
+.flow-range-row.flow-en .flow-range-side{font-size:min(10px,calc(((100vw - 40px) / 4 - 24px) / 7.2))}
 .flow-title-top .flow-toggle-btn{padding:0 0 0 4px}
 .flow-range-side{font-size:10px;line-height:1.35;color:#999;font-family:'MPLUS1Code',monospace;white-space:nowrap;font-weight:400;letter-spacing:0;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
 .flow-range-side .r-a{text-align:right}
@@ -117,6 +123,8 @@ body{background:#f5f5f5;color:#1a1a1a;font-family:'M PLUS Rounded 1c',sans-serif
 .soul-body-num{color:#1a1a1a}
 .soul-fu-num{color:#e06c75}
 .soul-yang-line{font-size:12px;color:#488850;margin-top:2px;letter-spacing:.03em}
+.soul-yang-num{font-family:'MPLUS1Code',monospace}
+.soul-yang-missing{color:#c0392b}
 .soulChartWrap{overflow-x:auto;margin-top:10px}
 .soul-track{margin-top:4px}
 .soul-track+.soul-track{margin-top:20px;padding-top:16px;border-top:1px dashed #ddd}
@@ -716,7 +724,7 @@ const T={
     phaseNavNext:'Next',
     errDate:'Please enter a valid birthday', errLunar:'Lunar conversion failed, please check the date',
     greg:'Solar', lun:'Lunar', leap:'Leap',
-    flowYear:'Annual Transit', flowMonth:'Monthly Transit', flowDay:'Daily Transit',
+    flowYear:'Yearly\nTransit', flowMonth:'Monthly\nTransit', flowDay:'Daily\nTransit',
     flowTableSuffix:'9-Year Energy Rhythm',
     coffee:'🧋 Buy Me a Bubble Tea', coffeeUrl:'https://buy.stripe.com/7sY8wQe1NdhXbkV98G8Vi01', studio:'The Roots Hollow',
     langBtn:'中文',
@@ -1194,6 +1202,19 @@ function renderNineGrids(gInnate,lInnate,gPathNums,lPathNums,gDestNums,lDestNums
   }
 }
 
+// ── 流日的切換點：到「出生時分」才換（2026.10.28 定案；數字學用 24 小時制，不用時辰；流年／流月維持午夜切換）──
+// 做法：算出「生效日期」——現在還沒到今天的出生時分，生效日期就是昨天；過了就是今天。
+// 「時」或「分」任一沒填，退回午夜切換（生效日期＝今天）。時間一律用看畫面那台裝置的時間。
+function flowHasTime(h,mn){
+  return h!==null&&h!==undefined&&mn!==null&&mn!==undefined&&!isNaN(h)&&!isNaN(mn);
+}
+function flowEffDate(h,mn,now){
+  now=now||new Date();
+  const d=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  if(flowHasTime(h,mn)&&(now.getHours()*60+now.getMinutes())<(h*60+mn)) d.setDate(d.getDate()-1);
+  return{y:d.getFullYear(),m:d.getMonth()+1,d:d.getDate()};
+}
+
 // ── 流年流月流日共用計算 ──
 function calcFlowData(gregY,gregM,gregD,lunY,lunM,lunD,todayY,todayM,todayD){
   const gBdPassed=(todayM>gregM)||(todayM===gregM&&todayD>=gregD);
@@ -1390,12 +1411,15 @@ function _flowMonthRangeLunar(todayY,todayM,todayD,d){
 // 流年／流月標題列下方的區間：左陽曆(+)、右農曆(−)
 function _flowRangeSide(sign,start,end){
   if(!end)return`<span class="flow-range-side" style="display:block;text-align:center">${sign}${start}</span>`;
-  return`<span class="flow-range-side"><span class="r-a">${sign}${start}</span><span class="r-d">${end?'&nbsp;-&nbsp;':''}</span><span class="r-b">${end||''}</span></span>`;
+  return`<span class="flow-range-side"><span class="r-a">${sign}${start}</span><span class="r-d">${end?'&nbsp;~&nbsp;':''}</span><span class="r-b">${end||''}</span></span>`;
 }
 // 流年／流月／流日標題：第一列＝左右兩側顯示區間（流日顯示當天日期）＋標題＋收合鈕；第二列＝流年數／流月數／流日數
 function _flowTitleRows(title,btnHtml,gSide,lSide,gBadge,lBadge){
-  return`<div class="section-title flow-title-row flow-title-top"><span class="flow-title-mid">${title}</span>${btnHtml}</div>`
-    +`<div class="section-title flow-title-row flow-value-row flow-range-row">${gSide}${lSide}</div>`
+  const en=lang==='en'?' flow-en':'';
+  // 英文標題兩行（Yearly／Transit），跟 tab 標籤「Solar／Transit」同一寫法
+  const titleHtml=String(title).replace(/\n/g,'<br>');
+  return`<div class="section-title flow-title-row flow-title-top${en}"><span class="flow-title-mid">${titleHtml}</span>${btnHtml}</div>`
+    +`<div class="section-title flow-title-row flow-value-row flow-range-row${en}">${gSide}${lSide}</div>`
     +`<div class="section-title flow-title-row flow-value-row"><span class="sign flow-sign">${gBadge}</span><span class="sign flow-sign">${lBadge}</span></div>`;
 }
 let _phaseNavOffset=0,_phaseSetsCache=null,_phaseTodayCache=null;
@@ -1417,11 +1441,11 @@ function renderPhase(el,sets,todayY,todayM,todayD){
     const lRange=_phaseRangeLunar(lFY,s.lunM,s.lunD);
     const wrap=`<div class="phase-wrap">
       <div class="phase-side">
-        <div class="phase-range">+${gRange.start} - ${gRange.end}</div>
+        <div class="phase-range">+${gRange.start} ~ ${gRange.end}</div>
         ${_phaseTriangleSVG('+',gPhase,gStage.str,gLv)}
       </div>
       <div class="phase-side">
-        <div class="phase-range">-${lRange.start} - ${lRange.end}</div>
+        <div class="phase-range">-${lRange.start} ~ ${lRange.end}</div>
         ${_phaseTriangleSVG('-',lPhase,lStage.str,lLv)}
       </div>
     </div>`;
@@ -1441,7 +1465,11 @@ function changePhaseNav(delta){
 let _flowDayNavYear=null,_flowDayNavMonth=null,_flowSetsCache=null;
 function _resetFlowNav(){_flowDayNavYear=null;_flowDayNavMonth=null;}
 function _initFlowNav(sets,nowY,nowM){
-  if(_flowDayNavYear===null){_flowDayNavYear=nowY;_flowDayNavMonth=nowM;}
+  // 月曆預設打開「生效中流日」所在的月份（每月 1 號還沒到出生時分時，生效的是上個月最後一天）
+  if(_flowDayNavYear===null){
+    const e=sets&&sets[0]?flowEffDate(sets[0].h,sets[0].mn):{y:nowY,m:nowM};
+    _flowDayNavYear=e.y;_flowDayNavMonth=e.m;
+  }
   _flowSetsCache=sets;
 }
 function _reRenderFlowDay(){
@@ -1509,20 +1537,23 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
   const nextMonthLabel=lang==='en'?'Next ›':'後一月 ›';
   const monthNavHtml=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
     <button onclick="if(_flowDayNavMonth===1){_flowDayNavMonth=12;_flowDayNavYear--;}else{_flowDayNavMonth--;}_reRenderFlowDay()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 10px;font-size:11px;color:#666;cursor:pointer">${prevMonthLabel}</button>
-    <span style="font-size:13px;font-weight:600">${calYear}/${String(calMonth).padStart(2,'0')}</span>
+    <span style="font-size:13px;font-weight:600">+${calYear}/${String(calMonth).padStart(2,'0')}</span>
     <button onclick="if(_flowDayNavMonth===12){_flowDayNavMonth=1;_flowDayNavYear++;}else{_flowDayNavMonth++;}_reRenderFlowDay()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 10px;font-size:11px;color:#666;cursor:pointer">${nextMonthLabel}</button>
   </div>`;
   let html='<div class="flow-new-section">';
   sets.forEach((s,idx)=>{
     const{gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
-    // 標題的流日數固定用「真實今天」計算，不隨下方日曆的「前一月／後一月」切換而變動
-    const rt=new Date(),rtL=solarToLunar(rt.getFullYear(),rt.getMonth()+1,rt.getDate());
-    const gFDS=makeStage(sumArr([...digs(s.gregY),...digs(s.gregM),...digs(rt.getDate())]));
-    const lFDS=makeStage(sumArr([...digs(s.lunY),...digs(s.lunM),...digs(rtL?rtL.day:rt.getDate())]));
+    // 標題的流日數固定用「真實現在」的生效日期計算（出生時分切換，見 flowEffDate），不隨下方日曆的「前一月／後一月」切換而變動
+    const e=flowEffDate(s.h,s.mn);
+    const rtL=solarToLunar(e.y,e.m,e.d);
+    const gFDS=makeStage(sumArr([...digs(s.gregY),...digs(s.gregM),...digs(e.d)]));
+    const lFDS=makeStage(sumArr([...digs(s.lunY),...digs(s.lunM),...digs(rtL?rtL.day:e.d)]));
     const fdBtn=idx===0?'<button onclick="toggleFlowSection(this)" class="flow-toggle-btn">▼</button>':'<span class="flow-arrow-hidden">▲</span>';
-    const gDateStr=`${rt.getFullYear()}/${p2(rt.getMonth()+1)}/${p2(rt.getDate())}`;
+    const gDateStr=`${e.y}/${p2(e.m)}/${p2(e.d)}`;
     const lDateStr=rtL?`${rtL.year}/${p2(rtL.month)}/${p2(rtL.day)}`:'?';
-    const titleDiv=_flowTitleRows(idx===0?t('flowDay'):'　　',fdBtn,_flowRangeSide('+',gDateStr),_flowRangeSide('-',lDateStr),`+${flowLvBadge(gFDS,gInnate,true)}`,`-${flowLvBadge(lFDS,lInnate,true)}`);
+    // 有出生時分時，日期後面加上切換時刻＋波浪線，例：2026/10/28 14:30 ~（不寫區間結束）
+    const fdSince=flowHasTime(s.h,s.mn)?` ${p2(s.h)}:${p2(s.mn)} ~`:'';
+    const titleDiv=_flowTitleRows(idx===0?t('flowDay'):'　　',fdBtn,_flowRangeSide('+',gDateStr+fdSince),_flowRangeSide('-',lDateStr+fdSince),`+${flowLvBadge(gFDS,gInnate,true)}`,`-${flowLvBadge(lFDS,lInnate,true)}`);
     function fdStageG(dy){return makeStage(sumArr([...digs(s.gregY),...digs(s.gregM),...digs(dy)]));}
     function fdStageL(dy){
       const lunar=solarToLunar(calYear,calMonth,dy);
@@ -1531,10 +1562,9 @@ function renderFlowDay(el,sets,todayY,todayM,todayD){
     }
     let calCells='';
     for(let i=0;i<startOffset;i++) calCells+=`<div class="flow-cal-cell flow-cal-empty"></div>`;
-    const realToday=new Date();
-    const realTodayY=realToday.getFullYear(),realTodayM=realToday.getMonth()+1,realTodayD=realToday.getDate();
+    // 高亮框住「真正生效中」的那一格：還沒到出生時分時是昨天那格
     for(let dy=1;dy<=daysInMonth;dy++){
-      const isToday=(dy===realTodayD&&calMonth===realTodayM&&calYear===realTodayY);
+      const isToday=(dy===e.d&&calMonth===e.m&&calYear===e.y);
       calCells+=`<div class="flow-cal-cell${isToday?' flow-current':''}">
         <div class="flow-cal-day${isToday?' flow-cal-today':''}">${dy}</div>
         ${isToday?`<div class="flow-hl-box">`:''}
@@ -1769,7 +1799,7 @@ function renderExtraSlotFull(targets,sy,sm,sd,ly,lm,ld,sh,smn,sup,dividerTextKey
     tl.onclick=()=>switchTab(targets.tabLunIdx);
     tabsEl.appendChild(tl);
   }
-  return{gregY:sy,gregM:sm,gregD:sd,lunY:ly,lunM:lm,lunD:ld,sup};
+  return{gregY:sy,gregM:sm,gregD:sd,lunY:ly,lunM:lm,lunD:ld,sup,h:sh,mn:smn};
 }
 const SLOT2_TARGETS={gregSectionId:'gregSection2',lunSectionId:'lunSection2',nineGridId:'nineGridSection2',
   gregFlowTableId:'gregFlowTable2',lunFlowTableId:'lunFlowTable2',panelGregId:'panel3',panelLunId:'panel4',
@@ -1881,7 +1911,7 @@ function renderPartial(){_resetFlowNav();
     const now=new Date();
     // 流年流月流日
     const nowY=now.getFullYear(),nowM=now.getMonth()+1,nowD=now.getDate();
-    const flowSets1=[{gregY:sy,gregM:sm,gregD:sd,lunY:ly,lunM:lm,lunD:ld,sup:'¹'}];
+    const flowSets1=[{gregY:sy,gregM:sm,gregD:sd,lunY:ly,lunM:lm,lunD:ld,sup:'¹',h:sh,mn:smn}];
     renderFlowYearTable(document.getElementById('gregFlowTable'),sy,sm,sd,gInnate,true,false,sh,smn);
     renderFlowYearTable(document.getElementById('lunFlowTable'),ly,lm,ld,lInnate,false,isLeap,sh,smn);
 
@@ -1951,7 +1981,7 @@ function renderPartial(){_resetFlowNav();
     renderFlowYear(document.getElementById('flowYearBlock'),flowSetsAll,nowY,nowM,nowD);
     _initFlowNav(flowSetsAll,nowY,nowM);
     renderFlowMonth(document.getElementById('flowMonthBlock'),flowSetsAll,nowY,nowM,nowD);
-    renderFlowDay(document.getElementById('flowDayBlock'),flowSetsAll,nowY,nowM,nowD);
+    renderFlowDay(document.getElementById('flowDayBlock'),flowSetsAll,_flowDayNavYear,_flowDayNavMonth,nowD);
     main.classList.remove('hidden');
     initScreenshotBtn();
     renderSoulSection();
@@ -3008,11 +3038,13 @@ function renderSoulTrackBlock({refLabel,refDateStr,yearLabel,yearStr,bodyNum,fuN
   const abbr=t('soulStageAbbr');
   const yangLine=order.map((n,idx)=>{
     const st=stages.find(s=>s.name===n);
-    if(!st) return `${abbr[idx]}：－`;
+    // 缺時分算不出的階段：紅色問號，跟「未填寫時或分」提示同色
+    if(!st) return `${abbr[idx]}：<span class="soul-yang-num soul-yang-missing">?</span>`;
     const marks=[];
     for(let k=0;k<soulCountChar(st.checkStr,'9');k++) marks.push('9');
     for(let k=0;k<soulCountChar(st.checkStr,'0');k++) marks.push('0');
-    return `${abbr[idx]}：${marks.length?marks.join('、'):'X'}`;
+    // 數字 0／9 與一槓都用跟主體／副體號碼同一個字型（MPLUS1Code，0 有斜線）；沒有 0／9（含缺時分算不出的階段）一律顯示「-」
+    return `${abbr[idx]}：${marks.length?marks.map(c=>`<span class="soul-yang-num">${c}</span>`).join('、'):'<span class="soul-yang-num">-</span>'}`;
   }).join('｜');
 
   let html='<div class="soul-track">';
