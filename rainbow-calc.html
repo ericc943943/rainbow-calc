@@ -1426,11 +1426,15 @@ let _phaseNavOffset=0,_phaseSetsCache=null,_phaseTodayCache=null;
 function renderPhase(el,sets,todayY,todayM,todayD){
   _phaseSetsCache=sets;
   _phaseTodayCache={todayY,todayM,todayD};
-  // 導覽用的參考日期：把「今天」的年份依偏移量往前後推，月日不變
-  const refY=todayY+_phaseNavOffset,refM=todayM,refD=todayD;
+  // 導覽：先用真正的今天算出陽曆／陰曆各自目前的位格年，再把兩邊各自加上偏移量。
+  // 不能用「今天的年份＋偏移量」當參考日期重新判斷——陰曆生日換成國曆每年會飄移，
+  // 某些年份參考日會卡在陰曆生日已過、陽曆生日未到之間，導致陰曆跳過一年、另一年重複出現。
   let html='<div class="phase-block-inner">';
   sets.forEach((s,idx)=>{
-    const{gFY,lFY,gInnate,lInnate}=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,refY,refM,refD);
+    const base=calcFlowData(s.gregY,s.gregM,s.gregD,s.lunY,s.lunM,s.lunD,todayY,todayM,todayD);
+    const{gInnate,lInnate}=base;
+    const gFY=base.gFY+_phaseNavOffset;
+    const lFY=base.lFY+_phaseNavOffset;
     const gPhase=((gFY-s.gregY+1)%9+9)%9||9;
     const lPhase=((lFY-s.lunY+1)%9+9)%9||9;
     const gStage=makeStage(sumArr([...digs(gFY),...digs(s.gregM),...digs(s.gregD)]));
